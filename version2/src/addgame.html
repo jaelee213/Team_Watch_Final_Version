@@ -27,22 +27,15 @@
       <p><label for="OppTeam">Opposing Team:</label></p>
       <input type="text" id="opponentteamname" name="OppTeam" placeholder="Enter Opposition Team Name">
       <br>
-
-<hr>
 			<p><label for="gameDate">Date:</label></p>
 			<p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
       <input type="text" id="gamedate" name="gameDate" onblur="formatDate()" maxlength="8">
       <br>
-
-
-<hr>
       <p><label for="gametime">Time:</label></p>
       <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
       <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>      
       <input type="text" id="gametime" name="time" onblur="formatTime()" maxlength="5">
       <br>
-
-      
       <p><label>Time of Day:</label></p>
       <input type="radio" name="tofday" value="day" id="timeofdayradio">A.M.<br>
       <input type="radio" name="tofday" value="night" id="timeofdayradio">P.M.<br>
