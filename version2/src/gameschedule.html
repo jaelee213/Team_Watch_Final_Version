@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<!-- File Size: 5KB | Load Time: 2.06s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>Game Schedule</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+
+  <input type="button" onclick="location.href='./addgame.html';" value="Add Game" id="addGameBtn">
+  <input type="button" onclick="location.href='./addpractice.html';" value="Add Practice" id="addPracBtn">
+
+
+  <output id="outputgames">
+  </output>
+
+
+  <script type="text/javascript">
+
+    document.getElementById('addPracBtn').style.display = 'none';
+
+    var gArray = JSON.parse(localStorage.getItem('games'));
+
+    window.addEventListener('DOMContentLoaded', function(){
+
+      var myname = localStorage.getItem('myteamname');
+      var disGam = document.getElementById('outputgames');
+      var username = localStorage.getItem('user');
+      var styleStr;
+      if(username != 'coach') {
+        styleStr = "style='display:none'";
+      }
+      else {
+        styleStr = "";
+      }
+
+      if(gArray) {
+        for (var i = 0; i < gArray.length; i++) {
+
+          var todayDate = new Date();
+          var compareDate = new Date(gArray[i].date);
+
+          if( todayDate.setHours(0, 0, 0, 0) == compareDate.setHours(0, 0, 0, 0) ) {
+
+            disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + gArray[i].date
+            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname + "</h3>"
+            + "<h4><mark>" + gArray[i].stats.mygoals + " : " + gArray[i].stats.opponentgoals + "</mark></h4>"
+            + "<p>" + gArray[i].date + " " + gArray[i].time
+            + "</p><p>" + gArray[i].location
+            + "</p><p>" + gArray[i].status
+            + "</p><input type='button' value='View Stats' class='viewStatsBtn'>"
+            + "<input type='button' value='Edit Game' class='editGameBtn'"
+            + styleStr + "></div>";
+          }
+
+          else if(todayDate.setHours(0, 0, 0, 0) > compareDate.setHours(0, 0, 0, 0)) {
+            disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + gArray[i].date
+            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname + "</h3>"
+            + "<h4><mark>" + gArray[i].stats.mygoals + " : " + gArray[i].stats.opponentgoals + "</mark></h4>"
+            + "<p>" + gArray[i].date + " " + gArray[i].time
+            + "</p><p>" + gArray[i].location
+            + "</p><p>" + gArray[i].status
+            + "</p><input type='button' value='View Stats' class='viewStatsBtn'></div>";
+          }
+
+          else if(todayDate.setHours(0, 0, 0, 0) < compareDate.setHours(0, 0, 0, 0)) {
+            disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + gArray[i].date
+            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname
+            + "</h3><p>" + gArray[i].date + " " + gArray[i].time
+            + "</p><p>" + gArray[i].location
+            + "</p><p>" + gArray[i].status
+            + "<input type='button' value='Edit Game' class='editGameBtn'"
+            + styleStr + "></div>";
+          }
+        }
+      }
+    })
+
+
+    function afterLoad() {
+        var editButton = document.querySelectorAll("input.editGameBtn");
+        var viewButton = document.querySelectorAll("input.viewStatsBtn");
+
+        for(var x = 0; x < viewButton.length; x++) {
+          (function(index) {
+            viewButton[index].addEventListener('click', function(){
+              localStorage.setItem('gametoview', JSON.stringify(gArray[index]));
+            });
+          })(x);
+          viewButton[x].addEventListener('click', function(){
+            location.href='./viewgamestats.html';
+          })
+        }
+
+        for(var y = 0; y < editButton.length; y++) {
+          (function(index) {
+            editButton[index].addEventListener('click', function(){
+              localStorage.setItem('gametoedit', JSON.stringify(gArray[gArray.length - (editButton.length - index)]));
+            });
+          })(y);
+          editButton[y].addEventListener('click', function(){
+            location.href='./editgame.html';
+          })
+        }
+
+        var username = localStorage.getItem("user");
+
+        if(username != 'coach') {
+          document.getElementById('addGameBtn').style.display = 'none';
+          document.getElementById('addPracBtn').style.display = 'none';
+        }
+      }
+
+    window.onload = afterLoad;
+
+    function logoutClean() {
+      localStorage.removeItem("user");
+    }
+  </script>
+</body>
+</html>

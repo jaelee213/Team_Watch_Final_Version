@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<!-- File Size: 3KB | Load Time: 4.14s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>TeamWatch</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+  </nav>
+  <div class="signupcontainer">
+    <h1 class="signupheader">Sign Up</h1>
+    <p class="signupsmallertxt"><i>Please fill out the following to create your account:</i></p>
+    <p class="signupsmallertxt" id="signupnote">(Note: To go back, press the "TeamWatch" logo at the top.)</p>
+    <hr class="signupsmallhr">
+    <form class="signupform">
+      <input type="text" name="suemail" placeholder="Username (Email)" id="signupemail">
+      <br>
+      <input type="text" name="fname" placeholder="First Name" id="signupfname">
+      <br>
+      <input type="text" name="lname" placeholder="Last Name" id="signuplname">
+      <br>
+      <input type="text" name="supwd" placeholder="Password" id="signuppwd">
+      <br>
+      <input type="text" name="suconfpwd" placeholder="Confirm Password" id="signupconfpwd">
+    </form>
+    <hr class="signupsmallhr">
+    <p class="iama">I am a:</p>
+    <p class="signupselectone">Select one:</p>
+    <input type="radio" value="coach" id="usertypeopt">Coach</option>
+    <input type="radio" value="player" id="usertypeopt">Player</option>
+    <input type="radio" value="fan" id="usertypeopt">Fan</option>
+    <hr class="signupsmallhr">
+    <input type="button" value="Sign Up" id="signupBtn">
+  </div>
+
+  <script>
+
+    var userid = document.getElementById('signupemail'); 
+    var fn = document.getElementById('signupfname'); 
+    var ln = document.getElementById('signuplname'); 
+    var pw = document.getElementById('signuppwd'); 
+    var cpw = document.getElementById('signupconfpwd'); 
+
+    document.getElementById('signupBtn').addEventListener("click", function() {
+      if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0 
+            || pw.value.length == 0 || cpw.value.length == 0) {
+        alert('Sign Up form is not complete! Please fill out every field.'); 
+        return false; 
+      }
+
+      else if ( pw.value != cpw.value ) {
+        alert('pwd not match');
+        return false; 
+      }
+
+      else {
+        alert('Created account. Please proceed to login.');
+        window.open('./login.html');
+      }
+    });
+
+    document.getElementById('signupBtn').addEventListener("click", function() {
+      localStorage.setItem("userid", userid.value);
+      localStorage.setItem("pw", pw.value);
+    });
+  
+  </script>
+</body>
+</html>

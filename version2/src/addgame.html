@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<!-- File Size: 5KB | Load Time: 2.07s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="../style/style.css">
+  <title>Add Game</title>
+  <!-- changes -->
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="box">
+    <h2 id="testid">Add Game</h2>
+    <form id="addgameform">
+      <p><label for="OppTeam">Opposing Team:</label></p>
+      <input type="text" id="opponentteamname" name="OppTeam" placeholder="Enter Opposition Team Name">
+      <br>
+			<p><label for="gameDate">Date:</label></p>
+			<p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+      <input type="text" id="gamedate" name="gameDate" onBlur='formatDate(this)'>
+      <br>
+      <p><label for="gametime">Time:</label></p>
+      <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
+      <input type="time" id="gametime" name="time">
+      <br>
+      <p><label>Time of Day:</label></p>
+      <p><input type="radio" name="tofday" value="day" id="timeofdayradio">A.M.</p>
+      <p><input type="radio" name="tofday" value="night" id="timeofdayradio">P.M.</p>
+      <br>
+      <p><label for="location">Location:</label></p>
+      <input type="text" id="gamelocation" name="location" placeholder="Enter Location">
+      <br>
+      <p><label>Status:</label></p>
+      <input type="radio" name="status" value="Home" id="homeawaystatus">Home<br>
+      <input type="radio" name="status" value="Away" id="homeawaystatus">Away<br>
+      <hr>
+      <input type="button" value="Add Game" id="egssaveBtn">
+		</form>
+	</div>
+	
+	<script>
+	
+		var sButton = document.getElementById('egssaveBtn'); 
+
+    sButton.addEventListener('click', function() {
+      location.href='./gameschedule.html';
+    })
+
+    sButton.addEventListener('click', function() {
+      var tod = document.querySelector('input[name=tofday]:checked').value; 
+      var gTime = document.getElementById('gametime').value;
+
+      var game = {}; 
+
+      game.opponentname = document.getElementById('opponentteamname').value; 
+      game.date = document.getElementById('gamedate').value; 
+
+      if(tod == "day") {
+        gTime = gTime.concat(" am");
+      }
+      if(tod == "night") {
+        gTime = gTime.concat(" pm"); 
+      }
+
+      game.time = gTime; 
+      game.tod = tod; 
+    
+      game.location = document.getElementById('gamelocation').value;
+      game.status = document.querySelector('input[name=status]:checked').value; 
+
+      var gamestats = {}
+      gamestats.myfouls = "0"; 
+      gamestats.opponentfouls = "0"; 
+      gamestats.myredcards = "0"; 
+      gamestats.opponentredcards = "0"; 
+      gamestats.myyellowcards = "0"; 
+      gamestats.opponentyellowcards = "0"; 
+      gamestats.myshotsongoal = "0"; 
+      gamestats.opponentshotsongoal = "0"; 
+      gamestats.mygoals = "0"; 
+      gamestats.opponentgoals = "0"; 
+      gamestats.mycornerkicks = "0"; 
+      gamestats.opponentcornerkicks = "0"; 
+      gamestats.mygoalkicks = "0"; 
+      gamestats.opponentgoalkicks = "0"; 
+
+      game.stats = gamestats;
+
+      var gamesArray = JSON.parse(localStorage.getItem('games')); 
+      if(gamesArray) {
+        gamesArray.push(game); 
+        gamesArray.sort(function(a, b) {
+		      return new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time);
+        });
+        localStorage.setItem('games', JSON.stringify(gamesArray)); 
+      }
+      else{
+        var gameArr = [game]; 
+        localStorage.setItem('games', JSON.stringify(gameArr));
+      }
+    })
+
+		function logoutClean() {
+			localStorage.removeItem("user");
+		}
+
+    function formatDate(x) {
+      x.value = x.value.slice(0,2) + "/" + x.value(2,4) + "/" + x.value(4,6); 
+    }
+
+	</script>
+</body>
+</html>
+
+
+<!--
+
+  added radio button to indicate whether time is AM or PM. 
+  later utilized for time storing and parsing for games.
+
+ -->

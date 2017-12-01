@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<!-- File Size: 6KB | Load Time: 2.07s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>Edit Game</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="box">
+    <h2>Edit Game</h2>
+    <form>
+      <p><label for="OppTeam">Opposing Team:</label></p>
+      <input type="text" id="OppTeam" name="OppTeam">
+      <p><label for="gameDate">Date:</label></p>
+      <input type="date" id="gameDate" name="gameDate">
+      <p><label for="gametime">Time:</label></p>
+      <input type="time" id="gametime" name="time">
+      <p><label>Time of Day:</label></p>
+      <output id="outOpt">
+      </output>      
+      <p><label for="location">Location:</label></p>
+      <input type="text" id="location" name="location">
+      <p><label>Status:</label></p>
+      <output id="outputOption">
+      </output> 
+      <input type="button" value="Save Game" id="exsave">
+      <input type="button" value="Delete Game" id="delB">
+    </form>
+  </div>
+  <script>
+
+    var game = JSON.parse(localStorage.getItem('gametoedit')); 
+    var glist = JSON.parse(localStorage.getItem('games'));
+
+    var savebutton = document.getElementById('exsave'); 
+    var deletebutton = document.getElementById('delB'); 
+    var out = document.getElementById('outputOption');
+    var put = document.getElementById('outOpt'); 
+
+    var ot = document.getElementById('OppTeam'); 
+    var d = document.getElementById('gameDate'); 
+    var t = document.getElementById('gametime');
+    var l = document.getElementById('location');
+
+    window.addEventListener('DOMContentLoaded', function() {
+
+      var gtime; 
+
+      if(game.tod == "day") {
+        gtime = game.time.replace(" am", ""); 
+        put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
+        + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
+      }
+      else if(game.tod == "night") {
+        gtime = game.time.replace(" pm", ""); 
+        put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
+        + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
+      }
+
+      if(game.status == "Home") {
+        out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>" 
+        + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>"; 
+      }
+      else if(game.status == "Away") {
+        out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>" 
+        + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>"; 
+      }
+
+      ot.value = game.opponentname; 
+      d.value = game.date; 
+      t.value = gtime;
+      l.value = game.location;
+    })
+
+    
+    savebutton.addEventListener('click', function() {
+      location.href='./gameschedule.html';
+    })
+
+    deletebutton.addEventListener('click', function(){ 
+      location.href='./gameschedule.html';
+    })
+
+
+    savebutton.addEventListener('click', function() {
+
+      var tod = document.querySelector('input[name=tofday]:checked').value; 
+      var gTime = t.value; 
+
+      if(tod == "day") {
+        gTime = gTime.concat(" am");
+      }
+      if(tod == "night") {
+        gTime = gTime.concat(" pm"); 
+      }
+
+      for(var g = 0; g < glist.length; g++) {
+        var gdate = new Date(glist[g].date); 
+        var gadate = new Date(game.date); 
+
+        if( (glist[g].opponentname == game.opponentname) 
+        && (gdate.setHours(0, 0, 0, 0) == gadate.setHours(0, 0, 0, 0))){
+
+          var cgame = glist[g];
+          cgame.opponentname = ot.value; 
+          cgame.date = d.value; 
+          cgame.time = gTime;
+          cgame.status = document.querySelector('input[name=status]:checked').value; 
+          cgame.tod = tod; 
+          cgame.location = l.value;
+
+          glist.sort(function(a, b) {
+		        return new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time);
+          });
+
+          localStorage.setItem('games', JSON.stringify(glist));
+        }
+      }
+    })
+
+    deletebutton.addEventListener('click', function(){ 
+      for(var g = 0; g < glist.length; g++) {
+        var gdate = new Date(glist[g].date); 
+        var gadate = new Date(game.date); 
+
+        if( (glist[g].opponentname == game.opponentname) 
+        && (gdate.setHours(0, 0, 0, 0) == gadate.setHours(0, 0, 0, 0))){
+          glist.splice(g, 1); 
+          localStorage.setItem('games', JSON.stringify(glist));
+        }
+      }
+    })
+
+    function logoutClean() {
+      localStorage.removeItem("user");
+    }
+  </script>
+</body>
+</html>

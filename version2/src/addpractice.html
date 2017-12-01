@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="../style/style.css">
+  <title>Add Practice</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="box">
+    <h2 id="testid">Add Practice</h2>
+    <form id="addpracform">
+      <p><label for="gameDate">Date:</label></p>
+      <input type="date" id="gameDate" name="gameDate">
+      <p><label for="gametime">Time:</label></p>
+      <input type="time" id="gametime" name="time">
+      <p><label for="location">Location:</label></p>
+      <input type="text" id="location" name="location" placeholder="Enter Location">
+      <input type="submit" value="Add Game" id="saveButton">
+    </form>
+    <script>
+
+      function logoutClean() {
+        localStorage.removeItem("user");
+      }
+    </script>
+  </div>
+</body>
+</html>

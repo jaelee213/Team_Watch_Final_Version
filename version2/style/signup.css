@@ -1,0 +1,80 @@
+﻿.signupcontainer {
+  width: 95%;
+  max-width: 30rem;
+  margin: 1.5rem auto;
+  padding-bottom: 3rem;
+  background-color: white;
+  border: 0.2rem solid #474c54;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.signupheader {
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+.signupsmallhr {
+  width: 80%;
+}
+
+.signupsmallertxt {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#signupnote {
+  color: #287aff;
+}
+
+.signupform {
+  margin-top: 2rem;
+}
+
+.signupform input[type=text] {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
+.signupform input[type=text]:focus {
+  border: 0.2rem solid #a3c6ff;
+}
+
+.iama {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.signupselectone, .signupdropdown {
+  text-align: left;
+  padding-left: 10%;
+}
+
+.signupselectone {
+  margin-bottom: 0.3rem;
+}
+
+.signupdropdown {
+  margin-bottom: 2rem;
+}
+
+#signupBtn {
+  width: 25%;
+  min-width: 6rem;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#signupBtn:hover {
+  background-color: #0f4aaa;
+}

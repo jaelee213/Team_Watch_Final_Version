@@ -1,0 +1,90 @@
+  <!DOCTYPE html>
+
+  <!-- File Size: 3KB | Load Time: 2.02s -->
+
+  <html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>TeamWatch</title>
+  </head>
+
+  <body onload="btnStatus()">
+    <nav class="navbar">
+      <a href="./home.html" id="logo">TeamWatch</a>
+      <a href="./home.html">Home</a>
+      <a href="./gameschedule.html">Game</a>
+      <a href="./players.html">Roster</a>
+      <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+    </nav>
+  <div class="container1">
+    <div class="subcontainer">
+      <input type="button" onclick="location.href='./editplayerslist.html';" value="Edit" id="editrosterbtn">
+      <br>
+      <h1 id="rosterheading">Roster</h1>
+      <br>
+      <div class="roster">
+        <table class="rostertable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Position</th>
+              <th>Name</th>
+              <th>Goals</th>
+              <th>Assists</th>
+              <th>Foul</th>
+              <th>Red Card</th>
+              <th>Yellow Card</th>
+              <th>Games Played</th>
+            </tr>
+          </thead>
+          <tbody id="outputdata">
+          </tbody>
+        </table>
+        <br>
+        <input type="button" onclick="location.href='./addplayer.html';" value="Add Player" id="addplayerbtn">
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var tbl = document.getElementById('outputdata');
+      var rosArray = JSON.parse(localStorage.getItem('roster'));
+
+      if(rosArray) {
+        for (var i = 0; i < rosArray.length; i++) {
+          tbl.innerHTML += "<tr><td>" + rosArray[i].jerseynumber + "</td><td>" + rosArray[i].position + "</td><td>"
+          + rosArray[i].name + "</td><td>" + rosArray[i].goals + "</td><td>" + rosArray[i].assists + "</td><td>"
+          + rosArray[i].fouls + "</td><td>" + rosArray[i].redcards + "</td><td>" + rosArray[i].yellowcards +
+            "</td><td>" + rosArray[i].gamesplayed + "</td></tr>";
+        }
+      }
+    })
+
+    function btnStatus() {
+      var username = localStorage.getItem("user");
+
+      if(username != 'coach') {
+        document.getElementById('editrosterbtn').style.display = 'none';
+        document.getElementById('addplayerbtn').style.display = 'none';
+      }
+    }
+
+    function logoutClean() {
+      localStorage.removeItem("user");
+    }
+  </script>
+
+<!--
+
+added a position field to the table (realized didn't have one implementing addplayer.html)
+
+-->
+
+
+</body>
+</html>

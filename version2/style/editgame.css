@@ -1,0 +1,94 @@
+body {
+  background: #d4d8d5;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* NAVBAR CSS STARTS HERE */
+.navbar {
+  background-color: black;
+  overflow: hidden;
+  border-bottom: 0.2rem solid white;  
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 2vw 1.2vw;
+  text-decoration: none;
+  vertical-align: top;
+}
+
+.navbar > a:not(:first-child) {
+  position: relative;
+  top: 0.3rem;
+  left: 0.2rem;
+  font-size: 100%;
+}
+
+#logo {
+  font-size: 150%;
+}
+
+#logout {
+  color: red;
+}
+/* NAVBAR CSS ENDS Here */
+
+.box {
+  margin: 1.5rem 1rem;
+  padding: 1.5rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+}
+
+.box h2 {
+  font-size: 1.75rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.box input {
+  width: 90%;
+  font-size: 100%;
+  padding: 1rem 1rem;
+  display: inline-block;
+  border: 0.1rem solid #BEBEBE;
+  border-radius: 0.3rem;
+}
+
+.box input[type=date] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+.box input[type=time] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+.box input[type=radio] {
+  width: 1.5rem;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.box input[type=submit] {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  background-color: #007BFF;
+}
+
+.box input[type=button] {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  background-color: red;
+  margin-top: 0.5rem;
+}

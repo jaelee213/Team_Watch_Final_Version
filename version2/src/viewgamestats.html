@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<!-- File Size: 5KB | Load Time: 2.04s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>TeamWatch</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="viewgamestatscontainer">
+	<input type="button" onclick="location.href='./editgamestats.html';" value="Edit" id="editgamestatsBtn"><br>
+	  <h1 class="vgsgameheader" id="myteam"></h1>
+	  <h1 class="vgsgameheader">vs.</h1>
+	  <h1 class="vgsgameheader" id="oppteam"></h1>
+	  <hr class="vgshr">
+	  <p><span id="myscore"></span> <span class="vgsstats">Score</span> <span id="theirscore"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="myfouls"></span> <span class="vgsstats">Foul</span> <span id="theirfouls"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="myredcards"></span> <span class="vgsstats">Red Card</span> <span id="theirredcards"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="myyellowcards"></span> <span class="vgsstats">Yellow Card</span> <span id="theiryellowcards"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="myshotsongoal"></span> <span class="vgsstats">Shots on Goal</span> <span id="theirshotsongoal"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="mygoals"></span> <span class="vgsstats">Goals</span> <span id="theirgoals"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="mycornerkicks"></span> <span class="vgsstats">Corner Kicks</span> <span id="theircornerkicks"></span></p>
+	  <hr class="vgshr">
+	  <p><span id="mygoalkicks"></span> <span class="vgsstats">Goal Kicks</span> <span id="theirgoalkicks"></span></p>
+  </div>
+  <script>
+
+		var game = JSON.parse(localStorage.getItem('gametoview'));
+
+  	window.addEventListener('DOMContentLoaded', function() {
+
+			var stats = game.stats;
+			var my = document.getElementById('myteam');
+			var their = document.getElementById('oppteam');
+
+			my.innerHTML = localStorage.getItem('myteamname');
+			their.innerHTML = game.opponentname;
+
+			var ms = document.getElementById('myscore');
+			var ts = document.getElementById('theirscore');
+			var mg = document.getElementById('mygoals');
+			var tg = document.getElementById('theirgoals');
+			var mf = document.getElementById('myfouls');
+			var tf = document.getElementById('theirfouls');
+			var mrc = document.getElementById('myredcards');
+			var trc = document.getElementById('theirredcards');
+			var myc = document.getElementById('myyellowcards');
+			var tyc = document.getElementById('theiryellowcards');
+			var msog = document.getElementById('myshotsongoal');
+			var tsog = document.getElementById('theirshotsongoal');
+			var mck = document.getElementById('mycornerkicks');
+			var tck = document.getElementById('theircornerkicks');
+			var mgk = document.getElementById('mygoalkicks');
+			var tgk = document.getElementById('theirgoalkicks');
+
+			ms.innerHTML = stats.mygoals;
+			ts.innerHTML = stats.opponentgoals;
+			mg.innerHTML = stats.mygoals;
+			tg.innerHTML = stats.opponentgoals;
+			mf.innerHTML = stats.myfouls;
+			tf.innerHTML = stats.opponentfouls;
+			mrc.innerHTML = stats.myredcards;
+			trc.innerHTML = stats.opponentredcards;
+			myc.innerHTML = stats.myyellowcards;
+			tyc.innerHTML = stats.opponentyellowcards;
+			msog.innerHTML = stats.myshotsongoal;
+			tsog.innerHTML = stats.opponentshotsongoal;
+			mck.innerHTML = stats.mycornerkicks;
+			tck.innerHTML = stats.opponentcornerkicks;
+			mgk.innerHTML = stats.mygoalkicks;
+			tgk.innerHTML = stats.opponentgoalkicks;
+
+      var username = localStorage.getItem("user");
+      if(username != 'coach') {
+        document.getElementById('editgamestatsBtn').style.display = 'none';
+      }
+  	});
+
+
+		var edBtn = document.getElementById('editgamestatsBtn');
+
+		edBtn.addEventListener('click', function() {
+			localStorage.setItem('gamestattoedit', JSON.stringify(game));
+		})
+
+    function logoutClean() {
+      localStorage.removeItem("user");
+    }
+  </script>
+</body>
+</html>

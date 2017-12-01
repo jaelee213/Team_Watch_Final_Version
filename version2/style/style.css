@@ -1,0 +1,952 @@
+body {
+  background: #d4d8d5;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.navbar {
+  background-color: black;
+  overflow: hidden;
+  border-bottom: 0.2rem solid white;
+}
+
+.navbar nav {
+  display: inline-block;
+  margin: 0 auto;
+  top: 1vw;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 2vw 1.2vw;
+  text-decoration: none;
+}
+
+.navbar > a:not(:first-child) {
+  position: relative;
+  top: 0.3rem;
+  left: 0.2rem;
+  font-size: 100%;
+}
+
+#logo {
+  font-size: 150%;
+}
+
+#logout {
+  color: red;
+}
+
+.box {
+  margin: 1.5rem 1rem;
+  padding: 1.5rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+}
+
+.box h2 {
+  font-size: 1.75rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.container1 {
+  text-align: center;
+  margin: 1rem;
+  padding-bottom: 2rem;
+}
+
+.subcontainer {
+   background: white;
+   margin: 0 auto;
+   min-width: 90%;
+   width: 90%;
+}
+
+#editrosterbtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#addplayerbtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#editrosterlink {
+  padding-top: 1rem;
+  text-decoration: none;
+}
+
+#rosterheading {
+  font-size: 2.2rem;
+  color: #007BFF;
+}
+
+.roster {
+  overflow: scroll;
+}
+
+.rostertable {
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  width: 100%;
+  overflow: auto;
+}
+
+.rostertable td {
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  border-bottom: 0.1rem solid lightgray;
+}
+
+.rostertable th {
+  border-bottom: 0.2rem solid lightgray;
+  font-size: 1em;
+  padding: 1rem;
+}
+
+.rostereditnotice {
+  padding-top: 1rem;
+  color: red;
+  font-weight: 400;
+  letter-spacing: 0.01rem;
+}
+
+.box input {
+  width: 90%;
+  font-size: 100%;
+  padding: 1rem 1rem;
+  display: inline-block;
+  border: 0.1rem solid #BEBEBE;
+  border-radius: 0.3rem;
+}
+
+.box input[type=date] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+.box input[type=time] {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+.box input[type=radio] {
+  width: 1.5rem;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.box input[type=submit] {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  margin-top: 0.5rem;
+  background-color: #007BFF;
+}
+
+#exsave {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  margin-top: 0.5rem;
+  background-color: #007BFF;
+}
+
+.box input[type=button] {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  background-color: red;
+  margin-top: 0.5rem;
+}
+
+.box2 {
+  margin: 1.5rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.borderBox2 {
+  background-color: white;
+  border: 0.5vw solid gray;
+  border-radius: 0.5vw;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.box2 h1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #007BFF;
+}
+
+.box2 hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.box2 .borderBox2 img {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: white;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.box2 .borderBox2 table {
+  width: 80%;
+  margin: auto;
+}
+
+.box1 {
+  margin: 1.5rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.borderBox1 {
+  background-color: white;
+  border: 0.5vw solid gray;
+  border-radius: 0.5vw;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.borderboxh61 {
+  color: #dc3545;
+  font-size: 80%;
+  font-weight: 400;
+}
+
+.borderboxh51 {
+  color: #dc3545;
+  font-size: 1rem;
+}
+
+.borderBoxh1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #007BFF;
+}
+
+.box1 hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.box1 .borderBox1 img {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: white;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.box1 .borderBox1 table {
+  width: 80%;
+  margin: auto;
+}
+
+.editplayertable tr, td {
+  border-top: 1px solid gray;
+  font-size: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+#delBtn {
+  width: 30%;
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  padding: .25rem .5rem;
+  background-color: #DC3545;
+  border: 1px solid #DC3545;
+  border-radius: 0.2rem;
+  line-height: 1.5;
+  font-size: .75rem;
+  text-align: center;
+}
+
+#saveBtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+.borderBox h6 {
+  color: #dc3545;
+  font-size: 80%;
+  font-weight: 400;
+}
+
+.borderBox h5 {
+  color: #dc3545;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.borderBox h1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 2rem;
+  color: #007BFF;
+}
+
+.box hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.box .borderBox img {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: white;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.box3 {
+  margin: 1.5rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.borderBox3 {
+  background-color: white;
+  border: 0.5vw solid gray;
+  border-radius: 0.5vw;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.borderBox3 h6 {
+  color: #dc3545;
+  font-size: 80%;
+  font-weight: 400;
+}
+
+.borderBox3 h5 {
+  color: #dc3545;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.borderBox3 h1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 2rem;
+  color: #007BFF;
+}
+
+.box3 hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.box3 .borderBox3 img {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: white;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.box .borderBox table {
+  width: 80%;
+  margin: auto;
+}
+
+.form1 {
+  margin-top: 2rem;
+}
+
+.editplayertable tr, td {
+  border-top: 1px solid gray;
+  font-size: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.form1 input{
+  display: block;
+  font-size: 1rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  padding: .5rem .75rem;
+  border: 1px solid #CED4DA;
+  border-radius: .25rem;
+}
+
+.form1 select {
+  display: block;
+  font-size: 1rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  padding: .75rem .75rem;
+  border: 1px solid #CED4DA;
+  border-radius: .25rem;
+}
+
+.form hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 90%;
+}
+
+#delBtn {
+  width: 30%;
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  padding: .25rem .5rem;
+  background-color: #DC3545;
+  border: 1px solid #DC3545;
+  border-radius: 0.2rem;
+  line-height: 1.5;
+  font-size: .75rem;
+  text-align: center;
+}
+
+#backBtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #DC3545;
+  border: 0.1rem solid #DC3545;
+  border-radius: 0.3rem;
+}
+
+#fileBtn {
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.logincontainer {
+  width: 90%;
+  max-width: 30rem;
+  margin: 1.5rem auto;
+  padding-bottom: 3rem;
+  background-color: white;
+  border: 0.2rem solid #474c54;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.welcomeheader {
+  font-size: 3rem;
+  margin-bottom: 0;
+}
+
+.loginsmallertxt {
+  font-size: 0.8rem;
+}
+
+.smallhr {
+  width: 80%;
+}
+
+.loginform {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.loginform input {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+}
+
+.loginform input:focus {
+  border: 0.2rem solid #a3c6ff;
+}
+
+#loginemail {
+  margin-bottom: 0.8rem;
+}
+
+#loginpassword {
+  margin-bottom: 2rem;
+}
+
+#loginsubmit {
+  background-color: #287aff;
+  color: white;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.8rem;
+}
+
+#loginsubmit:hover {
+  background-color: #0f4aaa;
+}
+
+#loginclick {
+  color: #287aff;
+  text-decoration: none;
+}
+
+#loginclick:hover {
+  color: #0f4aaa;
+  text-decoration: underline;
+}
+
+.viewgamestatscontainer {
+  width: 80%;
+  margin: 1.5rem auto;
+  padding: 1rem 1rem 5rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+#editgamestatsBtn {
+  float: right;
+  background-color: white;
+  color: #287aff;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border: 0.1rem solid #287aff;
+  border-radius: 0.3rem;
+}
+
+#editgamestatsBtn:hover {
+  background-color: #287aff;
+  color: white;
+}
+
+.vgsgameheader {
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.incrgamestats {
+  background-color: white;
+  color: #287aff;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border: 0.1rem solid #287aff;
+  border-radius: 0.3rem;
+}
+
+.incrgamestats:hover {
+  background-color: #287aff;
+  color: white;
+}
+
+.incrgamestats:active {
+  background-color: #287aff;
+  color: white;
+  border: 0.1rem solid #7fb0ff;
+}
+
+.vgshr {
+  width: 95%;
+}
+
+.vgsstats {
+  background-color: black;
+  color: white;
+}
+
+#egssaveBtn {
+  width: 90%;
+  background-color: #287aff;
+  color: white;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+}
+
+#egssaveBtn:hover {
+  background-color: #0f4aaa;
+  color: white;
+}
+
+#addGameBtn {
+  width: 80%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+  color: white;
+  background-color: #17A2B8;
+  border: 0.1rem solid #17A2B8;
+  border-radius: 0.5rem;
+}
+
+#addPracBtn {
+  width: 80%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 0rem;
+  margin-bottom: 2.5rem;
+  color: white;
+  background-color: #17A2B8;
+  border: 0.1rem solid #17A2B8;
+  border-radius: 0.5rem;
+}
+
+.editGameBtn {
+  width: 90%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 0.3rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#editGameBtn {
+  width: 90%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 0.3rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+.viewStatsBtn {
+  width: 90%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 1rem;
+  color: white;
+  background-color: red;
+  border: 0.1rem solid red;
+  border-radius: 0.3rem;
+}
+
+.box0 {
+  margin: 1.5rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.box0 h2 {
+  color: #17A2B8;
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+.box0 h3 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+ .box0 h4 mark{
+   font-size: 2rem;
+   padding-left: 5%;
+   padding-right: 5%;
+   margin-top: 0.1rem;
+   color: green;
+ }
+
+ .box0 p {
+   margin: 0.5rem;
+ }
+
+ .teamcontainer, .gamecontainer {
+  width: 80%;
+  margin: 1.5rem auto;
+  padding: 1rem 1rem 5rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.myteamnamehome {
+  width: 80%;
+  margin: 2rem auto;
+  background-color: #282828;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: normal;
+}
+
+#teamtotalheader {
+  font-size: 1.75rem;
+}
+
+#teamtotaltable, #teamgoaltable {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2rem;
+}
+
+#teamtotaltable th {
+  border: 0.1rem solid #d4d8d5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #287aff;
+  color: white;
+}
+
+#teamtotaltable td {
+  border: 0.1rem solid #d4d8d5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#teamgoaltable th {
+  border: 0.1rem solid #d4d8d5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #287aff;
+  color: white;
+}
+#teamgoaltable td {
+  border: 0.1rem solid #d4d8d5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#teamgoaltable {
+  margin-top: 3rem;
+}
+
+.gamecontainer > h1 {
+  color: #219eff;
+  font-size: 2.7rem;
+  font-weight: normal;
+}
+
+#editBtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#matchname, #matchscore {
+  font-size: 1.5rem;
+}
+
+#matchscore {
+  background-color: #fbffc1;
+}
+
+#editGameBtn:hover {
+  background-color: #0f4aaa;
+}
+
+#viewStatsBtn {
+  width: 90%;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 1rem;
+  color: white;
+  background-color: red;
+  border: 0.1rem solid red;
+  border-radius: 0.3rem;
+}
+
+#viewStatsBtn:hover {
+  background-color: #bf0000;
+}
+
+.box h1 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #007BFF;
+}
+
+.viewplayertbl tr, td {
+  border-top: 1px solid gray;
+  font-size: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.signupcontainer {
+  width: 95%;
+  max-width: 30rem;
+  margin: 1.5rem auto;
+  padding-bottom: 3rem;
+  background-color: white;
+  border: 0.2rem solid #474c54;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.signupheader {
+  font-size: 2.5rem;
+  margin-bottom: 0;
+}
+
+.signupsmallhr {
+  width: 80%;
+}
+
+.signupsmallertxt {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#signupnote {
+  color: #287aff;
+}
+
+.signupform {
+  margin-top: 2rem;
+}
+
+.signupform input[type=text] {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
+.signupform input[type=text]:focus {
+  border: 0.2rem solid #a3c6ff;
+}
+
+.iama {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.signupselectone, .signupdropdown {
+  text-align: left;
+  padding-left: 10%;
+}
+
+.signupselectone {
+  margin-bottom: 0.3rem;
+}
+
+.signupdropdown {
+  margin-bottom: 2rem;
+}
+
+#signupBtn {
+  width: 25%;
+  min-width: 6rem;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#signupBtn:hover {
+  background-color: #0f4aaa;
+}
+
+.addgamenotice {
+  color: red; 
+  font-size: 0.9rem;
+}

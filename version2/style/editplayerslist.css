@@ -1,0 +1,106 @@
+body {
+  background: #d4d8d5;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* NAVBAR CSS STARTS HERE */
+.navbar {
+  background-color: black;
+  overflow: hidden;
+  border-bottom: 0.2rem solid white;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 2vw 1.2vw;
+  text-decoration: none;
+  vertical-align: top;
+}
+
+.navbar > a:not(:first-child) {
+  position: relative;
+  top: 0.3rem;
+  left: 0.2rem;
+  font-size: 100%;
+}
+
+#logo {
+  font-size: 150%;
+}
+
+#logout {
+  color: red;
+}
+/* NAVBAR CSS ENDS Here */
+
+.container1 {
+  text-align: center;
+  margin: 1rem;
+  padding-bottom: 2rem;
+}
+
+.subcontainer {
+   background: white;
+   margin: 0 auto;  
+   min-width: 90%;
+   width: 90%;
+}
+
+#editrosterbtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+#editrosterlink {
+  padding-top: 1rem;  
+  text-decoration: none;
+}
+
+#rosterheading {
+  font-size: 2.2rem;
+  color: #007BFF;
+}
+
+.roster {
+  overflow: scroll; 
+}
+.rostertable {
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  width: 100%;
+  overflow: auto;
+}
+
+.rostertable td {
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  border-bottom: 0.1rem solid lightgray;
+}
+
+.rostertable th {
+  border-bottom: 0.2rem solid lightgray;
+  font-size: 1em;
+  padding: 1rem;
+}
+
+.rostereditnotice {
+  padding-top: 1rem;
+  color: red;
+  font-weight: 400;
+  letter-spacing: 0.01rem;
+}

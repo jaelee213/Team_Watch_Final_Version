@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<!-- File Size: 2KB | Load Time: 4.26s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>TeamWatch</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./login.html" id="logo">TeamWatch</a>
+  </nav>
+  <div class="logincontainer">
+    <h1 class="welcomeheader">Welcome.</h1>
+	<p class="loginsmallertxt"><i>Please login to continue.</i></p>
+	<hr class="smallhr">
+	<form class="loginform" onsubmit="return loginAuthen()" action='./home.html' method="post">
+      <input type="text" name="email" placeholder="Email" id="loginemail">
+      <br>
+      <input type="password" name="password" placeholder="Password" id="loginpassword">
+      <br>
+      <input type="submit" value="Login" id="loginsubmit">
+    </form>
+	<hr class="smallhr">
+	<p class="loginsmallertxt">Don't have an account?</p>
+	<p><a href="./signup.html" id="loginclick">Click here</a> to sign up and get started.</p>
+  </div>
+
+
+  <script>
+  function loginAuthen()  {
+    var user = document.getElementById('loginemail').value;
+    var pwd = document.getElementById('loginpassword').value;
+
+    if(user!='coach' && user!='player' && user!='fan' || pwd!='cse134b') {
+      alert('Wrong Email and/or Password');
+      return false;
+    }
+    //document.cookie = "user=coach; path=/;";
+    //alert(document.cookie);
+
+    localStorage.setItem("user",user);
+    return true;
+  }
+
+  var liBtn = document.getElementById('loginsubmit');
+
+  liBtn.addEventListener('click', function() {
+    localStorage.setItem("myteamname", "KongLeeKim");
+  })
+
+  </script>
+
+
+</body>
+</html>

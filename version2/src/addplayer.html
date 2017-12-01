@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<!-- File Size: 5KB | Load Time: 2.08s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <title>TeamWatch</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="box3">
+    <div class="borderBox3">
+      <h1>Add Player</h1>
+      <h5>Please fill out the following to add a new player to the team.</h5>
+      <hr>
+
+      <img src="#" alt="Default Pic" id="profile">
+      <h6>** To edit player picture, press the "choose file" button below **</h6>
+      <input type="file" name="propic" id="fileBtn" onchange="document.getElementById('profile').src = window.URL.createObjectURL(this.files[0])" accept="image/*">
+      <hr>
+
+      <form class="form1">
+        <input type="text" name="fname" id="firstname" placeholder="First Name">
+        <input type="text" name="lname" id="lastname" placeholder="Last Name">
+        <input type="email" name="email" id="email" placeholder="Email">
+        <input type="text" name="bday" id="birthdate" placeholder="Date of Birth">
+        <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number">
+        <hr>
+        <h2>Position</h2>
+        <p>Select one:</p>
+        <select name="pos" id="position">
+          <option value="forward"> Forward </option>
+          <option value="midfielder"> Midfielder </option>
+          <option value="defender"> Defender</option>
+          <option value="goalkeeper">Goalkeeper</option>
+        </select>
+        <hr>
+        <h2>Role</h2>
+        <p>Select one:</p>
+        <select name="role">
+          <option value="captain"> Captain </option>
+          <option value="starter"> Starter </option>
+          <option value="substitute"> Substitute </option>
+        </select>
+        <input type="button" value="Save" id="egssaveBtn">
+        <hr>
+        <input type="button" value="Go back" id="backBtn">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var savebtn = document.getElementById('egssaveBtn');
+    var goBack = document.getElementById('backBtn');
+
+    savebtn.addEventListener('click', function() {
+      var nm;
+      var fn = document.getElementById('firstname').value;
+      var ln = document.getElementById('lastname').value;
+      var jn = document.getElementById('jerseynumber').value;
+      var bd = document.getElementById('birthdate').value;
+      var pos = document.getElementById('position').value;
+      nm = fn.concat(" ");
+      nm = nm.concat(ln);
+
+      window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('profile').src = "../img/defaultpic.jpg";
+      })
+
+      var player = {};
+      player.jerseynumber = jn;
+      player.birthdate = bd;
+      player.firstname = fn;
+      player.lastname = ln;
+      player.position = pos;
+      player.name = nm;
+      player.goals = "0";
+      player.assists = "0";
+      player.fouls = "0";
+      player.redcards = "0";
+      player.yellowcards = "0";
+      player.gamesplayed = "0";
+
+      var rstr = JSON.parse(localStorage.getItem('roster'));
+
+      if (rstr) {
+        rstr.push(player);
+        localStorage.setItem('roster', JSON.stringify(rstr));
+      }
+      else {
+        var ra = [player];
+        localStorage.setItem('roster', JSON.stringify(ra));
+      }
+    })
+
+    savebtn.addEventListener('click', function() {
+      location.href='./players.html';
+    })
+
+    goBack.addEventListener('click', function() {
+      location.href='./players.html';
+    })
+
+    function logoutClean() {
+      localStorage.removeItem("user");
+    }
+  </script>
+
+
+<!--
+
+added id="position" so that it can be refrenced to store its value.
+added a back button
+
+-->
+
+</body>
+</html>

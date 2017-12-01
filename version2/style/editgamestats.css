@@ -1,0 +1,59 @@
+﻿.viewgamestatscontainer {
+  width: 80%;
+  margin: 1.5rem auto;
+  padding: 1rem 1rem 5rem 1rem;
+  background-color: white;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.incrgamestats {
+  background-color: white;
+  color: #287aff;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border: 0.1rem solid #287aff;
+  border-radius: 0.3rem;
+}
+
+.incrgamestats:hover {
+  background-color: #287aff;
+  color: white;
+}
+
+.incrgamestats:active {
+  background-color: #287aff;
+  color: white;
+  border: 0.1rem solid #7fb0ff;
+}
+
+.vgsgameheader {
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.vgshr {
+  width: 95%;
+}
+
+.vgsstats {
+  background-color: black;
+  color: white;
+}
+
+#egssaveBtn {
+  width: 95%;
+  background-color: #287aff;
+  color: white;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+}
+
+#egssaveBtn:hover {
+  background-color: #0f4aaa;
+  color: white;
+}
