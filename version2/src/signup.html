@@ -144,6 +144,27 @@
         return false; 
       }
 
+      else if( usertype.value == "player" && (bdayfield.value.indexOf("/") == (-1) || bdayfield.value.lastIndexOf("/") == (-1))){
+        alert('Incorrect birthdate format. Please put birthdate in mm/dd/yy format.'); 
+        return false;
+      }
+
+      else if( usertype.value == "player" && (bdayfield.value.indexOf("/") == bdayfield.value.lastIndexOf("/"))) { 
+        alert('Incorrect birthdate format. Please put birthdate in mm/dd/yy format.'); 
+        return false;
+      }
+
+      else if( usertype.value == "player" && 
+      (isNaN(bdayfield.value.slice(0, bdayfield.value.indexOf("/"))) 
+      || isNaN(bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/")))  
+      || isNaN(bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length)) || 
+      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length < 2) 
+      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length < 2) 
+      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length < 2))))){
+        alert('Incorrect birthdate format. Values must be numbers and/or must be in the format mm/dd/yy!'); 
+        return false;
+      }
+      
       else {        
         var rootref = firebase.database().ref(); 
         var userslist = rootref.child('users/'); 
@@ -178,10 +199,10 @@
                     type: usertype.value
                   });
                   alert('Created account. Please proceed to login.'); 
-                  location.href="./login.html";
+                  window.location.href="./login.html";
                 }
               });
-            } //end of if coach 
+            }
 
             else if(usertype.value == "player") {
               var findroster = playerfield.options[playerfield.selectedIndex].value.concat("roster");
@@ -190,6 +211,9 @@
               namestr = namestr.concat(ln.value);
               rosterlist.orderByChild("name").equalTo(namestr).once("value", snapshot => {
                 const plnm = snapshot.val();
+
+                //idea: maybe compare birthdates too.
+
                 if(plnm && plnm.birthdate == bdayfield.value){
                   var newuser = userslist.push(); 
                   newuser.set({
@@ -199,14 +223,14 @@
                     type: usertype.value
                   });
                   alert('Created account. Please proceed to login.'); 
-                  location.href="./login.html";
+                  window.location.href="./login.html";
                 }
                 else{ 
                   alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate and inclusion in team roster.');
                   return;
                 }
               });
-            }//end of if player 
+            }
 
             else if(usertype.value == "fan") {
               alert('Adding user');
@@ -219,7 +243,7 @@
               });
               alert('Created account. Please proceed to login.'); 
               location.href="./login.html";
-            }//end of if fan 
+            }
           }
         });
       }

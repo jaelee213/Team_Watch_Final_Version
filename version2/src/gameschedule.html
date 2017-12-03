@@ -46,99 +46,155 @@
 
     document.getElementById('addPracBtn').style.display = 'none';
 
-    var gArray = JSON.parse(localStorage.getItem('games'));
-
     window.addEventListener('DOMContentLoaded', function(){
 
-      var myname = localStorage.getItem('myteamname');
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/"); 
       var disGam = document.getElementById('outputgames');
-      var username = localStorage.getItem('user');
-      var styleStr;
-      if(username != 'coach') {
-        styleStr = "style='display:none'";
-      }
-      else {
-        styleStr = "";
-      }
 
-      if(gArray) {
-        for (var i = 0; i < gArray.length; i++) {
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team; 
+        var str = "games/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var gameslist = rootref.child(myteamname);
+        var usertype = snpsht.type;
+        var styleStr;
+        if(usertype != 'coach') {
+          styleStr = "style='display:none'";
+        }
+        else {
+          styleStr = "";
+        }
+        
+        gameslist.orderByChild("timeid").on("value", function(snapshot){
+          disGam.innerHTML = "";
+          snapshot.forEach(function(snap){
 
-          var todayDate = new Date();
-          var compareDate = new Date(gArray[i].date);
+            var cg = snap.val();
 
-          if( todayDate.setHours(0, 0, 0, 0) == compareDate.setHours(0, 0, 0, 0) ) {
+            var today = new Date();
+            var curMonth = today.getMonth() + 1; 
+            curMonth = curMonth.toString(); 
+            var curDay = today.getDate().toString(); 
+            if( curDay.length == 1) {
+              curDay = "0" + curDay;
+            }
+            var curYear = today.getFullYear().toString().substr(2,2);
+            var curHour = today.getHours().toString(); 
+            var curMinute = today.getMinutes().toString();
+            var todayDate = curYear + curMonth + curDay + curHour + curMinute; 
+            var compareDate = cg.timeid;
 
-            disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + gArray[i].date
-            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname + "</h3>"
-            + "<h4><mark>" + gArray[i].stats.mygoals + " : " + gArray[i].stats.opponentgoals + "</mark></h4>"
-            + "<p>" + gArray[i].date + " " + gArray[i].time
-            + "</p><p>" + gArray[i].location
-            + "</p><p>" + gArray[i].status
-            + "</p><input type='button' value='View Stats' class='viewStatsBtn'>"
-            + "<input type='button' value='Edit Game' class='editGameBtn'"
-            + styleStr + "></div>";
+            if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
+              disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' class='viewStatsBtn'>"
+              + "<input type='button' value='Edit Game' class='editGameBtn'"
+              + styleStr + "></div>";
+            }
+
+            else if(todayDate > compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' class='viewStatsBtn'></div>";
+            }
+
+            else if(todayDate < compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname
+              + "</h3><p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "<input type='button' value='Edit Game' class='editGameBtn'"
+              + styleStr + "></div>";
+            }
+
+          });
+          if (disGam.value == "") {
+            disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
           }
 
-          else if(todayDate.setHours(0, 0, 0, 0) > compareDate.setHours(0, 0, 0, 0)) {
-            disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + gArray[i].date
-            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname + "</h3>"
-            + "<h4><mark>" + gArray[i].stats.mygoals + " : " + gArray[i].stats.opponentgoals + "</mark></h4>"
-            + "<p>" + gArray[i].date + " " + gArray[i].time
-            + "</p><p>" + gArray[i].location
-            + "</p><p>" + gArray[i].status
-            + "</p><input type='button' value='View Stats' class='viewStatsBtn'></div>";
+          var editButton = document.querySelectorAll("input.editGameBtn");
+          var viewButton = document.querySelectorAll("input.viewStatsBtn");
+
+          for(var x = 0; x < viewButton.length; x++) {
+            (function(index) {
+              viewButton[index].addEventListener('click', function(){
+
+                var gtview = rootref.child("gametoview"); 
+                var cntr = 0; 
+                gameslist.orderByChild("timeid").on("value", function(snapshot){
+                  snapshot.forEach(function(snap){
+                    var cval = snap.val();
+                    if(cntr == index) {
+                      gtview.set({
+                        id: cval.gameid
+                      });
+                    }
+                    cntr = cntr + 1; 
+                  });
+                });
+              });
+            })(x);
+            viewButton[x].addEventListener('click', function(){
+              window.location.href='./viewgamestats.html';
+            })
           }
 
-          else if(todayDate.setHours(0, 0, 0, 0) < compareDate.setHours(0, 0, 0, 0)) {
-            disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + gArray[i].date
-            + "</h2><h3>" + myname + " vs " + gArray[i].opponentname
-            + "</h3><p>" + gArray[i].date + " " + gArray[i].time
-            + "</p><p>" + gArray[i].location
-            + "</p><p>" + gArray[i].status
-            + "<input type='button' value='Edit Game' class='editGameBtn'"
-            + styleStr + "></div>";
+          for(var y = 0; y < editButton.length; y++) {
+            (function(index) {
+              editButton[index].addEventListener('click', function(){
+
+                var gtedit = rootref.child("gametoedit");
+                var ctr = 0; 
+                var size = 0; 
+
+                gameslist.orderByChild("timeid").once("value", function(snapshot){
+                  snapshot.forEach(function(snap){ 
+                    size = size + 1;
+                  })
+                });
+
+                gameslist.orderByChild("timeid").on("value", function(snapshot){
+                  snapshot.forEach(function(snap){
+                    var cuval = snap.val();
+                    if(ctr == (size - (editButton.length - index))) {
+                      gtedit.set({
+                        id: cuval.gameid
+                      });
+                    }
+                    ctr = ctr + 1;
+                  });
+                });
+              });
+            })(y);
+            editButton[y].addEventListener('click', function(){
+              window.location.href='./editgame.html';
+            })
           }
-        }
-      }
-    })
 
+          var cuus = firebase.database().ref().child("currentuser/");
+          cuus.once("value", function(snapshot){
+            var username = snapshot.val().type;
 
-    function afterLoad() {
-        var editButton = document.querySelectorAll("input.editGameBtn");
-        var viewButton = document.querySelectorAll("input.viewStatsBtn");
-
-        for(var x = 0; x < viewButton.length; x++) {
-          (function(index) {
-            viewButton[index].addEventListener('click', function(){
-              localStorage.setItem('gametoview', JSON.stringify(gArray[index]));
-            });
-          })(x);
-          viewButton[x].addEventListener('click', function(){
-            location.href='./viewgamestats.html';
-          })
-        }
-
-        for(var y = 0; y < editButton.length; y++) {
-          (function(index) {
-            editButton[index].addEventListener('click', function(){
-              localStorage.setItem('gametoedit', JSON.stringify(gArray[gArray.length - (editButton.length - index)]));
-            });
-          })(y);
-          editButton[y].addEventListener('click', function(){
-            location.href='./editgame.html';
-          })
-        }
-
-        var username = localStorage.getItem("user");
-
-        if(username != 'coach') {
-          document.getElementById('addGameBtn').style.display = 'none';
-          document.getElementById('addPracBtn').style.display = 'none';
-        }
-      }
-
-    window.onload = afterLoad;
+            if(username != "coach") {
+              document.getElementById('addGameBtn').style.display = 'none';
+              document.getElementById('addPracBtn').style.display = 'none';
+            }
+          });
+        }); 
+      }); 
+    });
 
     function logoutClean() {
 			var rrf = firebase.database().ref();

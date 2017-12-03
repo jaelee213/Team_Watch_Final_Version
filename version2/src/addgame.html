@@ -7,8 +7,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <link rel="stylesheet" href="../style/style.css">
+  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
   <title>Add Game</title>
   <!-- changes -->
 </head>
@@ -28,13 +41,14 @@
       <input type="text" id="opponentteamname" name="OppTeam" placeholder="Enter Opposition Team Name">
       <br>
 			<p><label for="gameDate">Date:</label></p>
-			<p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
-      <input type="text" id="gamedate" name="gameDate" onblur="formatDate()" maxlength="8">
+      <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+      <p class="addgamenotice"><em>Note: Even if date is 1/1/17, please make sure to put 01/01/17 not 1/1/17.</em></p>
+      <input type="text" id="gamedate" name="gameDate" maxlength="8">
       <br>
       <p><label for="gametime">Time:</label></p>
       <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
       <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>      
-      <input type="text" id="gametime" name="time" onblur="formatTime()" maxlength="5">
+      <input type="text" id="gametime" name="time" maxlength="5">
       <br>
       <p><label>Time of Day:</label></p>
       <input type="radio" name="tofday" value="day" id="timeofdayradio">A.M.<br>
@@ -58,27 +72,27 @@
     sButton.addEventListener('click', function() {
 
       var xdate = document.getElementById('gamedate').value; 
+      var xtime = document.getElementById('gametime').value; 
+
       if(!xdate) {
         alert('Please specify the date.'); 
         return false; 
       }
 
-      var xtime = document.getElementById('gametime').value; 
       if(!xtime) {
         alert('Please specify the time.');
         return false; 
       }
-
+ 
       var timeChecker = xtime.indexOf(":"); 
-      var timeChecker2 = xtime.lastIndexOf(":"); 
+      var timeChecker2 = xtime.lastIndexOf(":");
       if(!timeChecker || timeChecker != timeChecker2) {
         alert('Invalid time format. Please make sure to put time in HH:MM format.');
         return false; 
       }
 
       var tHour = xtime.slice(0, timeChecker); 
-      var tMinute = xtime.slice(timeChecker + 1, xtime.length); 
-
+      var tMinute = xtime.slice(timeChecker + 1, xtime.length);
       if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 1 || tMinute.length > 2 || tMinute.length < 1) {
         alert('Invalid time format. Please make sure the hours and minutes have been input correctly.'); 
         return false; 
@@ -87,11 +101,10 @@
       if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
         alert('Invalid time input. Please make sure hours and minutes are all appropriate values.'); 
         return false;
-      }
+      } 
 
       var dateChecker1 = xdate.indexOf("/"); 
-      var dateChecker2 = xdate.lastIndexOf("/"); 
-
+      var dateChecker2 = xdate.lastIndexOf("/");
       if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
         alert('Invalid date format. Please check and write date according to format specified above input field.');
         return false; 
@@ -100,11 +113,15 @@
       var dMonth = xdate.slice(0, dateChecker1); 
       var dDate = xdate.slice(dateChecker1 + 1, dateChecker2); 
       var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
-
       if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 || 
-          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 1 || 
+          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 || 
           dMonth > 12 || dDate > 31 || dYear < 17) {
-        alert('Invalid date input. Please fix to continue'); 
+        alert('Invalid date format. Please fix to continue'); 
+        return false; 
+      }
+
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
         return false; 
       }
 
@@ -113,15 +130,13 @@
         return false; 
       }
 
-      alert('Month: ' + dMonth + " Date: " + dDate + "Year: " + dYear);   
-
-      var tofd = document.querySelector('input[name=tofday]:checked').value; 
+      var tofd = document.querySelector('input[name=tofday]:checked');
       if(!tofd) {
         alert('Please specify time of day.');
         return false;
       }
 
-      var stts = document.querySelector('input[name=status]:checked').value; 
+      var stts = document.querySelector('input[name=status]:checked'); 
       if(!stts) { 
         alert('Please specify game status.'); 
         return false;
@@ -139,80 +154,100 @@
         return false;
       }  
 
-      var tod = document.querySelector('input[name=tofday]:checked').value; 
-      var gTime = document.getElementById('gametime').value;
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/"); 
+      currus.once("value", function(snapshot){
 
-      var game = {}; 
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team; 
+        var str = "games/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var gameslist = rootref.child(myteamname);
 
-      game.opponentname = document.getElementById('opponentteamname').value; 
-      game.date = document.getElementById('gamedate').value; 
+        var tod = document.querySelector('input[name=tofday]:checked').value; 
+        var gTime = document.getElementById('gametime').value;
+        var opponentname = document.getElementById('opponentteamname').value; 
+        var date = document.getElementById('gamedate').value; 
 
-      if(tod == "day") {
-        gTime = gTime.concat(" am");
-      }
-      if(tod == "night") {
-        gTime = gTime.concat(" pm"); 
-      }
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm"); 
+          tHour = Number(tHour) + 12; 
+        }
 
-      game.time = gTime; 
-      game.tod = tod; 
-    
-      game.location = document.getElementById('gamelocation').value;
-      game.status = document.querySelector('input[name=status]:checked').value; 
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate); 
+        timeid = timeid.concat(tHour); 
+        timeid = timeid.concat(tMinute);
 
-      var gamestats = {}
-      gamestats.myfouls = "0"; 
-      gamestats.opponentfouls = "0"; 
-      gamestats.myredcards = "0"; 
-      gamestats.opponentredcards = "0"; 
-      gamestats.myyellowcards = "0"; 
-      gamestats.opponentyellowcards = "0"; 
-      gamestats.myshotsongoal = "0"; 
-      gamestats.opponentshotsongoal = "0"; 
-      gamestats.mygoals = "0"; 
-      gamestats.opponentgoals = "0"; 
-      gamestats.mycornerkicks = "0"; 
-      gamestats.opponentcornerkicks = "0"; 
-      gamestats.mygoalkicks = "0"; 
-      gamestats.opponentgoalkicks = "0"; 
+        var time = gTime;
+        var location = document.getElementById('gamelocation').value;
+        var status = document.querySelector('input[name=status]:checked').value; 
 
-      game.stats = gamestats;
+        var gameid = opponentname.concat(timeid); 
 
-      var gamesArray = JSON.parse(localStorage.getItem('games')); 
-      if(gamesArray) {
-        gamesArray.push(game); 
-        gamesArray.sort(function(a, b) {
-		      return new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time);
+        // Checking to see if game already exists by comparing times and dates
+        gameslist.orderByChild("gameid").equalTo(gameid).once('value', snapshot => {
+          const gameidobj = snapshot.val();
+          if(gameidobj) {
+            alert('Game already exists! Please create another game.'); 
+            return;
+          }
+          else {
+            gameslist.orderByChild("timeid").equalTo(timeid).once('value', snapshot => {
+              const timeidobj = snapshot.val();
+              if(timeidobj) {
+                alert('A game already exists at that specified time and date. Please create game at another date and/or time.');
+                return;
+              }
+              else {
+                var newgame = gameslist.push();
+                newgame.set({
+                  gameid: gameid,
+                  timeid: timeid,
+                  opponentname: opponentname, 
+                  date: date, 
+                  time: time, 
+                  tod: tod, 
+                  location: location, 
+                  status: status, 
+                  myfouls: "0", 
+                  opponentfouls: "0", 
+                  myredcards: "0", 
+                  opponentredcards: "0", 
+                  myyellowcards: "0", 
+                  opponentyellowcards: "0", 
+                  myshotsongoal: "0", 
+                  opponentshotsongoal: "0", 
+                  mygoals: "0", 
+                  opponentgoals: "0", 
+                  mycornerkicks: "0", 
+                  opponentcornerkicks: "0", 
+                  mygoalkicks: "0", 
+                  opponentgoalkicks: "0"
+                });
+                alert('Game created!'); 
+                window.location.href="./gameschedule.html";
+              } 
+            });
+          }
         });
-        localStorage.setItem('games', JSON.stringify(gamesArray)); 
-      }
-      else{
-        var gameArr = [game]; 
-        localStorage.setItem('games', JSON.stringify(gameArr));
-      }
-      location.href='./gameschedule.html';
-    })
+      });
+    });
 
 		function logoutClean() {
-			localStorage.removeItem("user");
-		}
-
-    function formatDate(x) {
-      x.value = x.value.slice(0,2) + "/" + x.value(2,4) + "/" + x.value(4,6); 
-    }
-
-    function formatTime(y) {
-      y.value = y.value.slice(0,2) + ":" + y.value(2,4); 
-    }
+        var rrf = firebase.database().ref();
+        var cu = rrf.child("currentuser/"); 
+        cu.set({
+          username: "", 
+          team: "", 
+          type: ""
+        });
+      }
 
 	</script>
 </body>
 </html>
-
-
-<!--
-
-  added radio button to indicate whether time is AM or PM. 
-  later utilized for time storing and parsing for games.
-
- -->
