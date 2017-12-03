@@ -7,7 +7,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="../style/style.css">
+	<link rel="stylesheet" href="../style/style.css">
+	<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
   <title>TeamWatch</title>
 </head>
 
@@ -129,7 +143,13 @@
 		})
 
     function logoutClean() {
-      localStorage.removeItem("user");
+			var rrf = firebase.database().ref();
+			var cu = rrf.child("currentuser/"); 
+			cu.set({
+				username: "", 
+				team: "", 
+				type: ""
+			});
     }
   </script>
 
