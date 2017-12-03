@@ -8,6 +8,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../style/style.css">
+  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
   <title>TeamWatch</title>
 </head>
 
@@ -19,12 +33,12 @@
     <h1 class="welcomeheader">Welcome.</h1>
 	<p class="loginsmallertxt"><i>Please login to continue.</i></p>
 	<hr class="smallhr">
-	<form class="loginform" onsubmit="return loginAuthen()" action='./home.html' method="post">
+	<form class="loginform">
       <input type="text" name="email" placeholder="Email" id="loginemail">
       <br>
       <input type="password" name="password" placeholder="Password" id="loginpassword">
       <br>
-      <input type="submit" value="Login" id="loginsubmit">
+      <input type="button" value="Login" id="loginsubmit">
     </form>
 	<hr class="smallhr">
 	<p class="loginsmallertxt">Don't have an account?</p>
@@ -33,29 +47,46 @@
 
 
   <script>
-  function loginAuthen()  {
-    var user = document.getElementById('loginemail').value;
-    var pwd = document.getElementById('loginpassword').value;
+    var user = document.getElementById('loginemail');
+    var pwd = document.getElementById('loginpassword');
+    var liBtn = document.getElementById('loginsubmit');
 
-    if(user!='coach' && user!='player' && user!='fan' || pwd!='cse134b') {
-      alert('Wrong Email and/or Password');
-      return false;
-    }
-    //document.cookie = "user=coach; path=/;";
-    //alert(document.cookie);
+    liBtn.addEventListener('click', function() {
 
-    localStorage.setItem("user",user);
-    return true;
-  }
+      var rootref = firebase.database().ref(); 
+      var userslist = rootref.child("users/");
 
-  var liBtn = document.getElementById('loginsubmit');
-
-  liBtn.addEventListener('click', function() {
-    localStorage.setItem("myteamname", "KongLeeKim");
-  })
-
+      if(!user.value || !pwd.value) {
+        alert('Cannot leave email or password field empty. Please try again.'); 
+        return false;
+      }
+      else {
+        var searchlist = userslist.orderByChild("username").equalTo(user.value); 
+        searchlist.on("value", function(snapshot){
+          snapshot.forEach(function(snap) {
+            var cur = snap.val(); 
+            if(cur.username == user.value) {
+              if(cur.password == pwd.value) {
+                var curuser = rootref.child("currentuser/"); 
+                curuser.set({
+                  username: cur.username, 
+                  team: cur.team, 
+                  type: cur.type
+                });
+              }
+              else {
+                alert('Incorrect password. Please try again.'); 
+                return; 
+              }
+            }
+            else {
+              alert('Incorrect username/email or password. Please try again.'); 
+              return;
+            }
+          });
+        });
+      }  
+    });
   </script>
-
-
 </body>
 </html>
