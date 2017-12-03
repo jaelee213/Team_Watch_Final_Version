@@ -8,6 +8,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../style/style.css">
+  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
   <title>TeamWatch</title>
 </head>
 
@@ -27,16 +41,45 @@
       <br>
       <input type="text" name="lname" placeholder="Last Name" id="signuplname">
       <br>
-      <input type="text" name="supwd" placeholder="Password" id="signuppwd">
+      <input type="password" name="supwd" placeholder="Password" id="signuppwd">
       <br>
-      <input type="text" name="suconfpwd" placeholder="Confirm Password" id="signupconfpwd">
+      <input type="password" name="suconfpwd" placeholder="Confirm Password" id="signupconfpwd">
     </form>
     <hr class="signupsmallhr">
     <p class="iama">I am a:</p>
     <p class="signupselectone">Select one:</p>
-    <input type="radio" value="coach" id="usertypeopt">Coach</option>
-    <input type="radio" value="player" id="usertypeopt">Player</option>
-    <input type="radio" value="fan" id="usertypeopt">Fan</option>
+    <input type="radio" value="coach" id="usertypeopt" name="utype" onclick="coachFunc()">Coach</option>
+    <input type="radio" value="player" id="usertypeopt" name="utype" onclick="playerFunc()">Player</option>
+    <input type="radio" value="fan" id="usertypeopt" name="utype" onclick="fanFunc()">Fan</option>
+
+    <div id="coachoptions">
+      <br>
+      <input type="text" placeholder="Enter New Team Name" id="newteamfield" name="newteamfield">
+    </div> 
+
+
+    <div id="playeroptions">
+      <hr>
+      <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
+      <p class="noticenote">If for any reason, sign up does not work, please make sure with coach that the correct birthdate was input under your name in the team roster.</p>
+      <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield">
+      <hr>
+      <p class="noticenote">Make sure that the coach of your selected team has you as a player on their roster.</p>
+      <p class="noticenote">Otherwise, you cannot sign up as a player of the team you specified.</p>
+      <br>
+      <p>Select Your Team:</p>
+      <select id="playerfield">
+      </select>
+    </div>
+
+    <div id="fanoptions">
+      <hr>
+      <p>Select Your Team to Follow:</p>
+      <select id="fanfield">
+      </select>
+    </div>
+
+
     <hr class="signupsmallhr">
     <input type="button" value="Sign Up" id="signupBtn">
   </div>
@@ -48,30 +91,181 @@
     var ln = document.getElementById('signuplname'); 
     var pw = document.getElementById('signuppwd'); 
     var cpw = document.getElementById('signupconfpwd'); 
+    var coachfield = document.getElementById('newteamfield');
+    var playerfield = document.getElementById('playerfield'); 
+    var fanfield = document.getElementById('fanfield');
+    var bdayfield = document.getElementById('bdayfield');
+
 
     document.getElementById('signupBtn').addEventListener("click", function() {
+
+      var usertype = document.querySelector('input[name=utype]:checked'); 
+      var selectedteam;
+
       if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0 
             || pw.value.length == 0 || cpw.value.length == 0) {
-        alert('Sign Up form is not complete! Please fill out every field.'); 
+        alert('Sign Up form is not complete. Please fill everything out to proceed.'); 
         return false; 
+      }
+
+      else if(userid.value.lastIndexOf(".") == (-1) || userid.value.indexOf("@") == (-1)) {
+        alert('Invalid email form. Please put valid email address.'); 
+        return false; 
+      }
+
+      else if(!usertype) {
+        alert('Please specify type of user.'); 
+        return false;
       }
 
       else if ( pw.value != cpw.value ) {
-        alert('pwd not match');
+        alert('Passwords do not match. Please try again.');
         return false; 
       }
 
-      else {
-        alert('Created account. Please proceed to login.');
-        window.open('./login.html');
+      else if( usertype.value == "coach" && !coachfield.value) {
+        alert('Please specify the name of the team you wish to create.'); 
+        return false; 
+      }
+
+      else if( usertype.value == "player" && playerfield.options[playerfield.selectedIndex].value == "default") {
+        alert('Please specify your team.'); 
+        return false; 
+      }
+
+      else if( usertype.value == "fan" && fanfield.options[fanfield.selectedIndex].value == "default") {
+        alert('Please specify the team you want to follow. If there are no teams to choose from, please contact your local coach to check if team has been created.');
+        return false;
+      }
+
+      else if( usertype.value == "player" && !bdayfield.value) {
+        alert('Please specify your birthdate to confirm with coach and the team roster.'); 
+        return false; 
+      }
+
+      else {        
+        var rootref = firebase.database().ref(); 
+        var userslist = rootref.child('users/'); 
+        var teamslist = rootref.child('teams/');
+
+        userslist.orderByChild("username").equalTo(userid.value).once('value', snapshot => {
+          const usernm = snapshot.val();
+          if(usernm) {
+            alert('Username already exists. Please use another username/email.'); 
+            return; 
+          }
+          else {
+            if(usertype.value == "coach"){
+              teamslist.orderByChild("name").equalTo(coachfield.value).once('value', snapshot => {
+                const teamnm = snapshot.val(); 
+                if(teamnm) {
+                  alert('Team already exists. Please use another team name.');
+                  return;
+                }
+                else {
+                  alert('Adding game.');
+                  var newteam = teamslist.push(); 
+                  newteam.set({
+                    name: coachfield.value,
+                  });
+                  alert('Adding user');
+                  var newuser = userslist.push(); 
+                  newuser.set({
+                    username: userid.value, 
+                    password: pw.value, 
+                    team: coachfield.value, 
+                    type: usertype.value
+                  });
+                  alert('Created account. Please proceed to login.'); 
+                  location.href="./login.html";
+                }
+              });
+            } //end of if coach 
+
+            else if(usertype.value == "player") {
+              var findroster = playerfield.options[playerfield.selectedIndex].value.concat("roster");
+              var rosterlist = rootref.child(findroster + "/");
+              var namestr = fn.value.concat(" "); 
+              namestr = namestr.concat(ln.value);
+              rosterlist.orderByChild("name").equalTo(namestr).once("value", snapshot => {
+                const plnm = snapshot.val();
+                if(plnm && plnm.birthdate == bdayfield.value){
+                  var newuser = userslist.push(); 
+                  newuser.set({
+                    username: userid.value, 
+                    password: pw.value, 
+                    team: coachfield.value, 
+                    type: usertype.value
+                  });
+                  alert('Created account. Please proceed to login.'); 
+                  location.href="./login.html";
+                }
+                else{ 
+                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate and inclusion in team roster.');
+                  return;
+                }
+              });
+            }//end of if player 
+
+            else if(usertype.value == "fan") {
+              alert('Adding user');
+              var newuser = userslist.push(); 
+              newuser.set({
+                username: userid.value, 
+                password: pw.value, 
+                team: fanfield.options[fanfield.selectedIndex].value, 
+                type: usertype.value
+              });
+              alert('Created account. Please proceed to login.'); 
+              location.href="./login.html";
+            }//end of if fan 
+          }
+        });
       }
     });
 
-    document.getElementById('signupBtn').addEventListener("click", function() {
-      localStorage.setItem("userid", userid.value);
-      localStorage.setItem("pw", pw.value);
-    });
-  
+    var ifcoach = document.getElementById('coachoptions'); 
+    var ifplayer = document.getElementById('playeroptions'); 
+    var iffan = document.getElementById('fanoptions'); 
+    
+    function coachFunc() {
+      ifplayer.style.display = "none"; 
+      iffan.style.display = "none"; 
+      ifcoach.style.display = "inline"; 
+    }
+    
+    function playerFunc() {
+      var playeroutput = document.getElementById('playerfield');
+      ifplayer.style.display = "inline"; 
+      iffan.style.display = "none"; 
+      ifcoach.style.display = "none"; 
+      playeroutput.innerHTML = "<option value='default'>Choose your team</option>";
+      var rref = firebase.database().ref(); 
+      var tlist = rref.child('teams/');
+      tlist.on('value', function(snapshot){
+        snapshot.forEach(function(chNo) {
+          var noode = chNo.val();
+          playeroutput.innerHTML += "<option value='" + noode.name + "'>" + noode.name + "</option>"; 
+        });
+      });
+    }
+    
+    function fanFunc() {
+      var fanoutput = document.getElementById('fanfield');
+      ifplayer.style.display = "none"; 
+      iffan.style.display = "inline"; 
+      ifcoach.style.display = "none"; 
+      fanoutput.innerHTML = "<option value='default'>Choose a team to follow.</option>";
+      var rr = firebase.database().ref(); 
+      var tl = rr.child("teams/"); 
+      tl.on('value', function(snapshot){
+        snapshot.forEach(function(chn){
+          var ndoe = chn.val(); 
+          fanoutput.innerHTML += "<option value='" + ndoe.name + "'>" + ndoe.name + "</option>"; 
+        });
+      });
+    }
+
   </script>
 </body>
 </html>

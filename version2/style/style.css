@@ -896,6 +896,10 @@ body {
   color: #287aff;
 }
 
+.noticenote {
+  color: red;
+}
+
 .signupform {
   margin-top: 2rem;
 }
@@ -907,7 +911,18 @@ body {
   border-radius: 0.5rem;
 }
 
+.signupform input[type=password] {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
 .signupform input[type=text]:focus {
+  border: 0.2rem solid #a3c6ff;
+}
+
+.signupform input[type=password]:focus {
   border: 0.2rem solid #a3c6ff;
 }
 
@@ -949,4 +964,48 @@ body {
 .addgamenotice {
   color: red; 
   font-size: 0.9rem;
+}
+
+#coachoptions {
+  display: none; 
+}
+
+#playeroptions {
+  display: none; 
+}
+
+#fanoptions { 
+  display: none;
+}
+
+#newteamfield {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #a3c6ff;  
+}
+
+#playerfield { 
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #a3c6ff;
+}
+
+#fanfield { 
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #a3c6ff;
+}
+
+#bdayfield {
+  width: 75%;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #a3c6ff;  
 }
