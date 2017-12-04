@@ -56,8 +56,11 @@
   </div>
   <script>
 
-    var game = JSON.parse(localStorage.getItem('gametoedit')); 
-    var glist = JSON.parse(localStorage.getItem('games'));
+    //var game = JSON.parse(localStorage.getItem('gametoedit')); 
+    //var glist = JSON.parse(localStorage.getItem('games'));
+
+    var rootref = firebase.database().ref(); 
+    var editgame = rootref.child("gametoedit/");
 
     var savebutton = document.getElementById('exsave'); 
     var deletebutton = document.getElementById('delB'); 
@@ -69,82 +72,230 @@
     var t = document.getElementById('gametime');
     var l = document.getElementById('location');
 
+    var editgameid; 
+    var mfouls; 
+    var ofouls; 
+    var mredcards;
+    var oredcards;
+    var myellowcards;
+    var oyellowcards;
+    var mshotsongoal; 
+    var oshotsongoal;
+    var mgoals; 
+    var ogoals;
+    var mcornerkicks;
+    var ocornerkicks;
+    var mgoalkicks;
+    var ogoalkicks;
+
     window.addEventListener('DOMContentLoaded', function() {
 
-      var gtime; 
+      editgame.once("value", function(snapshot) {
+        var game = snapshot.val();
+        var gtime; 
 
-      if(game.tod == "day") {
-        gtime = game.time.replace(" am", ""); 
-        put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
-        + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
-      }
-      else if(game.tod == "night") {
-        gtime = game.time.replace(" pm", ""); 
-        put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
-        + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
-      }
-
-      if(game.status == "Home") {
-        out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>" 
-        + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>"; 
-      }
-      else if(game.status == "Away") {
-        out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>" 
-        + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>"; 
-      }
-
-      ot.value = game.opponentname; 
-      d.value = game.date; 
-      t.value = gtime;
-      l.value = game.location;
-    })
-
-    
-    savebutton.addEventListener('click', function() {
-      location.href='./gameschedule.html';
-    })
-
-    deletebutton.addEventListener('click', function(){ 
-      location.href='./gameschedule.html';
-    })
-
-
-    savebutton.addEventListener('click', function() {
-
-      var tod = document.querySelector('input[name=tofday]:checked').value; 
-      var gTime = t.value; 
-
-      if(tod == "day") {
-        gTime = gTime.concat(" am");
-      }
-      if(tod == "night") {
-        gTime = gTime.concat(" pm"); 
-      }
-
-      for(var g = 0; g < glist.length; g++) {
-        var gdate = new Date(glist[g].date); 
-        var gadate = new Date(game.date); 
-
-        if( (glist[g].opponentname == game.opponentname) 
-        && (gdate.setHours(0, 0, 0, 0) == gadate.setHours(0, 0, 0, 0))){
-
-          var cgame = glist[g];
-          cgame.opponentname = ot.value; 
-          cgame.date = d.value; 
-          cgame.time = gTime;
-          cgame.status = document.querySelector('input[name=status]:checked').value; 
-          cgame.tod = tod; 
-          cgame.location = l.value;
-
-          glist.sort(function(a, b) {
-		        return new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time);
-          });
-
-          localStorage.setItem('games', JSON.stringify(glist));
+        if(game.tod == "day") {
+          gtime = game.time.replace(" am", ""); 
+          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
+          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
         }
-      }
-    })
+        else if(game.tod == "night") {
+          gtime = game.time.replace(" pm", ""); 
+          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
+          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
+        }
 
+        if(game.status == "Home") {
+          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>" 
+          + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>"; 
+        }
+        else if(game.status == "Away") {
+          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>" 
+          + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>"; 
+        }
+
+        ot.value = game.opponentname; 
+        d.value = game.date; 
+        t.value = gtime;
+        l.value = game.location;
+
+        editgameid = game.timeid;
+        mfouls = game.myfouls; 
+        ofouls = game.opponentfouls; 
+        mredcards = game.myredcards;
+        oredcards = game.opponentredcards;
+        myellowcards = game.myyellowcards;
+        oyellowcards = game.opponentyellowcards;
+        mshotsongoal = game.myshotsongoal; 
+        oshotsongoal = game.opponentshotsongoal;
+        mgoals = game.mygoals; 
+        ogoals = game.opponentgoals; 
+        mcornerkicks = game.mycornerkicks;
+        ocornerkicks = game.opponentcornerkicks;
+        mgoalkicks = game.mygoalkicks;
+        ogoalkicks = game.opponentgoalkicks;
+
+      });
+    });
+
+
+    savebutton.addEventListener('click', function() {
+
+      var xdate = document.getElementById('gameDate').value; 
+      var xtime = document.getElementById('gametime').value; 
+      if(!xdate) {
+        alert('Please specify the date.'); 
+        return false; 
+      }
+
+      if(!xtime) {
+        alert('Please specify the time.');
+        return false; 
+      }
+ 
+      var timeChecker = xtime.indexOf(":"); 
+      var timeChecker2 = xtime.lastIndexOf(":");
+      if(!timeChecker || timeChecker != timeChecker2) {
+        alert('Invalid time format. Please make sure to put time in HH:MM format.');
+        return false; 
+      }
+
+      var tHour = xtime.slice(0, timeChecker); 
+      var tMinute = xtime.slice(timeChecker + 1, xtime.length);
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
+        alert('Invalid time format. Please make sure the hours and minutes have been input in HH:MM format.'); 
+        return false; 
+      }
+
+      if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
+        alert('Invalid time input. Please make sure hours and minutes are all appropriate values.'); 
+        return false;
+      } 
+
+      var dateChecker1 = xdate.indexOf("/"); 
+      var dateChecker2 = xdate.lastIndexOf("/");
+      if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
+        alert('Invalid date format. Please check and write date according to format specified above input field.');
+        return false; 
+      }
+
+      var dMonth = xdate.slice(0, dateChecker1); 
+      var dDate = xdate.slice(dateChecker1 + 1, dateChecker2); 
+      var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
+      if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 || 
+          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 || 
+          dMonth > 12 || dDate > 31 || dYear < 17) {
+        alert('Invalid date format. Please fix to continue'); 
+        return false; 
+      }
+
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
+        return false; 
+      }
+
+      if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.'); 
+        return false; 
+      }
+
+      var tofd = document.querySelector('input[name=tofday]:checked');
+      if(!tofd) {
+        alert('Please specify time of day.');
+        return false;
+      }
+
+      var stts = document.querySelector('input[name=status]:checked'); 
+      if(!stts) { 
+        alert('Please specify game status.'); 
+        return false;
+      }
+
+      var lctn = document.getElementById('location').value; 
+      if(!lctn) {
+        alert('Please specify location of game.'); 
+        return false;
+      }
+
+      var optm = document.getElementById('OppTeam').value; 
+      if(!optm) { 
+        alert('Please specify opponent team name.'); 
+        return false;
+      }  
+
+      var currus = rootref.child("currentuser/"); 
+      currus.once("value", function(snapshot){
+
+        var userNow = snapshot.val();
+        var not = userNow.team;
+        var str = "games/";
+        not = str.concat(not); 
+        not = not.concat("/");
+        var gameslist = rootref.child(not);
+
+        var tod = document.querySelector('input[name=tofday]:checked').value; 
+        gTime = document.getElementById('gametime').value;
+        var opponentname = document.getElementById('OppTeam').value; 
+        var date = document.getElementById('gameDate').value; 
+
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm"); 
+          tHour = Number(tHour) + 12; 
+        }
+
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate); 
+        timeid = timeid.concat(tHour); 
+        timeid = timeid.concat(tMinute);
+
+        var time = gTime;
+        var location = document.getElementById('location').value;
+        var status = document.querySelector('input[name=status]:checked').value; 
+        var gameid = opponentname.concat(timeid); 
+
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var currGame = snap.val();
+            var updateGame = snap.ref;
+            if(currGame.timeid == editgameid) {
+      
+              alert("Updating Game...");
+              updateGame.update({
+                gameid: gameid,
+                timeid: timeid,
+                opponentname: opponentname, 
+                date: date, 
+                time: time, 
+                tod: tod, 
+                location: location, 
+                status: status, 
+                myfouls: mfouls, 
+                opponentfouls: ofouls, 
+                myredcards: mredcards, 
+                opponentredcards: oredcards, 
+                myyellowcards: myellowcards, 
+                opponentyellowcards: oyellowcards, 
+                myshotsongoal: mshotsongoal, 
+                opponentshotsongoal: oshotsongoal, 
+                mygoals: mgoals, 
+                opponentgoals: ogoals, 
+                mycornerkicks: mcornerkicks, 
+                opponentcornerkicks: ocornerkicks, 
+                mygoalkicks: mgoalkicks, 
+                opponentgoalkicks: ogoalkicks
+              });
+              alert("Game Updated!"); 
+              window.location.href="./gameschedule.html";
+            }
+          });
+        }); 
+      });    
+    });
+
+/*
     deletebutton.addEventListener('click', function(){ 
       for(var g = 0; g < glist.length; g++) {
         var gdate = new Date(glist[g].date); 
@@ -157,6 +308,7 @@
         }
       }
     })
+*/
 
     function logoutClean() {
 			var rrf = firebase.database().ref();

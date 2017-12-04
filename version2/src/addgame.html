@@ -93,7 +93,7 @@
 
       var tHour = xtime.slice(0, timeChecker); 
       var tMinute = xtime.slice(timeChecker + 1, xtime.length);
-      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 1 || tMinute.length > 2 || tMinute.length < 1) {
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
         alert('Invalid time format. Please make sure the hours and minutes have been input correctly.'); 
         return false; 
       }
