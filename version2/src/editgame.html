@@ -89,7 +89,6 @@
     var ogoalkicks;
 
     window.addEventListener('DOMContentLoaded', function() {
-
       editgame.once("value", function(snapshot) {
         var game = snapshot.val();
         var gtime; 
@@ -118,8 +117,7 @@
         d.value = game.date; 
         t.value = gtime;
         l.value = game.location;
-
-        editgameid = game.timeid;
+        editgameid = game.gameid;
         mfouls = game.myfouls; 
         ofouls = game.opponentfouls; 
         mredcards = game.myredcards;
@@ -134,13 +132,10 @@
         ocornerkicks = game.opponentcornerkicks;
         mgoalkicks = game.mygoalkicks;
         ogoalkicks = game.opponentgoalkicks;
-
       });
     });
 
-
     savebutton.addEventListener('click', function() {
-
       var xdate = document.getElementById('gameDate').value; 
       var xtime = document.getElementById('gametime').value; 
       if(!xdate) {
@@ -260,7 +255,7 @@
           snapshot.forEach(function(snap){
             var currGame = snap.val();
             var updateGame = snap.ref;
-            if(currGame.timeid == editgameid) {
+            if(currGame.gameid == editgameid) {
       
               alert("Updating Game...");
               updateGame.update({
@@ -295,20 +290,29 @@
       });    
     });
 
-/*
     deletebutton.addEventListener('click', function(){ 
-      for(var g = 0; g < glist.length; g++) {
-        var gdate = new Date(glist[g].date); 
-        var gadate = new Date(game.date); 
+      currus = rootref.child("currentuser/"); 
+      currus.once("value", function(snapshot){
+        var uNow = snapshot.val();
+        var noot = uNow.team;
+        var strin = "games/";
+        noot = strin.concat(noot); 
+        noot = noot.concat("/");
+        var gameslist = rootref.child(noot);
 
-        if( (glist[g].opponentname == game.opponentname) 
-        && (gdate.setHours(0, 0, 0, 0) == gadate.setHours(0, 0, 0, 0))){
-          glist.splice(g, 1); 
-          localStorage.setItem('games', JSON.stringify(glist));
-        }
-      }
-    })
-*/
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var nowGame = snap.val();
+            var deleteGame = snap.ref;
+            if(nowGame.gameid == editgameid) {
+              deleteGame.remove();
+              alert("Game Deleted."); 
+              window.location.href="./gameschedule.html";
+            }
+          });
+        });
+      });
+    });
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
