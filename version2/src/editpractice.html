@@ -20,7 +20,7 @@
     firebase.initializeApp(config);
     var database = firebase.database();
   </script>
-  <title>Add Practice</title>
+  <title>Edit Practice</title>
 </head>
 
 <body>
@@ -31,8 +31,9 @@
     <a href="./players.html">Roster</a>
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
+
   <div class="box">
-    <h2 id="testid">Add Practice</h2>
+    <h2 id="testid">Edit Practice</h2>
     <form id="addpracform">
       <p><label for="gameDate">Date:</label></p>
       <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
@@ -45,43 +46,65 @@
       <input type="text" id="gametime" name="time" maxlength="5">
       <br>
       <p><label>Time of Day:</label></p>
-      <input type="radio" name="tofday" value="day" id="timeofdayradio">A.M.<br>
-      <input type="radio" name="tofday" value="night" id="timeofdayradio">P.M.<br>
+      <input type="radio" name="tofday" value="day" id="amradio">A.M.<br>
+      <input type="radio" name="tofday" value="night" id="pmradio">P.M.<br>
       <br>
       <p><label for="location">Location:</label></p>
       <input type="text" id="gamelocation" name="location" placeholder="Enter Location">
       <hr>
-      <input type="button" value="Add Practice" id="egssaveBtn">
+      <input type="button" value="Save Practice" id="exsave">
+      <input type="button" value="Delete Practice" id="delB">
     </form>
   </div>
-  <script>
 
-    var saveBtn = document.getElementById('egssaveBtn');
+  <script>
+    var practiceEdit = firebase.database().ref().child("practedit");
+
+    var saveBtn = document.getElementById('exsave');
+    var delBtn = document.getElementById('delB');
+    var oldTimeid;
+
+    //TODO: Load content after setup in gameschedule
+    window.addEventListener('DOMContentLoaded', function() {
+      practiceEdit.once("value", function(snap) {
+        var pract = snap.val();
+
+        // Fill out Input
+        document.getElementById("gamedate").value = pract.date;
+        document.getElementById("gametime").value = pract.time;
+        if(pract.tod == 'night') {
+          document.getElementById('pmradio').checked = true;
+        }
+        else {
+          document.getElementById('amradio').checked = true;
+        }
+        document.getElementById("gamelocation").value = pract.location;
+
+        oldTimeid = pract.timeid;
+      });
+    });
+
 
     saveBtn.addEventListener('click', function() {
-      var dateInput = document.getElementById('gamedate').value;
-      var timeInput = document.getElementById('gametime').value;
-      var locationInput = document.getElementById('gamelocation').value;
+      var dateInput = document.getElementById("gamedate").value;
+      var timeInput = document.getElementById("gametime").value;
+      var locationInput = document.getElementById("gamelocation").value;
 
-      //Check for empty input
       if(!dateInput) {
-        alert('Please enter the practice date.');
+        alert('Please specify date');
         return false;
       }
       if(!timeInput) {
-        alert('Please enter the practice time.');
+        alert('Please specify time');
         return false;
       }
-
       if(!locationInput) {
-        alert('Please specify location of game.');
+        alert('Please specify location');
         return false;
       }
 
-      // Get Hour and minutes
       var timeChecker = timeInput.indexOf(":");
       var timeChecker2 = timeInput.lastIndexOf(":");
-
       if(!timeChecker || timeChecker != timeChecker2) {
         alert('Invalid time format. Please make sure to put time in HH:MM format.');
         return false;
@@ -90,7 +113,7 @@
       var tHour = timeInput.slice(0, timeChecker);
       var tMinute = timeInput.slice(timeChecker + 1, timeInput.length);
       if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
-        alert('Invalid time format. Please make sure the hours and minutes have been input correctly.');
+        alert('Invalid time format. Please make sure the hours and minutes have been input in HH:MM format.');
         return false;
       }
 
@@ -132,21 +155,18 @@
         return false;
       }
 
-      //Database Stuff
-      var dbref = firebase.database().ref().child("currentuser/");
-
-      dbref.once("value", function(snap) {
-        var sshot = snap.val();
-        var myteamname = sshot.team;
-        var obj = "practice/";
-        myteamname = obj.concat(myteamname);
-        myteamname = myteamname.concat("/");
-        var practList = firebase.database().ref().child(myteamname);
+      //TODO Update Practice
+      var currus = firebase.database().ref().child("currentuser/");
+      currus.once("value", function(snap) {
+        var snapshot = snap.val();
+        var team = snapshot.team;
+        var str = "practice/";
+        team = str.concat(team);
+        team = team.concat("/");
 
         var tod = document.querySelector('input[name=tofday]:checked').value;
         var gTime = document.getElementById('gametime').value;
         var date = document.getElementById('gamedate').value;
-        var location = document.getElementById('gamelocation').value;
 
         if(tod == "day") {
           gTime = gTime.concat(" am");
@@ -161,30 +181,50 @@
         timeid = timeid.concat(tHour);
         timeid = timeid.concat(tMinute);
 
-        var time = gTime;
+        var practList = firebase.database().ref().child(team);
 
-        practList.orderByChild("timeid").equalTo(timeid).once('value', snap => {
-          const timeidobj = snap.val();
-          if(timeidobj) {
-            alert('Practice already exists at that specified time and date. Enter a different time and/or date.');
-            return;
-          }
-          else {
-            var newPract = practList.push();
-            newPract.set({
-              timeid: timeid,
-              date: date,
-              time: timeInput,
-              tod: tod,
-              location: location
-            })
-            alert('Practice Created!');
-            window.location.href = './gameschedule.html';
-          }
+        practList.orderByChild("timeid").once("value", function(snapshot1){
+          snapshot1.forEach(function(snap1){
+            var currPrac = snap1.val();
+            if(currPrac.timeid == oldTimeid){
+              snap1.ref.update({
+                date: dateInput,
+                location: locationInput,
+                time: timeInput,
+                timeid: timeid,
+                tod: tod
+              });
+            }
+            alert('Practice Updated!');
+            window.location.href = "./gameschedule.html";
+          });
         });
       });
     });
 
+    //TODO Delete Practice from gameschedule
+    delBtn.addEventListener('click', function() {
+      var userRef = firebase.database().ref().child("currentuser/");
+      userRef.once("value", function(snap) {
+        var obj = snap.val();
+        var team = obj.team;
+        var str = "practice/";
+        team = str.concat(team);
+        team = team.concat("/");
+
+        var pracList = firebase.database().ref().child(team);
+        pracList.orderByChild("timeid").once("value", function(snap1) {
+          snap1.forEach(function(snap2){
+            var currPrac = snap2.val();
+            if(currPrac.timeid == oldTimeid){
+              snap2.ref.remove();
+              alert('Practice Removed');
+              window.location.href = "./gameschedule.html";
+            }
+          });
+        });
+      });
+    });
 
     function logoutClean() {
       var rrf = firebase.database().ref();
@@ -197,4 +237,3 @@
     }
   </script>
 </body>
-</html>
