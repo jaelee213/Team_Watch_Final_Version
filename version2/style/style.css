@@ -1067,7 +1067,9 @@ body {
 
 #loadtext { 
   top: 60%;
-  left: 42%; 
+  left: 50%; 
   position: absolute;
   text-align: center;
+  margin: 1rem 0 0 -7rem;
+  color: #3d3d3d;
 }
