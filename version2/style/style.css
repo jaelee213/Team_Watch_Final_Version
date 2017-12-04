@@ -1064,3 +1064,10 @@ body {
   display: none;
   text-align: center;
 }
+
+#loadtext { 
+  top: 60%;
+  left: 42%; 
+  position: absolute;
+  text-align: center;
+}
