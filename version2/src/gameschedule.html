@@ -46,19 +46,18 @@
 
   <script type="text/javascript">
 
-    document.getElementById('addPracBtn').style.display = 'none';
 
     window.addEventListener('DOMContentLoaded', function(){
 
       var rootref = firebase.database().ref();
-      var currus = rootref.child("currentuser/"); 
+      var currus = rootref.child("currentuser/");
       var disGam = document.getElementById('outputgames');
 
       currus.once("value", function(snapshot){
         var snpsht = snapshot.val();
-        var myteamname = snpsht.team; 
-        var str = "games/"; 
-        myteamname = str.concat(myteamname); 
+        var myteamname = snpsht.team;
+        var str = "games/";
+        myteamname = str.concat(myteamname);
         myteamname = myteamname.concat("/");
         var gameslist = rootref.child(myteamname);
         var usertype = snpsht.type;
@@ -69,7 +68,7 @@
         else {
           styleStr = "";
         }
-        
+
         gameslist.orderByChild("timeid").on("value", function(snapshot){
           disGam.innerHTML = "";
           snapshot.forEach(function(snap){
@@ -77,16 +76,16 @@
             var cg = snap.val();
 
             var today = new Date();
-            var curMonth = today.getMonth() + 1; 
-            curMonth = curMonth.toString(); 
-            var curDay = today.getDate().toString(); 
+            var curMonth = today.getMonth() + 1;
+            curMonth = curMonth.toString();
+            var curDay = today.getDate().toString();
             if( curDay.length == 1) {
               curDay = "0" + curDay;
             }
             var curYear = today.getFullYear().toString().substr(2,2);
-            var curHour = today.getHours().toString(); 
+            var curHour = today.getHours().toString();
             var curMinute = today.getMinutes().toString();
-            var todayDate = curYear + curMonth + curDay + curHour + curMinute; 
+            var todayDate = curYear + curMonth + curDay + curHour + curMinute;
             var compareDate = cg.timeid;
 
             if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
@@ -133,8 +132,8 @@
             (function(index) {
               viewButton[index].addEventListener('click', function(){
 
-                var gtview = rootref.child("gametoview"); 
-                var cntr = 0; 
+                var gtview = rootref.child("gametoview");
+                var cntr = 0;
                 gameslist.orderByChild("timeid").once("value", function(snapshot){
                   snapshot.forEach(function(snap){
                     var cval = snap.val();
@@ -142,29 +141,29 @@
                       gtview.set({
                         gameid: cval.gameid,
                         timeid: cval.timeid,
-                        opponentname: cval.opponentname, 
-                        date: cval.date, 
-                        time: cval.time, 
-                        tod: cval.tod, 
-                        location: cval.location, 
-                        status: cval.status, 
-                        myfouls: cval.myfouls, 
-                        opponentfouls: cval.opponentfouls, 
-                        myredcards: cval.myredcards, 
-                        opponentredcards: cval.opponentredcards, 
-                        myyellowcards: cval.myyellowcards, 
-                        opponentyellowcards: cval.opponentyellowcards, 
-                        myshotsongoal: cval.myshotsongoal, 
-                        opponentshotsongoal: cval.opponentshotsongoal, 
-                        mygoals: cval.mygoals, 
-                        opponentgoals: cval.opponentgoals, 
-                        mycornerkicks: cval.mycornerkicks, 
-                        opponentcornerkicks: cval.opponentcornerkicks, 
-                        mygoalkicks: cval.mygoalkicks, 
+                        opponentname: cval.opponentname,
+                        date: cval.date,
+                        time: cval.time,
+                        tod: cval.tod,
+                        location: cval.location,
+                        status: cval.status,
+                        myfouls: cval.myfouls,
+                        opponentfouls: cval.opponentfouls,
+                        myredcards: cval.myredcards,
+                        opponentredcards: cval.opponentredcards,
+                        myyellowcards: cval.myyellowcards,
+                        opponentyellowcards: cval.opponentyellowcards,
+                        myshotsongoal: cval.myshotsongoal,
+                        opponentshotsongoal: cval.opponentshotsongoal,
+                        mygoals: cval.mygoals,
+                        opponentgoals: cval.opponentgoals,
+                        mycornerkicks: cval.mycornerkicks,
+                        opponentcornerkicks: cval.opponentcornerkicks,
+                        mygoalkicks: cval.mygoalkicks,
                         opponentgoalkicks: cval.opponentgoalkicks
                       });
                     }
-                    cntr = cntr + 1; 
+                    cntr = cntr + 1;
                   });
                 });
               });
@@ -179,11 +178,11 @@
               editButton[index].addEventListener('click', function(){
 
                 var gtedit = rootref.child("gametoedit");
-                var ctr = 0; 
-                var size = 0; 
+                var ctr = 0;
+                var size = 0;
 
                 gameslist.orderByChild("timeid").once("value", function(snapshot){
-                  snapshot.forEach(function(snap){ 
+                  snapshot.forEach(function(snap){
                     size = size + 1;
                   })
                 });
@@ -195,25 +194,25 @@
                       gtedit.set({
                         gameid: cuval.gameid,
                         timeid: cuval.timeid,
-                        opponentname: cuval.opponentname, 
-                        date: cuval.date, 
-                        time: cuval.time, 
-                        tod: cuval.tod, 
-                        location: cuval.location, 
-                        status: cuval.status, 
-                        myfouls: cuval.myfouls, 
-                        opponentfouls: cuval.opponentfouls, 
-                        myredcards: cuval.myredcards, 
-                        opponentredcards: cuval.opponentredcards, 
-                        myyellowcards: cuval.myyellowcards, 
-                        opponentyellowcards: cuval.opponentyellowcards, 
-                        myshotsongoal: cuval.myshotsongoal, 
-                        opponentshotsongoal: cuval.opponentshotsongoal, 
-                        mygoals: cuval.mygoals, 
-                        opponentgoals: cuval.opponentgoals, 
-                        mycornerkicks: cuval.mycornerkicks, 
-                        opponentcornerkicks: cuval.opponentcornerkicks, 
-                        mygoalkicks: cuval.mygoalkicks, 
+                        opponentname: cuval.opponentname,
+                        date: cuval.date,
+                        time: cuval.time,
+                        tod: cuval.tod,
+                        location: cuval.location,
+                        status: cuval.status,
+                        myfouls: cuval.myfouls,
+                        opponentfouls: cuval.opponentfouls,
+                        myredcards: cuval.myredcards,
+                        opponentredcards: cuval.opponentredcards,
+                        myyellowcards: cuval.myyellowcards,
+                        opponentyellowcards: cuval.opponentyellowcards,
+                        myshotsongoal: cuval.myshotsongoal,
+                        opponentshotsongoal: cuval.opponentshotsongoal,
+                        mygoals: cuval.mygoals,
+                        opponentgoals: cuval.opponentgoals,
+                        mycornerkicks: cuval.mycornerkicks,
+                        opponentcornerkicks: cuval.opponentcornerkicks,
+                        mygoalkicks: cuval.mygoalkicks,
                         opponentgoalkicks: cuval.opponentgoalkicks
                       });
                     }
@@ -236,8 +235,8 @@
               document.getElementById('addPracBtn').style.display = 'none';
             }
           });
-        }); 
-      }); 
+        });
+      });
     });
 
     var load; 
@@ -250,10 +249,10 @@
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
-			var cu = rrf.child("currentuser/"); 
+			var cu = rrf.child("currentuser/");
 			cu.set({
-				username: "", 
-				team: "", 
+				username: "",
+				team: "",
 				type: ""
 			});
     }
