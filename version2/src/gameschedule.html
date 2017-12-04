@@ -25,7 +25,8 @@
   <title>Game Schedule</title>
 </head>
 
-<body>
+<body onload="loading()">
+  <div id="loader"></div>
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -34,13 +35,14 @@
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
 
-  <input type="button" onclick="location.href='./addgame.html';" value="Add Game" id="addGameBtn">
-  <input type="button" onclick="location.href='./addpractice.html';" value="Add Practice" id="addPracBtn">
+  <div style="display:none;" id="main">
+    <input type="button" onclick="location.href='./addgame.html';" value="Add Game" id="addGameBtn">
+    <input type="button" onclick="location.href='./addpractice.html';" value="Add Practice" id="addPracBtn">
 
 
-  <output id="outputgames">
-  </output>
-
+    <output id="outputgames">
+    </output>
+  </div>
 
   <script type="text/javascript">
 
@@ -237,6 +239,14 @@
         }); 
       }); 
     });
+
+    var load; 
+    function loading(){
+      load = setTimeout(() => {
+        document.getElementById('loader').style.display = "none";
+        document.getElementById('main').style.display = "block";
+      }, 3000);
+    }
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
