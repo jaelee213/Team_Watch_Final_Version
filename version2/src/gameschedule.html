@@ -26,7 +26,6 @@
 </head>
 
 <body onload="loading()">
-  <div id="loader"></div>
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -34,7 +33,7 @@
     <a href="./players.html">Roster</a>
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
-  
+  <div id="loader"></div>  
   <h3 id="loadtext">Loading... Please Wait...</h3>
 
   <div style="display:none;" id="main">
@@ -65,14 +64,17 @@
         var gameslist = rootref.child(myteamname);
         var usertype = snpsht.type;
         var styleStr;
+
         if(usertype != 'coach') {
           styleStr = "style='display:none'";
+          document.getElementById('addGameBtn').style.display = 'none';
+          document.getElementById('addPracBtn').style.display = 'none';
         }
         else {
           styleStr = "";
         }
         
-        gameslist.orderByChild("timeid").on("value", function(snapshot){
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
           disGam.innerHTML = "";
           snapshot.forEach(function(snap){
 
@@ -98,9 +100,9 @@
               + "<p>" + cg.date + " " + cg.time
               + "</p><p>" + cg.location
               + "</p><p>" + cg.status
-              + "</p><input type='button' value='View Stats' class='viewStatsBtn'>"
-              + "<input type='button' value='Edit Game' class='editGameBtn'"
-              + styleStr + "></div>";
+              + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + cg.gameid + "'onclick='clicked(this.id)'>"
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
             }
 
             else if(todayDate > compareDate) {
@@ -110,7 +112,7 @@
               + "<p>" + cg.date + " " + cg.time
               + "</p><p>" + cg.location
               + "</p><p>" + cg.status
-              + "</p><input type='button' value='View Stats' class='viewStatsBtn'></div>";
+              + "</p><input type='button' value='View Stats' id='view" + cg.gameid + "' class='viewStatsBtn' onclick='clicked(this.id)'></div>";
             }
 
             else if(todayDate < compareDate) {
@@ -119,128 +121,36 @@
               + "</h3><p>" + cg.date + " " + cg.time
               + "</p><p>" + cg.location
               + "</p><p>" + cg.status
-              + "<input type='button' value='Edit Game' class='editGameBtn'"
-              + styleStr + "></div>";
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
             }
 
           });
           if (disGam.value == "") {
             disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
           }
-
-          var editButton = document.querySelectorAll("input.editGameBtn");
-          var viewButton = document.querySelectorAll("input.viewStatsBtn");
-
-          for(var x = 0; x < viewButton.length; x++) {
-            (function(index) {
-              viewButton[index].addEventListener('click', function(){
-
-                var gtview = rootref.child("gametoview"); 
-                var cntr = 0; 
-                gameslist.orderByChild("timeid").once("value", function(snapshot){
-                  snapshot.forEach(function(snap){
-                    var cval = snap.val();
-                    if(cntr == index) {
-                      gtview.set({
-                        gameid: cval.gameid,
-                        timeid: cval.timeid,
-                        opponentname: cval.opponentname, 
-                        date: cval.date, 
-                        time: cval.time, 
-                        tod: cval.tod, 
-                        location: cval.location, 
-                        status: cval.status, 
-                        myfouls: cval.myfouls, 
-                        opponentfouls: cval.opponentfouls, 
-                        myredcards: cval.myredcards, 
-                        opponentredcards: cval.opponentredcards, 
-                        myyellowcards: cval.myyellowcards, 
-                        opponentyellowcards: cval.opponentyellowcards, 
-                        myshotsongoal: cval.myshotsongoal, 
-                        opponentshotsongoal: cval.opponentshotsongoal, 
-                        mygoals: cval.mygoals, 
-                        opponentgoals: cval.opponentgoals, 
-                        mycornerkicks: cval.mycornerkicks, 
-                        opponentcornerkicks: cval.opponentcornerkicks, 
-                        mygoalkicks: cval.mygoalkicks, 
-                        opponentgoalkicks: cval.opponentgoalkicks
-                      });
-                    }
-                    cntr = cntr + 1; 
-                  });
-                });
-              });
-            })(x);
-            viewButton[x].addEventListener('click', function(){
-              window.location.href='./viewgamestats.html';
-            })
-          }
-
-          for(var y = 0; y < editButton.length; y++) {
-            (function(index) {
-              editButton[index].addEventListener('click', function(){
-
-                var gtedit = rootref.child("gametoedit");
-                var ctr = 0; 
-                var size = 0; 
-
-                gameslist.orderByChild("timeid").once("value", function(snapshot){
-                  snapshot.forEach(function(snap){ 
-                    size = size + 1;
-                  })
-                });
-
-                gameslist.orderByChild("timeid").once("value", function(snapshot){
-                  snapshot.forEach(function(snap){
-                    var cuval = snap.val();
-                    if(ctr == (size - (editButton.length - index))) {
-                      gtedit.set({
-                        gameid: cuval.gameid,
-                        timeid: cuval.timeid,
-                        opponentname: cuval.opponentname, 
-                        date: cuval.date, 
-                        time: cuval.time, 
-                        tod: cuval.tod, 
-                        location: cuval.location, 
-                        status: cuval.status, 
-                        myfouls: cuval.myfouls, 
-                        opponentfouls: cuval.opponentfouls, 
-                        myredcards: cuval.myredcards, 
-                        opponentredcards: cuval.opponentredcards, 
-                        myyellowcards: cuval.myyellowcards, 
-                        opponentyellowcards: cuval.opponentyellowcards, 
-                        myshotsongoal: cuval.myshotsongoal, 
-                        opponentshotsongoal: cuval.opponentshotsongoal, 
-                        mygoals: cuval.mygoals, 
-                        opponentgoals: cuval.opponentgoals, 
-                        mycornerkicks: cuval.mycornerkicks, 
-                        opponentcornerkicks: cuval.opponentcornerkicks, 
-                        mygoalkicks: cuval.mygoalkicks, 
-                        opponentgoalkicks: cuval.opponentgoalkicks
-                      });
-                    }
-                    ctr = ctr + 1;
-                  });
-                });
-              });
-            })(y);
-            editButton[y].addEventListener('click', function(){
-              window.location.href='./editgame.html';
-            })
-          }
-
-          var cuus = firebase.database().ref().child("currentuser/");
-          cuus.once("value", function(snapshot){
-            var username = snapshot.val().type;
-
-            if(username != "coach") {
-              document.getElementById('addGameBtn').style.display = 'none';
-              document.getElementById('addPracBtn').style.display = 'none';
-            }
-          });
         }); 
       }); 
     });
+
+    function clicked(id) {
+
+      var rootref = firebase.database().ref();
+      var gameid = id.substr(4, id.length); 
+      alert('gameid: ' + gameid)
+      var movegame = rootref.child("inspectgame/");
+      movegame.set({
+        gameid: gameid
+      })
+
+      var stri = id.substr(0, 4); 
+      if(stri == "edit") {
+        window.location.href="./editgame.html";
+      }
+      if(stri == "view") {
+        window.location.href="./viewgamestats.html";
+      }
+    }
 
     var load; 
     function loading(){

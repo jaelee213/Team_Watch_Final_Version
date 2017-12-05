@@ -113,11 +113,24 @@
       var dMonth = xdate.slice(0, dateChecker1); 
       var dDate = xdate.slice(dateChecker1 + 1, dateChecker2); 
       var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
-      if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 || 
-          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 || 
-          dMonth > 12 || dDate > 31 || dYear < 17) {
-        alert('Invalid date format. Please fix to continue'); 
+      var today = new Date();
+      var curMonth = today.getMonth() + 1; 
+      curMonth = curMonth.toString(); 
+      var curDay = today.getDate().toString(); 
+      if( curDay.length == 1) {
+        curDay = "0" + curDay;
+      }
+      var curYear = today.getFullYear().toString().substr(2,2);
+      if(!dMonth || !dDate || !dYear || dYear.length != 2 || 
+          dMonth.length != 2 || dDate.length != 2 || 
+          dMonth > 12 || dDate > 31) {
+        alert('Invalid date format or not valid date. Please fix to continue'); 
         return false; 
+      }
+
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.'); 
+        return false;
       }
 
       if(isNaN(tHour) || isNaN(tMinute)) {
@@ -206,6 +219,7 @@
               else {
                 var newgame = gameslist.push();
                 newgame.set({
+                  myteamname: snpsht.team,
                   gameid: gameid,
                   timeid: timeid,
                   opponentname: opponentname, 

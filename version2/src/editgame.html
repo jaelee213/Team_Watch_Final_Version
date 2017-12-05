@@ -193,6 +193,18 @@
         alert('Date has to be in numerical format. Please refer to specified format above input field.');
         return false;
       }
+      var today = new Date();
+      var curMonth = today.getMonth() + 1; 
+      curMonth = curMonth.toString(); 
+      var curDay = today.getDate().toString(); 
+      if( curDay.length == 1) {
+        curDay = "0" + curDay;
+      }
+      var curYear = today.getFullYear().toString().substr(2,2);
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.'); 
+        return false;
+      }
 
       var tofd = document.querySelector('input[name=tofday]:checked');
       if(!tofd) {

@@ -109,6 +109,11 @@
         return false; 
       }
 
+      else if(userid.value.indexOf("@") == 0 || userid.value.indexOf("@") + 1 == userid.value.lastIndexOf(".")) {
+        alert('Invalid email. Please use a valid email.'); 
+        return false;
+      }
+
       else if(userid.value.lastIndexOf(".") == (-1) || userid.value.indexOf("@") == (-1)) {
         alert('Invalid email form. Please put valid email address.'); 
         return false; 

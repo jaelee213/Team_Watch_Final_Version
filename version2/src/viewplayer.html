@@ -55,6 +55,10 @@
           <td id="dln"></td>
         </tr>
         <tr>
+          <td>Email:</td>
+          <td id="dem"></td>
+        </tr>
+        <tr>
           <td>Position:</td>
           <td id="dp"></td>
         </tr>
@@ -98,11 +102,11 @@
   </div>
 
   <script>
-    var pla = JSON.parse(localStorage.getItem('playertoedit'));
     var bBtn = document.getElementById('backBtn');
 
     var fnm = document.getElementById('dfn');
     var lnm = document.getElementById('dln');
+    var email = document.getElementById('dem');
     var nme = document.getElementById('dpn');
     var pos = document.getElementById('dp');
     var jer = document.getElementById('dj');
@@ -115,22 +119,31 @@
     var ycd = document.getElementById('dy');
 
     window.addEventListener('DOMContentLoaded', function () {
-      fnm.innerHTML = pla.firstname;
-      lnm.innerHTML = pla.lastname;
-      nme.innerHTML = pla.name;
-      pos.innerHTML = pla.position;
-      jer.innerHTML = pla.jerseynumber;
-      dob.innerHTML = pla.birthdate;
-      goa.innerHTML = pla.goals;
-      ast.innerHTML = pla.assists;
-      gpd.innerHTML = pla.gamesplayed;
-      fl.innerHTML = pla.fouls;
-      rcd.innerHTML = pla.redcards;
-      ycd.innerHTML = pla.yellowcards;
+
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/")
+      var viewplayer = rootref.child("playertoview/"); 
+
+      viewplayer.once("value", function(snapshot){
+        var pla = snapshot.val();
+        fnm.innerHTML = pla.firstname;
+        lnm.innerHTML = pla.lastname;
+        email.innerHTML = pla.email;
+        nme.innerHTML = pla.name;
+        pos.innerHTML = pla.position;
+        jer.innerHTML = pla.jerseynumber;
+        dob.innerHTML = pla.birthdate;
+        goa.innerHTML = pla.goals;
+        ast.innerHTML = pla.assists;
+        gpd.innerHTML = pla.gamesplayed;
+        fl.innerHTML = pla.fouls;
+        rcd.innerHTML = pla.redcards;
+        ycd.innerHTML = pla.yellowcards;
+      });
     })
 
     bBtn.addEventListener('click', function() {
-      location.href='./editplayerslist.html';
+      window.location.href='./editplayerslist.html';
     })
 
     function logoutClean() {
@@ -142,6 +155,7 @@
 				type: ""
 			});
     }
+
   </script>
 </body>
 </html>
