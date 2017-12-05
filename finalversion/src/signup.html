@@ -32,7 +32,7 @@
   <div class="signupcontainer">
     <h1 class="signupheader">Sign Up</h1>
     <p class="signupsmallertxt"><i>Please fill out the following to create your account:</i></p>
-    <p class="signupsmallertxt" id="signupnote">(Note: To go back, press the "Go Back" button at the bottom.)</p>
+    <p class="signupsmallertxt" id="signupnote">(Note: To go back, press the "TeamWatch" logo at the top.)</p>
     <hr class="signupsmallhr">
     <form class="signupform">
       <input type="text" name="suemail" placeholder="Username (Email)" id="signupemail">
@@ -60,24 +60,21 @@
 
 
     <div id="playeroptions">
-      <hr class="signupsmallhr">
+      <hr>
+      <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
+      <p class="noticenote">If for any reason, sign up does not work, please make sure with coach that the correct birthdate was input under your name in the team roster.</p>
+      <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield">
+      <hr>
       <p class="noticenote">Make sure that the coach of your selected team has you as a player on their roster.</p>
       <p class="noticenote">Otherwise, you cannot sign up as a player of the team you specified.</p>
+      <br>
       <p>Select Your Team:</p>
       <select id="playerfield">
       </select>
-      <hr class="signupsmallhr">
-      <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
-      <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield" maxlength="8">
-      <hr class="signupsmallhr">
-      <p class="noticenote">Please specify your jersey number UNIQUE to ONLY you on your selected team.</p>      
-      <input type="text" name="jerseynumber" placeholder="Your Jersey Number" id="sujerseynumber" maxlength="2">
-      <hr class="signupsmallhr">
-      <p class="noticenote">* IMPORTANT: If for any reason sign up does not work, please make sure with your coach that the correct birthdate and/or jersey number was input under your name in the team roster.*</p>      
     </div>
 
     <div id="fanoptions">
-      <hr class="signupsmallhr">
+      <hr>
       <p>Select Your Team to Follow:</p>
       <select id="fanfield">
       </select>
@@ -86,8 +83,6 @@
 
     <hr class="signupsmallhr">
     <input type="button" value="Sign Up" id="signupBtn">
-    <br>
-    <input type="button" value="Go Back" id="signupBackBtn">    
   </div>
 
   <script>
@@ -101,11 +96,7 @@
     var playerfield = document.getElementById('playerfield');
     var fanfield = document.getElementById('fanfield');
     var bdayfield = document.getElementById('bdayfield');
-    var jerseynumber = document.getElementById('sujerseynumber');
 
-    document.getElementById('signupBackBtn').addEventListener('click', function(){
-      window.location.href="./login.html";
-    });
 
     document.getElementById('signupBtn').addEventListener("click", function() {
 
@@ -113,13 +104,8 @@
       var selectedteam;
 
       if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0
-            || pw.value.length == 0 || cpw.value.length == 0 || jerseynumber.value.length == 0) {
+            || pw.value.length == 0 || cpw.value.length == 0) {
         alert('Sign Up form is not complete. Please fill everything out to proceed.');
-        return false;
-      }
-
-      else if(isNaN(jerseynumber.value)) {
-        alert('Jersey number must be a NUMBER.');
         return false;
       }
 
@@ -177,9 +163,9 @@
       (isNaN(bdayfield.value.slice(0, bdayfield.value.indexOf("/")))
       || isNaN(bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/")))
       || isNaN(bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length)) ||
-      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length != 2)
-      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length != 2)
-      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length != 2))))){
+      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length < 2)
+      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length < 2)
+      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length < 2))))){
         alert('Incorrect birthdate format. Values must be numbers and/or must be in the format mm/dd/yy!');
         return false;
       }
@@ -222,42 +208,28 @@
             }
 
             else if(usertype.value == "player") {
-              var findroster = playerfield.options[playerfield.selectedIndex].value;
-              var samStr = "players/";
-              samStr = samStr.concat(findroster);
-              samStr = samStr.concat("/");
-              var rosterlist = rootref.child(samStr);
-
-              var birthdate = bdayfield.value;
-              var firstdash = birthdate.indexOf("/");
-              var seconddash = birthdate.lastIndexOf("/");
-              var bMonth = birthdate.slice(0, firstdash); 
-              var bDay = birthdate.slice(firstdash + 1, seconddash); 
-              var bYear = birthdate.slice(seconddash + 1, birthdate.length);
-              var rawBirthdate = bMonth + bDay + bYear;
-              var firstname = fn.value;
-              var lastname = ln.value;
-              var jsn = Number(jerseynumber.value).toString();
-
-              var playerid = firstname.concat(lastname); 
-              playerid = playerid.concat(rawBirthdate); 
-              playerid = playerid.concat(jsn);
-
-              rosterlist.orderByChild("playerid").equalTo(playerid).once("value", snapshot => {
+              var findroster = playerfield.options[playerfield.selectedIndex].value.concat("roster");
+              var rosterlist = rootref.child(findroster + "/");
+              var namestr = fn.value.concat(" ");
+              namestr = namestr.concat(ln.value);
+              rosterlist.orderByChild("name").equalTo(namestr).once("value", snapshot => {
                 const plnm = snapshot.val();
-                if(plnm){
+
+                //idea: maybe compare birthdates too.
+
+                if(plnm && plnm.birthdate == bdayfield.value){
                   var newuser = userslist.push();
                   newuser.set({
                     username: userid.value,
                     password: pw.value,
-                    team: findroster,
+                    team: coachfield.value,
                     type: usertype.value
                   });
                   alert('Created account. Please proceed to login.');
                   window.location.href="./login.html";
                 }
                 else{
-                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate, your jersey number on the roster, and overall inclusion in team roster.');
+                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate and inclusion in team roster.');
                   return;
                 }
               });

@@ -307,8 +307,7 @@
     });
 
     deletebutton.addEventListener('click', function(){
-      var rootref = firebase.database().ref();
-      var currus = rootref.child("inspectgame/");
+      currus = rootref.child("currentuser/");
       currus.once("value", function(snapshot){
         var uNow = snapshot.val();
         var noot = uNow.team;
@@ -320,7 +319,7 @@
           snapshot.forEach(function(snap){
             var nowGame = snap.val();
             var deleteGame = snap.ref;
-            if(nowGame.gameid == uNow.gameid) {
+            if(nowGame.gameid == editgameid) {
               deleteGame.remove();
               alert("Game Deleted.");
               window.location.href="./gameschedule.html";

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<!-- File Size: 7KB | Load Time: 2.07s -->
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../style/style.css">
+  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
+  <title>TeamWatch</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="./home.html" id="logo">TeamWatch</a>
+    <a href="./home.html">Home</a>
+    <a href="./gameschedule.html">Game</a>
+    <a href="./players.html">Roster</a>
+    <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
+  </nav>
+  <div class="box1">
+    <div class="borderBox1">
+      <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
+      <h1 class="borderBoxh1" id="dpn"></h1>
+      <hr>
+
+
+      <!--  ** CHOOSING PROF PIC: WE MIGHT TAKE THIS OUT COMPLETELY. **
+
+      <img src="../img/ronaldo.jpg" alt="Cristiano Ronaldo">
+      <div>
+        <input type="button" value="Delete" id="delBtn">
+      </div>
+      <h6 class="borderboxh61">** To edit player picture, press the "choose file" button below **</h6>
+      <input type="file" name="pic">
+      <hr>
+
+      -->
+
+
+      <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
+      <table class="editplayertable">
+        <tr>
+          <td>First Name:</td>
+          <td contenteditable="true" id="dfn"></td>
+        </tr>
+        <tr>
+          <td>Last Name:</td>
+          <td contenteditable="true" id="dln"></td>
+        </tr>
+        <tr>
+          <td>Position:</td>
+          <td contenteditable="true" id="dp"></td>
+        </tr>
+        <tr>
+          <td>Jersey #:</td>
+          <td contenteditable="true" id="dj"></td>
+        </tr>
+        <tr>
+          <td>Date of Birth: </td>
+          <td contenteditable="true" id="dd"></td>
+        </tr>
+        <tr>
+          <td>Goals Scored: </td>
+          <td contenteditable="true" id="dg"></td>
+        </tr>
+        <tr>
+          <td>Assists: </td>
+          <td contenteditable="true" id="da"></td>
+        </tr>
+        <tr>
+          <td>Games Played: </td>
+          <td contenteditable="true" id="dgp"></td>
+        </tr>
+        <tr>
+          <td>Total Fouls: </td>
+          <td contenteditable="true" id="df"></td>
+        </tr>
+        <tr>
+          <td>Red Cards: </td>
+          <td contenteditable="true" id="dr"></td>
+        </tr>
+        <tr>
+          <td>Yellow Cards: </td>
+          <td contenteditable="true" id="dy"></td>
+        </tr>
+      </table>
+      <hr>
+      <h5 class="borderboxh51">** Press "Save" below to make sure changes are not lost. **</h5>
+      <input type="button" value="Save" id="saveBtn">
+      <hr>
+      <h5 class="borderboxh51">** Press "Delete" below to delete the current player from the roster **</h5>
+      <input type="button" value="Delete" id="backBtn">
+      <hr>
+      <h5 class="borderboxh51">** Press "Go back" to discard changes and go back to view player page. **</h5>
+      <input type="button" onclick="location.href='./viewplayer.html';" value="Go back" id="editBtn">
+    </div>
+  </div>
+
+  <script>
+    var ros = JSON.parse(localStorage.getItem('roster'));
+    var pla = JSON.parse(localStorage.getItem('playertoedit'));
+    var sv = document.getElementById('saveBtn');
+    var dl = document.getElementById('backBtn');
+
+    var fnm = document.getElementById('dfn');
+    var lnm = document.getElementById('dln');
+    var nme = document.getElementById('dpn');
+    var pos = document.getElementById('dp');
+    var jer = document.getElementById('dj');
+    var dob = document.getElementById('dd');
+    var goa = document.getElementById('dg');
+    var ast = document.getElementById('da');
+    var gpd = document.getElementById('dgp');
+    var fl = document.getElementById('df');
+    var rcd = document.getElementById('dr');
+    var ycd = document.getElementById('dy');
+
+    window.addEventListener('DOMContentLoaded', function () {
+      fnm.innerHTML = pla.firstname;
+      lnm.innerHTML = pla.lastname;
+      nme.innerHTML = pla.name;
+      pos.innerHTML = pla.position;
+      jer.innerHTML = pla.jerseynumber;
+      dob.innerHTML = pla.birthdate;
+      goa.innerHTML = pla.goals;
+      ast.innerHTML = pla.assists;
+      gpd.innerHTML = pla.gamesplayed;
+      fl.innerHTML = pla.fouls;
+      rcd.innerHTML = pla.redcards;
+      ycd.innerHTML = pla.yellowcards;
+    })
+
+    sv.addEventListener('click', function() {
+      location.href='./viewplayer.html';
+    })
+
+    dl.addEventListener('click', function() {
+      location.href='./players.html';
+    })
+
+    sv.addEventListener('click', function() {
+      var indx = 0;
+      for(var s = 0; s < ros.length; s++) {
+        if(ros[s].jerseynumber == pla.jerseynumber && ros[s].name == pla.name) {
+          var currentPlyr = ros[s];
+          indx = s;
+          currentPlyr.firstname = fnm.innerHTML;
+          currentPlyr.lastname = lnm.innerHTML;
+          currentPlyr.name = nme.innerHTML;
+          currentPlyr.position = pos.innerHTML;
+          currentPlyr.jerseynumber = jer.innerHTML;
+          currentPlyr.birthdate = dob.innerHTML;
+          currentPlyr.goals = goa.innerHTML;
+          currentPlyr.assists = ast.innerHTML;
+          currentPlyr.gamesplayed = gpd.innerHTML;
+          currentPlyr.fouls = fl.innerHTML;
+          currentPlyr.redcards = rcd.innerHTML;
+          currentPlyr.yellowcards = ycd.innerHTML;
+        }
+      }
+      localStorage.setItem('roster', JSON.stringify(ros));
+      localStorage.setItem('playertoedit', JSON.stringify(ros[indx]));
+    })
+
+    dl.addEventListener('click', function() {
+      for(var d = 0; d < ros.length; d++) {
+        if(ros[d].jerseynumber == pla.jerseynumber && ros[d].name == pla.name) {
+          ros.splice(d, 1);
+        }
+      }
+      localStorage.setItem('roster', JSON.stringify(ros));
+    })
+
+    function logoutClean() {
+			var rrf = firebase.database().ref();
+			var cu = rrf.child("currentuser/");
+			cu.set({
+				username: "",
+				team: "",
+				type: ""
+			});
+    }
+  </script>
+
+</body>
+</html>
+
+<!--
+
+changed onlclick location=href to an event listener
+added first name and last name field to edit player page
+
+ -->

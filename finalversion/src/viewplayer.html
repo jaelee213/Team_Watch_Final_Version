@@ -95,7 +95,7 @@
           <td id="dy"></td>
         </tr>
       </table>
-      <input type="button" value="Edit Player" id="editBtn">
+      <input type="button" onclick="location.href='./editplayer.html';" value="Edit Player" id="editBtn">
       <hr>
       <input type="button" value="Go back" id="backBtn">
     </div>
@@ -103,7 +103,6 @@
 
   <script>
     var bBtn = document.getElementById('backBtn');
-    var eBtn = document.getElementById('editBtn');
 
     var fnm = document.getElementById('dfn');
     var lnm = document.getElementById('dln');
@@ -125,42 +124,26 @@
       var viewplayer = rootref.child("inspectplayer/"); 
 
       viewplayer.once("value", function(snapshot){
-        var player = snapshot.val();
-        var stg = "players/"; 
-        stg = stg.concat(player.team); 
-        stg = stg.concat("/");
-
-        var playerslist = rootref.child(stg);
-        playerslist.orderByChild("playerid").once("value", function(snapshot){
-          snapshot.forEach(function(snap){
-            var pla = snap.val();
-            if(pla.playerid == player.playerid) {
-              fnm.innerHTML = pla.firstname;
-              lnm.innerHTML = pla.lastname;
-              email.innerHTML = pla.email;
-              nme.innerHTML = pla.name;
-              pos.innerHTML = pla.position;
-              jer.innerHTML = pla.jerseynumber;
-              dob.innerHTML = pla.birthdate;
-              goa.innerHTML = pla.goals;
-              ast.innerHTML = pla.assists;
-              gpd.innerHTML = pla.gamesplayed;
-              fl.innerHTML = pla.fouls;
-              rcd.innerHTML = pla.redcards;
-              ycd.innerHTML = pla.yellowcards;
-            }
-          });
-        });
+        var pla = snapshot.val();
+        fnm.innerHTML = pla.firstname;
+        lnm.innerHTML = pla.lastname;
+        email.innerHTML = pla.email;
+        nme.innerHTML = pla.name;
+        pos.innerHTML = pla.position;
+        jer.innerHTML = pla.jerseynumber;
+        dob.innerHTML = pla.birthdate;
+        goa.innerHTML = pla.goals;
+        ast.innerHTML = pla.assists;
+        gpd.innerHTML = pla.gamesplayed;
+        fl.innerHTML = pla.fouls;
+        rcd.innerHTML = pla.redcards;
+        ycd.innerHTML = pla.yellowcards;
       });
-    });
+    })
 
     bBtn.addEventListener('click', function() {
       window.location.href='./editplayerslist.html';
-    });
-
-    eBtn.addEventListener('click', function() {
-      window.location.href="./editplayer.html";
-    });
+    })
 
     function logoutClean() {
 			var rrf = firebase.database().ref();

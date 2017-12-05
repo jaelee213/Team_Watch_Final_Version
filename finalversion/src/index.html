@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="../style/style.css">
+	<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCPC5DTvuqRNQbM4pEa6JpAb4Y1KSptCsI",
+      authDomain: "homework2-6c804.firebaseapp.com",
+      databaseURL: "https://homework2-6c804.firebaseio.com",
+      projectId: "homework2-6c804",
+      storageBucket: "homework2-6c804.appspot.com",
+      messagingSenderId: "279004110495"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+  </script>
+  <title>TeamWatch</title>
+</head>
+
+<body onload="def()">
+  <nav class="navbar">
+    <a id="logo">TeamWatch</a>
+    <div id="mainnavbar">
+      <a onclick="clickHome()">Home</a>
+      <a onclick="clickSchedule()">Game</a>
+      <a onclick="clickRoster()">Roster</a>
+      <a id="logout" onclick="clickLogin(); logoutClean()"> Logout</a>
+    </div>
+  </nav>
+
+  <!-- ***************************************** login.html *************************************************** -->
+  <div id="loginhtml">
+    <div class="logincontainer">
+        <h1 class="welcomeheader">Welcome.</h1>
+      <p class="loginsmallertxt"><i>Please login to continue.</i></p>
+      <hr class="smallhr">
+      <form class="loginform">
+          <input type="text" name="email" placeholder="Email" id="loginemail" onkeypress="return enterKey(event)">
+          <br>
+          <input type="password" name="password" placeholder="Password" id="loginpassword" onkeypress="return enterKey(event)">
+          <br>
+          <input type="button" value="Login" id="loginsubmit">
+        </form>
+      <hr class="smallhr">
+      <p class="loginsmallertxt">Don't have an account?</p>
+      <p><a onclick="clickSignUp()" id="loginclick">Click here</a> to sign up and get started.</p>
+    </div>
+  </div><!-- end of login.html -->
+
+<!-- ***************************************** signup.html *************************************************** -->
+
+  <div id="signuphtml">
+    <div class="signupcontainer">
+      <h1 class="signupheader">Sign Up</h1>
+      <p class="signupsmallertxt"><i>Please fill out the following to create your account:</i></p>
+      <p class="signupsmallertxt" id="signupnote">(Note: To go back, press the "Go Back" button at the bottom.)</p>
+      <hr class="signupsmallhr">
+      <form class="signupform">
+        <input type="text" name="suemail" placeholder="Username (Email)" id="signupemail">
+        <br>
+        <input type="text" name="fname" placeholder="First Name" id="signupfname">
+        <br>
+        <input type="text" name="lname" placeholder="Last Name" id="signuplname">
+        <br>
+        <input type="password" name="supwd" placeholder="Password" id="signuppwd">
+        <br>
+        <input type="password" name="suconfpwd" placeholder="Confirm Password" id="signupconfpwd">
+      </form>
+      <hr class="signupsmallhr">
+      <p class="iama">I am a:</p>
+      <p class="signupselectone">Select one:</p>
+      <input type="radio" value="coach" id="coachtypeopt" name="utype" onclick="coachFunc()">Coach</option>
+      <input type="radio" value="player" id="playertypeopt" name="utype" onclick="playerFunc()">Player</option>
+      <input type="radio" value="fan" id="fantypeopt" name="utype" onclick="fanFunc()">Fan</option>
+
+      <div id="coachoptions">
+        <br>
+        <p class="noticenote">Please specify the name of the team you want to create.</p>
+        <input type="text" placeholder="Enter New Team Name" id="newteamfield" name="newteamfield">
+      </div>
+
+
+      <div id="playeroptions">
+        <hr>
+        <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
+        <p class="noticenote">If for any reason, sign up does not work, please make sure with coach that the correct birthdate was input under your name in the team roster.</p>
+        <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield">
+        <hr>
+        <p class="noticenote">Make sure that the coach of your selected team has you as a player on their roster.</p>
+        <p class="noticenote">Otherwise, you cannot sign up as a player of the team you specified.</p>
+        <br>
+        <p>Select Your Team:</p>
+        <select id="playerfield">
+        </select>
+      </div>
+
+      <div id="fanoptions">
+        <hr>
+        <p>Select Your Team to Follow:</p>
+        <select id="fanfield">
+        </select>
+      </div>
+
+      <hr class="signupsmallhr">
+      <input type="button" value="Sign Up" id="signupBtn">
+      <input type="button" onclick="clickLogin()" value="Go back" id="backBtn">    
+    </div>
+  </div>
+
+<!-- ***************************************** home.html *************************************************** -->
+
+  <div id="homehtml">
+    <div class="teamcontainer">
+      <h1 class="myteamnamehome" id="mytname"></h1>
+    <hr>
+    <p id="teamtotalheader">Team Total Stats</p>
+    <table id="teamtotaltable">
+      <tr>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Ties</th>
+      </tr>
+      <tr>
+        <td id="wins"></td>
+        <td id="losses"></td>
+        <td id="ties"></td>
+      </tr>
+    </table>
+    <table id="teamgoaltable">
+      <tr>
+        <th>Total Goals Scored</th>
+        <th>Total Goals Given Up</th>
+      </tr>
+      <tr>
+        <td id=totalgoalsscored></td>
+        <td id=totalgoalsgivenup></td>
+      </tr>
+    </table>
+    </div>
+
+    <output id="outPut">
+    </output>
+  </div><!-- end of home.html-->
+
+<!-- ***************************************** addgame.html *************************************************** -->
+
+  <div id="addgamehtml">
+    <div class="box">
+      <h2 id="testid">Add Game</h2>
+      <form id="addgameform">
+        <p><label for="OppTeam">Opposing Team:</label></p>
+        <input type="text" id="opponentteamname" name="OppTeam" placeholder="Enter Opposition Team Name">
+        <br>
+        <p><label for="gameDate">Date:</label></p>
+        <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+        <p class="addgamenotice"><em>Note: Even if date is 1/1/17, please make sure to put 01/01/17 not 1/1/17.</em></p>
+        <input type="text" id="gamedate" name="gameDate" maxlength="8">
+        <br>
+        <p><label for="gametime">Time:</label></p>
+        <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
+        <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>
+        <input type="text" id="gametime" name="time" maxlength="5">
+        <br>
+        <p><label>Time of Day:</label></p>
+        <input type="radio" name="tofday" value="day" id="amradio">A.M.<br>
+        <input type="radio" name="tofday" value="night" id="pmradio">P.M.<br>
+        <br>
+        <p><label for="location">Location:</label></p>
+        <input type="text" id="gamelocation" name="location" placeholder="Enter Location">
+        <br>
+        <p><label>Status:</label></p>
+        <input type="radio" name="status" value="Home" id="homestatus">Home<br>
+        <input type="radio" name="status" value="Away" id="awaystatus">Away<br>
+        <hr>
+        <input type="button" value="Add Game" id="egssaveBtn">
+      </form>
+    </div>
+  </div>
+
+<!-- ***************************************** addplayer.html *************************************************** -->
+
+  <div id="addplayerhtml">
+    <div class="box3">
+      <div class="borderBox3">
+        <h1>Add Player</h1>
+        <h5>Please fill out the following to add a new player to the team.</h5>
+        <hr>
+
+        <img src="#" alt="Default Pic" id="profile">
+        <h6>** To edit player picture, press the "choose file" button below **</h6>
+        <input type="file" name="propic" id="fileBtn" onchange="document.getElementById('profile').src = window.URL.createObjectURL(this.files[0])" accept="image/*">
+        <hr>
+
+        <form class="form1">
+          <input type="text" name="fname" id="firstname" placeholder="First Name">
+          <input type="text" name="lname" id="lastname" placeholder="Last Name">
+          <input type="email" name="email" id="email" placeholder="Email">
+          <input type="text" name="bday" id="birthdate" placeholder="Date of Birth (mm/dd/yy)" maxlength="8">
+          <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number">
+          <hr>
+          <h2>Position</h2>
+          <p>Select one:</p>
+          <select name="pos" id="position">
+            <option value="default">Choose a position</option>
+            <option value="forward"> Forward </option>
+            <option value="midfielder"> Midfielder </option>
+            <option value="defender"> Defender</option>
+            <option value="goalkeeper">Goalkeeper</option>
+          </select>
+          <hr>
+          <h2>Role</h2>
+          <p>Select one:</p>
+          <select name="role" id="role">
+            <option value="default">Choose a role</option>
+            <option value="captain"> Captain </option>
+            <option value="starter"> Starter </option>
+            <option value="substitute"> Substitute </option>
+          </select>
+          <input type="button" value="Save" id="egssaveBtn">
+          <hr>
+          <input type="button" value="Go back" id="backBtn">
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- ***************************************** addpractice.html *************************************************** -->
+
+  <div id="addpracticehtml">
+    <div class="box">
+      <h2 id="testid">Add Practice</h2>
+      <form id="addpracform">
+        <p><label for="gameDate">Date:</label></p>
+        <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+        <p class="addgamenotice"><em>Note: Even if date is 1/1/17, please make sure to put 01/01/17 not 1/1/17.</em></p>
+        <input type="text" id="gamedate" name="gameDate" maxlength="8">
+        <br>
+        <p><label for="gametime">Time:</label></p>
+        <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
+        <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>
+        <input type="text" id="gametime" name="time" maxlength="5">
+        <br>
+        <p><label>Time of Day:</label></p>
+        <input type="radio" name="tofday" value="day" id="amradio">A.M.<br>
+        <input type="radio" name="tofday" value="night" id="pmradio">P.M.<br>
+        <br>
+        <p><label for="location">Location:</label></p>
+        <input type="text" id="gamelocation" name="location" placeholder="Enter Location">
+        <hr>
+        <input type="button" value="Add Practice" id="egssaveBtn">
+      </form>
+    </div>
+  </div>
+
+<!-- ***************************************** editgame.html *************************************************** -->
+  <div id="editgamehtml">
+    <div class="box">
+      <h2>Edit Game</h2>
+      <form>
+        <p><label for="OppTeam">Opposing Team:</label></p>
+        <input type="text" id="OppTeam" name="OppTeam">
+        <p><label for="gameDate">Date:</label></p>
+        <input type="text" id="gameDate" name="gameDate">
+        <p><label for="gametime">Time:</label></p>
+        <input type="time" id="gametime" name="time">
+        <p><label>Time of Day:</label></p>
+        <output id="outOpt">
+        </output>
+        <p><label for="location">Location:</label></p>
+        <input type="text" id="location" name="location">
+        <p><label>Status:</label></p>
+        <output id="outputOption">
+        </output>
+        <input type="button" value="Save Game" id="exsave">
+        <input type="button" value="Delete Game" id="delB">
+      </form>
+    </div>
+  </div>
+
+<!-- ***************************************** editgamestats.html *************************************************** -->
+
+  <div id="editgamestatshtml">
+    <div class="viewgamestatscontainer">
+      <h1 class="vgsgameheader" id="myteam"></h1>
+      <h1 class="vgsgameheader">vs.</h1>
+      <h1 class="vgsgameheader" id="theirteam"></h1>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamscorevgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamscorevgs')">-</button> <span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamscoresvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamscoresvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamfoulvgs')">-</button> <span id="myteamfoulvgs"></span> <span class="vgsstats">Foul</span> <span id="oppteamfoulvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamfoulvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamredcardvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamredcardvgs')">-</button> <span id="myteamredcardvgs"></span> <span class="vgsstats">Red Card</span> <span id="oppteamredcardvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamredcardvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamredcardvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamyellowcardvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamyellowcardvgs')">-</button> <span id="myteamyellowcardvgs"></span> <span class="vgsstats">Yellow Card</span> <span id="oppteamyellowcardvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamyellowcardvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamyellowcardvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamshotsongoalvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamshotsongoalvgs')">-</button> <span id="myteamshotsongoalvgs"></span> <span class="vgsstats">Shots on Goal</span> <span id="oppteamshotsongoalvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamshotsongoalvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamshotsongoalvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamgoalsvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamgoalsvgs')">-</button> <span id="myteamgoalsvgs"></span> <span class="vgsstats">Goals</span> <span id="oppteamgoalsvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamgoalsvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamgoalsvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamcornerkicksvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamcornerkicksvgs')">-</button> <span id="myteamcornerkicksvgs"></span> <span class="vgsstats">Corner Kicks</span> <span id="oppteamcornerkicksvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamcornerkicksvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamcornerkicksvgs')">-</button></p>
+      <hr class="vgshr">
+      <p><button type="button" class="incrgamestats" onclick="incr('myteamgoalkicksvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamgoalkicksvgs')">-</button> <span id="myteamgoalkicksvgs"></span> <span class="vgsstats">Goal Kicks</span> <span id="oppteamgoalkicksvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamgoalkicksvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamgoalkicksvgs')">-</button></p>
+      <p><input type="button"  value="Save" id="egssaveBtn"></p>
+    </div>
+  </div>
+
+<!-- ***************************************** editplayer.html *************************************************** -->
+
+  <div id="editplayerhtml">
+    <div class="box1">
+      <div class="borderBox1">
+        <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
+        <h1 class="borderBoxh1" id="dpn"></h1>
+        <hr>
+
+
+        <!--  ** CHOOSING PROF PIC: WE MIGHT TAKE THIS OUT COMPLETELY. **
+
+        <img src="../img/ronaldo.jpg" alt="Cristiano Ronaldo">
+        <div>
+          <input type="button" value="Delete" id="delBtn">
+        </div>
+        <h6 class="borderboxh61">** To edit player picture, press the "choose file" button below **</h6>
+        <input type="file" name="pic">
+        <hr>
+
+        -->
+
+
+        <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
+        <table class="editplayertable">
+          <tr>
+            <td>First Name:</td>
+            <td contenteditable="true" id="dfn"></td>
+          </tr>
+          <tr>
+            <td>Last Name:</td>
+            <td contenteditable="true" id="dln"></td>
+          </tr>
+          <tr>
+            <td>Position:</td>
+            <td contenteditable="true" id="dp"></td>
+          </tr>
+          <tr>
+            <td>Jersey #:</td>
+            <td contenteditable="true" id="dj"></td>
+          </tr>
+          <tr>
+            <td>Date of Birth: </td>
+            <td contenteditable="true" id="dd"></td>
+          </tr>
+          <tr>
+            <td>Goals Scored: </td>
+            <td contenteditable="true" id="dg"></td>
+          </tr>
+          <tr>
+            <td>Assists: </td>
+            <td contenteditable="true" id="da"></td>
+          </tr>
+          <tr>
+            <td>Games Played: </td>
+            <td contenteditable="true" id="dgp"></td>
+          </tr>
+          <tr>
+            <td>Total Fouls: </td>
+            <td contenteditable="true" id="df"></td>
+          </tr>
+          <tr>
+            <td>Red Cards: </td>
+            <td contenteditable="true" id="dr"></td>
+          </tr>
+          <tr>
+            <td>Yellow Cards: </td>
+            <td contenteditable="true" id="dy"></td>
+          </tr>
+        </table>
+        <hr>
+        <h5 class="borderboxh51">** Press "Save" below to make sure changes are not lost. **</h5>
+        <input type="button" value="Save" id="saveBtn">
+        <hr>
+        <h5 class="borderboxh51">** Press "Delete" below to delete the current player from the roster **</h5>
+        <input type="button" value="Delete" id="backBtn">
+        <hr>
+        <h5 class="borderboxh51">** Press "Go back" to discard changes and go back to view player page. **</h5>
+        <input type="button" onclick="clickViewPlayer()" value="Go back" id="editBtn">
+      </div>
+    </div>
+  </div>
+
+<!-- ***************************************** editplayerslist.html *************************************************** -->
+
+  <div id="editrosterhtml">
+    <div class="container1">
+      <div class="subcontainer">
+        <h4 class="rostereditnotice"><strong>** To <em>DELETE PLAYERS</em> from roster, press on the player you wish to remove and choose the 'Delete' option. **</strong></h4>      
+        <hr>
+        <h1 id="rosterheading">Roster</h1>
+        <h4 class="rostereditnotice">** To edit, press on the field you wish to change and press save at the end to keep changes. **</h4>      
+        <br>
+        <div class="roster">
+          <table class="rostertable" onload="allowEdit()">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Foul</th>
+                <th>Red Card</th>
+                <th>Yellow Card</th>
+                <th>Games Played</th>
+              </tr>
+            </thead>
+            <tbody id="outputTable">
+            </tbody>
+          </table>
+        </div>      
+        <h4 class="rostereditnotice">** Make sure to press save to keep all changes! **</h4>
+        <input type="button" value="Save" id="editrosterbtn">
+        <hr>
+        <input type="button" value="Go back" id="backBtn">
+      </div>
+    </div>
+  </div>
+
+<!-- ***************************************** editpractice.html *************************************************** -->
+
+  <div id="editpracticehtml">
+    <div class="box">
+      <h2 id="testid">Edit Practice</h2>
+      <form id="addpracform">
+        <p><label for="gameDate">Date:</label></p>
+        <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+        <p class="addgamenotice"><em>Note: Even if date is 1/1/17, please make sure to put 01/01/17 not 1/1/17.</em></p>
+        <input type="text" id="gamedate" name="gameDate" maxlength="8">
+        <br>
+        <p><label for="gametime">Time:</label></p>
+        <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
+        <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>
+        <input type="text" id="gametime" name="time" maxlength="5">
+        <br>
+        <p><label>Time of Day:</label></p>
+        <input type="radio" name="tofday" value="day" id="amradio">A.M.<br>
+        <input type="radio" name="tofday" value="night" id="pmradio">P.M.<br>
+        <br>
+        <p><label for="location">Location:</label></p>
+        <input type="text" id="gamelocation" name="location" placeholder="Enter Location">
+        <hr>
+        <input type="button" value="Save Practice" id="exsave">
+        <input type="button" value="Delete Practice" id="delB">
+      </form>
+    </div>
+  </div>
+
+<!-- ***************************************** gameschedule.html *************************************************** -->
+
+  <div id="schedulehtml">
+    <input type="button" onclick="clickAddGame()" value="Add Game" id="addGameBtn">
+    <input type="button" onclick="clickAddPractice()" value="Add Practice" id="addPracBtn">
+    <output id="outputgames">
+    </output>
+  </div>
+
+<!-- ***************************************** players.html *************************************************** -->
+
+  <div id="rosterhtml">
+    <div class="container1">
+      <div class="subcontainer">
+        <input type="button" onclick="clickRoster()" value="Edit" id="editrosterbtn">
+        <br>
+        <h1 id="rosterheading">Roster</h1>
+        <br>
+        <div class="roster">
+          <table class="rostertable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Foul</th>
+                <th>Red Card</th>
+                <th>Yellow Card</th>
+                <th>Games Played</th>
+              </tr>
+            </thead>
+            <tbody id="outputdata">
+            </tbody>
+          </table>
+          <br>
+          <input type="button" onclick="clickAddPlayer()" value="Add Player" id="addplayerbtn">
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ***************************************** viewgamestats.html *************************************************** -->
+  <div id="viewgamestatshtml">
+    <div class="viewgamestatscontainer">
+      <input type="button" onclick="clickEditGameStats()" value="Edit" id="editgamestatsBtn"><br>
+      <h1 class="vgsgameheader" id="myteam"></h1>
+      <h1 class="vgsgameheader">vs.</h1>
+      <h1 class="vgsgameheader" id="oppteam"></h1>
+      <hr class="vgshr">
+      <p><span id="myscore"></span> <span class="vgsstats">Score</span> <span id="theirscore"></span></p>
+      <hr class="vgshr">
+      <p><span id="myfouls"></span> <span class="vgsstats">Foul</span> <span id="theirfouls"></span></p>
+      <hr class="vgshr">
+      <p><span id="myredcards"></span> <span class="vgsstats">Red Card</span> <span id="theirredcards"></span></p>
+      <hr class="vgshr">
+      <p><span id="myyellowcards"></span> <span class="vgsstats">Yellow Card</span> <span id="theiryellowcards"></span></p>
+      <hr class="vgshr">
+      <p><span id="myshotsongoal"></span> <span class="vgsstats">Shots on Goal</span> <span id="theirshotsongoal"></span></p>
+      <hr class="vgshr">
+      <p><span id="mygoals"></span> <span class="vgsstats">Goals</span> <span id="theirgoals"></span></p>
+      <hr class="vgshr">
+      <p><span id="mycornerkicks"></span> <span class="vgsstats">Corner Kicks</span> <span id="theircornerkicks"></span></p>
+      <hr class="vgshr">
+      <p><span id="mygoalkicks"></span> <span class="vgsstats">Goal Kicks</span> <span id="theirgoalkicks"></span></p>
+    </div>
+  </div>
+
+<!-- ***************************************** viewplayer.html *************************************************** -->
+  <div id="viewplayerhtml">
+    <div class="box2">
+      <div class="borderBox2">
+        <h1 id="dpn"></h1>
+        <hr>
+
+        <!-- ** THE PROF PIC WE MIGHT TAKE OUT **
+
+        <img src="../img/ronaldo.jpg" alt="Cristiano Ronaldo">
+        <hr>
+
+        -->
+
+        <table class="viewplayertbl">
+          <tr>
+            <td>First Name:</td>
+            <td id="dfn"></td>
+          </tr>
+          <tr>
+            <td>Last Name:</td>
+            <td id="dln"></td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td id="dem"></td>
+          </tr>
+          <tr>
+            <td>Position:</td>
+            <td id="dp"></td>
+          </tr>
+          <tr>
+            <td>Jersey #:</td>
+            <td id="dj"></td>
+          </tr>
+          <tr>
+            <td>Date of Birth: </td>
+            <td id="dd"></td>
+          </tr>
+          <tr>
+            <td>Goals Scored: </td>
+            <td id="dg"></td>
+          </tr>
+          <tr>
+            <td>Assists: </td>
+            <td id="da"></td>
+          </tr>
+          <tr>
+            <td>Games Played: </td>
+            <td id="dgp"></td>
+          </tr>
+          <tr>
+            <td>Total Fouls: </td>
+            <td id="df"></td>
+          </tr>
+          <tr>
+            <td>Red Cards: </td>
+            <td id="dr"></td>
+          </tr>
+          <tr>
+            <td>Yellow Cards: </td>
+            <td id="dy"></td>
+          </tr>
+        </table>
+        <input type="button" onclick="clickEditPlayer()" value="Edit Player" id="editBtn">
+        <hr>
+        <input type="button" value="Go back" id="backBtn">
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ********************************** SCRIPT SECTION ********************************************** -->
+
+
+  <script>
+
+    var addgamediv = document.getElementById('addgamehtml'); 
+    var addplayerdiv = document.getElementById('addplayerhtml'); 
+    var addpracticediv = document.getElementById('addpracticehtml');
+    var editgamediv = document.getElementById('editgamehtml'); 
+    var editgamestatsdiv = document.getElementById('editgamestatshtml'); 
+    var editplayerdiv = document.getElementById('editplayerhtml'); 
+    var editrosterdiv = document.getElementById('editrosterhtml');
+    var editpracticediv = document.getElementById('editpracticehtml');
+    var schedulediv = document.getElementById('schedulehtml');
+    var homediv = document.getElementById('homehtml');
+    var logindiv = document.getElementById('loginhtml'); 
+    var rosterdiv = document.getElementById('rosterhtml');
+    var signupdiv = document.getElementById('signuphtml'); 
+    var viewgamestatsdiv = document.getElementById('viewgamestatshtml');
+    var viewplayerdiv = document.getElementById('viewplayerhtml');
+    var navdiv = document.getElementById('mainnavbar');
+    
+  /********************************** SCRIPT FOR ADDGAME **********************************************/
+    function clickAddGame(){
+      show(addgamediv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "addgamehtml"
+      });
+    }
+
+    var sButton = document.getElementById('egssaveBtn');
+    sButton.addEventListener('click', function() {
+
+      var xdate = document.getElementById('gamedate').value;
+      var xtime = document.getElementById('gametime').value;
+
+      if(!xdate) {
+        alert('Please specify the date.');
+        return false;
+      }
+
+      if(!xtime) {
+        alert('Please specify the time.');
+        return false;
+      }
+
+      var timeChecker = xtime.indexOf(":");
+      var timeChecker2 = xtime.lastIndexOf(":");
+      if(!timeChecker || timeChecker != timeChecker2) {
+        alert('Invalid time format. Please make sure to put time in HH:MM format.');
+        return false;
+      }
+
+      var tHour = xtime.slice(0, timeChecker);
+      var tMinute = xtime.slice(timeChecker + 1, xtime.length);
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
+        alert('Invalid time format. Please make sure the hours and minutes have been input correctly.');
+        return false;
+      }
+
+      if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
+        alert('Invalid time input. Please make sure hours and minutes are all appropriate values.');
+        return false;
+      }
+
+      var dateChecker1 = xdate.indexOf("/");
+      var dateChecker2 = xdate.lastIndexOf("/");
+      if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
+        alert('Invalid date format. Please check and write date according to format specified above input field.');
+        return false;
+      }
+
+      var dMonth = xdate.slice(0, dateChecker1);
+      var dDate = xdate.slice(dateChecker1 + 1, dateChecker2);
+      var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
+      var today = new Date();
+      var curMonth = today.getMonth() + 1;
+      curMonth = curMonth.toString();
+      var curDay = today.getDate().toString();
+      if( curDay.length == 1) {
+        curDay = "0" + curDay;
+      }
+      var curYear = today.getFullYear().toString().substr(2,2);
+      if(!dMonth || !dDate || !dYear || dYear.length != 2 ||
+          dMonth.length != 2 || dDate.length != 2 ||
+          dMonth > 12 || dDate > 31) {
+        alert('Invalid date format or not valid date. Please fix to continue');
+        return false;
+      }
+
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.');
+        return false;
+      }
+
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+
+      if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+
+      var tofd = document.querySelector('input[name=tofday]:checked');
+      if(!tofd) {
+        alert('Please specify time of day.');
+        return false;
+      }
+
+      var stts = document.querySelector('input[name=status]:checked');
+      if(!stts) {
+        alert('Please specify game status.');
+        return false;
+      }
+
+      var lctn = document.getElementById('gamelocation').value;
+      if(!lctn) {
+        alert('Please specify location of game.');
+        return false;
+      }
+
+      var optm = document.getElementById('opponentteamname').value;
+      if(!optm) {
+        alert('Please specify opponent team name.');
+        return false;
+      }
+
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team;
+        var str = "games/";
+        myteamname = str.concat(myteamname);
+        myteamname = myteamname.concat("/");
+        var gameslist = rootref.child(myteamname);
+
+        var tod = document.querySelector('input[name=tofday]:checked').value;
+        var gTime = document.getElementById('gametime').value;
+        var opponentname = document.getElementById('opponentteamname').value;
+        var date = document.getElementById('gamedate').value;
+
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm");
+          tHour = Number(tHour) + 12;
+        }
+
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate);
+        timeid = timeid.concat(tHour);
+        timeid = timeid.concat(tMinute);
+
+        var time = gTime;
+        var location = document.getElementById('gamelocation').value;
+        var status = document.querySelector('input[name=status]:checked').value;
+
+        var gameid = opponentname.concat(timeid);
+
+        // Checking to see if game already exists by comparing times and dates
+        gameslist.orderByChild("gameid").equalTo(gameid).once('value', snapshot => {
+          const gameidobj = snapshot.val();
+          if(gameidobj) {
+            alert('Game already exists! Please create another game.');
+            return;
+          }
+          else {
+            gameslist.orderByChild("timeid").equalTo(timeid).once('value', snapshot => {
+              const timeidobj = snapshot.val();
+              if(timeidobj) {
+                alert('A game already exists at that specified time and date. Please create game at another date and/or time.');
+                return;
+              }
+              else {
+                var newgame = gameslist.push();
+                newgame.set({
+                  myteamname: snpsht.team,
+                  gameid: gameid,
+                  timeid: timeid,
+                  opponentname: opponentname,
+                  date: date,
+                  time: time,
+                  tod: tod,
+                  location: location,
+                  status: status,
+                  myfouls: "0",
+                  opponentfouls: "0",
+                  myredcards: "0",
+                  opponentredcards: "0",
+                  myyellowcards: "0",
+                  opponentyellowcards: "0",
+                  myshotsongoal: "0",
+                  opponentshotsongoal: "0",
+                  mygoals: "0",
+                  opponentgoals: "0",
+                  mycornerkicks: "0",
+                  opponentcornerkicks: "0",
+                  mygoalkicks: "0",
+                  opponentgoalkicks: "0"
+                });
+                alert('Game created!');
+                go(addgamediv, schedulediv);
+              }
+            });
+          }
+        });
+      });
+    });
+
+  /********************************** SCRIPT FOR ADDPLAYER **********************************************/
+
+    function clickAddPlayer(){
+      show(addplayerdiv); 
+      where = addplayerdiv;
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "addplayerhtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR ADDPRACTICE **********************************************/
+
+    function clickAddPractice(){
+      show(addpracticediv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "addpracticehtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR EDITGAME **********************************************/
+
+    function clickEditGame(){
+      show(editgamediv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "editgamehtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR EDITGAMESTATS **********************************************/
+
+    function clickEditGameStats(){
+      show(editgamestatsdiv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "editgamestatshtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR EDITPLAYER **********************************************/
+
+    function clickEditPlayer(){
+      show(editplayerdiv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "editplayerhtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR EDITPRACTICE **********************************************/
+
+    function clickEditPractice(){
+      show(editpracticediv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "editpracticehtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR EDITROSTER **********************************************/
+
+    function clickEditRoster(){
+      show(editrosterdiv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "editrosterhtml"
+      });    
+    }
+
+  /********************************** SCRIPT FOR HOME **********************************************/
+
+  function clickHome() {
+    show(homediv);
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "homehtml"
+    });
+  }
+
+  /********************************** SCRIPT FOR LOGIN **********************************************/
+
+    function clickLogin(){
+      document.getElementById('loginemail').value = "";
+      document.getElementById('loginpassword').value = "";
+      show(logindiv);
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "loginhtml"
+      });
+    }
+
+    var user = document.getElementById('loginemail');
+    var pwd = document.getElementById('loginpassword');
+    var liBtn = document.getElementById('loginsubmit');
+
+    liBtn.addEventListener('click', function() {
+      var rootref = firebase.database().ref(); 
+      var userslist = rootref.child("users/");
+
+      if(!user.value || !pwd.value) {
+        alert('Cannot leave email or password field empty. Please try again.'); 
+        return false;
+      }
+      else {
+        var searchlist = userslist.orderByChild("username").equalTo(user.value); 
+        searchlist.once("value", function(snapshot){
+
+          snapshot.forEach(function(snap) {
+            var cur = snap.val(); 
+            if(cur.username == user.value) {
+              if(cur.password == pwd.value) {
+                var curuser = rootref.child("currentuser/"); 
+                curuser.set({
+                  username: cur.username, 
+                  team: cur.team, 
+                  type: cur.type, 
+                  page: document.getElementById('homehtml')
+                });
+                document.getElementById('mainnavbar').style.display = "inline";
+                clickHome();
+              }
+              else {
+                alert('Incorrect password. Please try again.'); 
+                return; 
+              }
+            }
+            else {
+              alert('Incorrect username/email or password. Please try again.'); 
+              return;
+            }
+          });
+          if(!snapshot.val()) {
+            alert('Account does not exist! Please sign up to create a new account.');
+            return;
+          }
+        });
+      }  
+    });
+
+    function enterKey(e){
+      e = e || window.event;
+      if(e.keyCode == 13){
+        document.getElementById('loginsubmit').click();
+        return false;
+      }
+      return true;
+    }
+
+  /********************************** SCRIPT FOR ROSTER **********************************************/
+
+    function clickRoster(){
+      show(rosterdiv);
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "rosterhtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR SCHEDULE **********************************************/
+
+    function clickSchedule(){
+      show(schedulediv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "schedulehtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR SIGNUP **********************************************/
+
+    function clickSignUp(){
+      show(signupdiv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "signuphtml"
+      });
+    }
+
+    var userid = document.getElementById('signupemail');
+    var fn = document.getElementById('signupfname');
+    var ln = document.getElementById('signuplname');
+    var pw = document.getElementById('signuppwd');
+    var cpw = document.getElementById('signupconfpwd');
+    var coachfield = document.getElementById('newteamfield');
+    var playerfield = document.getElementById('playerfield');
+    var fanfield = document.getElementById('fanfield');
+    var bdayfield = document.getElementById('bdayfield');
+
+    document.getElementById('signupBtn').addEventListener("click", function() {
+
+      var usertype = document.querySelector('input[name=utype]:checked');
+      var selectedteam;
+
+      if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0
+            || pw.value.length == 0 || cpw.value.length == 0) {
+        alert('Sign Up form is not complete. Please fill everything out to proceed.');
+        return false;
+      }
+
+      else if(userid.value.indexOf("@") == 0 || userid.value.indexOf("@") + 1 == userid.value.lastIndexOf(".")) {
+        alert('Invalid email. Please use a valid email.');
+        return false;
+      }
+
+      else if(userid.value.lastIndexOf(".") == (-1) || userid.value.indexOf("@") == (-1)) {
+        alert('Invalid email form. Please put valid email address.');
+        return false;
+      }
+
+      else if(!usertype) {
+        alert('Please specify type of user.');
+        return false;
+      }
+
+      else if ( pw.value != cpw.value ) {
+        alert('Passwords do not match. Please try again.');
+        return false;
+      }
+
+      else if( usertype.value == "coach" && !coachfield.value) {
+        alert('Please specify the name of the team you wish to create.');
+        return false;
+      }
+
+      else if( usertype.value == "player" && playerfield.options[playerfield.selectedIndex].value == "default") {
+        alert('Please specify your team.');
+        return false;
+      }
+
+      else if( usertype.value == "fan" && fanfield.options[fanfield.selectedIndex].value == "default") {
+        alert('Please specify the team you want to follow. If there are no teams to choose from, please contact your local coach to check if team has been created.');
+        return false;
+      }
+
+      else if( usertype.value == "player" && !bdayfield.value) {
+        alert('Please specify your birthdate to confirm with coach and the team roster.');
+        return false;
+      }
+
+      else if( usertype.value == "player" && (bdayfield.value.indexOf("/") == (-1) || bdayfield.value.lastIndexOf("/") == (-1))){
+        alert('Incorrect birthdate format. Please put birthdate in mm/dd/yy format.');
+        return false;
+      }
+
+      else if( usertype.value == "player" && (bdayfield.value.indexOf("/") == bdayfield.value.lastIndexOf("/"))) {
+        alert('Incorrect birthdate format. Please put birthdate in mm/dd/yy format.');
+        return false;
+      }
+
+      else if( usertype.value == "player" &&
+      (isNaN(bdayfield.value.slice(0, bdayfield.value.indexOf("/")))
+      || isNaN(bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/")))
+      || isNaN(bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length)) ||
+      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length < 2)
+      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length < 2)
+      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length < 2))))){
+        alert('Incorrect birthdate format. Values must be numbers and/or must be in the format mm/dd/yy!');
+        return false;
+      }
+
+      else {
+        var rootref = firebase.database().ref();
+        var userslist = rootref.child('users/');
+        var teamslist = rootref.child('teams/');
+
+        userslist.orderByChild("username").equalTo(userid.value).once('value', snapshot => {
+          const usernm = snapshot.val();
+          if(usernm) {
+            alert('Username already exists. Please use another username/email.');
+            return;
+          }
+          else {
+            if(usertype.value == "coach"){
+              teamslist.orderByChild("name").equalTo(coachfield.value).once('value', snapshot => {
+                const teamnm = snapshot.val();
+                if(teamnm) {
+                  alert('Team already exists. Please use another team name.');
+                  return;
+                }
+                else {
+                  var newteam = teamslist.push();
+                  newteam.set({
+                    name: coachfield.value,
+                  });
+                  var newuser = userslist.push();
+                  newuser.set({
+                    username: userid.value,
+                    password: pw.value,
+                    team: coachfield.value,
+                    type: usertype.value
+                  });
+                  alert('Created account. Please proceed to login.');
+                  clickLogin();
+                }
+              });
+            }
+
+            else if(usertype.value == "player") {
+              var findroster = playerfield.options[playerfield.selectedIndex].value.concat("roster");
+              var rosterlist = rootref.child(findroster + "/");
+              var namestr = fn.value.concat(" ");
+              namestr = namestr.concat(ln.value);
+              rosterlist.orderByChild("name").equalTo(namestr).once("value", snapshot => {
+                const plnm = snapshot.val();
+
+                //idea: maybe compare birthdates too.
+
+                if(plnm && plnm.birthdate == bdayfield.value){
+                  var newuser = userslist.push();
+                  newuser.set({
+                    username: userid.value,
+                    password: pw.value,
+                    team: coachfield.value,
+                    type: usertype.value
+                  });
+                  alert('Created account. Please proceed to login.');
+                  clickLogin();
+                }
+                else{
+                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate and inclusion in team roster.');
+                  return;
+                }
+              });
+            }
+
+            else if(usertype.value == "fan") {
+              alert('Adding user');
+              var newuser = userslist.push();
+              newuser.set({
+                username: userid.value,
+                password: pw.value,
+                team: fanfield.options[fanfield.selectedIndex].value,
+                type: usertype.value
+              });
+              alert('Created account. Please proceed to login.');
+              clickLogin();
+            }
+          }
+        });
+      }
+    });
+
+    var ifcoach = document.getElementById('coachoptions');
+    var ifplayer = document.getElementById('playeroptions');
+    var iffan = document.getElementById('fanoptions');
+
+    function coachFunc() {
+      ifplayer.style.display = "none";
+      iffan.style.display = "none";
+      ifcoach.style.display = "inline";
+    }
+
+    function playerFunc() {
+      var playeroutput = document.getElementById('playerfield');
+      ifplayer.style.display = "inline";
+      iffan.style.display = "none";
+      ifcoach.style.display = "none";
+      playeroutput.innerHTML = "<option value='default'>Choose your team</option>";
+      var rref = firebase.database().ref();
+      var tlist = rref.child('teams/');
+      tlist.on('value', function(snapshot){
+        snapshot.forEach(function(chNo) {
+          var noode = chNo.val();
+          playeroutput.innerHTML += "<option value='" + noode.name + "'>" + noode.name + "</option>";
+        });
+      });
+    }
+
+    function fanFunc() {
+      var fanoutput = document.getElementById('fanfield');
+      ifplayer.style.display = "none";
+      iffan.style.display = "inline";
+      ifcoach.style.display = "none";
+      fanoutput.innerHTML = "<option value='default'>Choose a team to follow.</option>";
+      var rr = firebase.database().ref();
+      var tl = rr.child("teams/");
+      tl.on('value', function(snapshot){
+        snapshot.forEach(function(chn){
+          var ndoe = chn.val();
+          fanoutput.innerHTML += "<option value='" + ndoe.name + "'>" + ndoe.name + "</option>";
+        });
+      });
+    }
+
+  /********************************** SCRIPT FOR VIEWGAMESTATS **********************************************/
+
+    function clickViewGameStats(){
+      show(viewgamestatsdiv);
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: viewgamestatsdiv
+      });
+    }
+
+  /********************************** SCRIPT FOR VIEWPLAYER **********************************************/
+
+    function clickViewPlayer(){
+      show(viewplayerdiv); 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "viewplayerhtml"
+      });
+    }
+
+  /********************************** SCRIPT FOR LOGOUT **********************************************/
+
+    function logoutClean() {
+      document.getElementById('mainnavbar').style.display = "none";
+      var rrf = firebase.database().ref();
+			var cu = rrf.child("currentuser/"); 
+			cu.set({
+				username: "", 
+				team: "", 
+				type: "",
+        page: ""
+			});
+    }
+
+/********************************** SCRIPT FOR GO **********************************************/
+
+    function go(cur, to) {
+      cur.style.display = "none";
+      to.style.display = "inline";
+    }
+
+/********************************** SCRIPT FOR SHOW **********************************************/
+    
+    function show(d) {
+
+      if(d != addgamediv) {
+        addgamediv.style.display = "none";
+      }
+
+      if(d != addplayerdiv) {
+        addplayerdiv.style.display = "none"; 
+      }
+
+      if(d != addpracticediv) {
+        addpracticediv.style.display = "none"; 
+      }
+
+      if(d != editgamediv) {
+        editgamediv.style.display = "none"; 
+      }
+
+      if(d != editgamestatsdiv) {
+        editgamestatsdiv.style.display = "none";
+      }
+
+      if(d != editplayerdiv) {
+        editplayerdiv.style.display = "none"; 
+      }
+
+      if(d != editrosterdiv) {
+        editrosterdiv.style.display = "none";
+      }
+
+      if(d != editpracticediv) { 
+        editpracticediv.style.display = "none"; 
+      }
+
+      if(d != schedulediv) {
+        schedulediv.style.display = "none";
+      }
+
+      if(d != homediv) {
+        homediv.style.display = "none";
+      }
+
+      if(d != logindiv) {
+        logindiv.style.display = "none";
+      }
+
+      if(d != rosterdiv) {
+        rosterdiv.style.display = "none";
+      }
+
+      if(d != signupdiv) {
+        signupdiv.style.display = "none";
+      }
+
+      if(d != viewgamestatsdiv) {
+        viewgamestatsdiv.style.display = "none";
+      }
+
+      if(d != viewplayerdiv) {
+        viewplayerdiv.style.display = "none";
+      }
+
+      d.style.display = "inline";
+
+    }
+
+/********************************** SCRIPT FOR DEF **********************************************/
+
+    function def() { 
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.once("value", function(snapshot){
+        var currentvalue = snapshot.val().page;
+        if(!currentvalue || currentvalue == "") {
+          navdiv.style.display = "none";
+          logindiv.style.display = "inline";
+        }
+        else if(currentvalue == "signuphtml"){
+          document.getElementById(currentvalue).style.display = "inline";
+        }
+        else {
+          document.getElementById(currentvalue).style.display = "inline";
+          navdiv.style.display = "inline";
+        }
+      });
+    }
+
+  </script>
+</body>
+</html>

@@ -34,13 +34,11 @@
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
   <div class="viewgamestatscontainer">
-	<input class="vgseditbtn" type="button" onclick="location.href='./editgamestats.html';" value="Edit" id="editgamestatsBtn"><br>
+		<input type="button" onclick="location.href='./editgamestats.html';" value="Edit" id="editgamestatsBtn"><br>
 	  <h1 class="vgsgameheader" id="myteam"></h1>
 	  <h1 class="vgsgameheader">vs.</h1>
 	  <h1 class="vgsgameheader" id="oppteam"></h1>
-		<hr class="vgshr">
-		<p><span id="myte"></span> <span class="vgsstats">----:----</span> <span id="oppt"></span></p>		
-		<hr class="vgshr">		
+	  <hr class="vgshr">
 	  <p><span id="myscore"></span> <span class="vgsstats">Score</span> <span id="theirscore"></span></p>
 	  <hr class="vgshr">
 	  <p><span id="myfouls"></span> <span class="vgsstats">Foul</span> <span id="theirfouls"></span></p>
@@ -59,12 +57,17 @@
   </div>
   <script>
 
+		var game = JSON.parse(localStorage.getItem('gametoview'));
+
   	window.addEventListener('DOMContentLoaded', function() {
 
-			var myte = document.getElementById('myte'); 
-			var oppt = document.getElementById('oppt');
+			var stats = game.stats;
 			var my = document.getElementById('myteam');
 			var their = document.getElementById('oppteam');
+
+			my.innerHTML = localStorage.getItem('myteamname');
+			their.innerHTML = game.opponentname;
+
 			var ms = document.getElementById('myscore');
 			var ts = document.getElementById('theirscore');
 			var mg = document.getElementById('mygoals');
@@ -82,58 +85,34 @@
 			var mgk = document.getElementById('mygoalkicks');
 			var tgk = document.getElementById('theirgoalkicks');
 
-			var rootref = firebase.database().ref();
-			var viewgame = rootref.child("inspectgame/");
+			ms.innerHTML = stats.mygoals;
+			ts.innerHTML = stats.opponentgoals;
+			mg.innerHTML = stats.mygoals;
+			tg.innerHTML = stats.opponentgoals;
+			mf.innerHTML = stats.myfouls;
+			tf.innerHTML = stats.opponentfouls;
+			mrc.innerHTML = stats.myredcards;
+			trc.innerHTML = stats.opponentredcards;
+			myc.innerHTML = stats.myyellowcards;
+			tyc.innerHTML = stats.opponentyellowcards;
+			msog.innerHTML = stats.myshotsongoal;
+			tsog.innerHTML = stats.opponentshotsongoal;
+			mck.innerHTML = stats.mycornerkicks;
+			tck.innerHTML = stats.opponentcornerkicks;
+			mgk.innerHTML = stats.mygoalkicks;
+			tgk.innerHTML = stats.opponentgoalkicks;
 
-			viewgame.once("value", function(snapshot) {
-        var gametoview = snapshot.val();
-        var gid = gametoview.gameid;
-        var tmm = gametoview.team; 
-        var sring = "games/";
-        tmm = sring.concat(tmm); 
-        tmm = tmm.concat("/");
-
-        var gameslist = rootref.child(tmm);
-        gameslist.orderByChild("gameid").once("value",function(snap){
-          snap.forEach(function(snapshot){
-            var stats = snapshot.val();
-            if(stats.gameid == gid) {
-							myte.innerHTML = gametoview.team,
-							oppt.innerHTML = stats.opponentname,
-							my.innerHTML = gametoview.team,
-							their.innerHTML = stats.opponentname,
-							ms.innerHTML = stats.mygoals;
-							ts.innerHTML = stats.opponentgoals;
-							mg.innerHTML = stats.mygoals;
-							tg.innerHTML = stats.opponentgoals;
-							mf.innerHTML = stats.myfouls;
-							tf.innerHTML = stats.opponentfouls;
-							mrc.innerHTML = stats.myredcards;
-							trc.innerHTML = stats.opponentredcards;
-							myc.innerHTML = stats.myyellowcards;
-							tyc.innerHTML = stats.opponentyellowcards;
-							msog.innerHTML = stats.myshotsongoal;
-							tsog.innerHTML = stats.opponentshotsongoal;
-							mck.innerHTML = stats.mycornerkicks;
-							tck.innerHTML = stats.opponentcornerkicks;
-							mgk.innerHTML = stats.mygoalkicks;
-							tgk.innerHTML = stats.opponentgoalkicks;
-            }
-          });
-        });
-      });
-			var curuser = rootref.child("currentuser/");
-			curuser.once("value", function(snapshot){
-				var username = snapshot.val().type;
-				if(username != "coach") {
-					document.getElementById('editgamestatsBtn').style.display = 'none';
-				}
-			});
+      var username = localStorage.getItem("user");
+      if(username != 'coach') {
+        document.getElementById('editgamestatsBtn').style.display = 'none';
+      }
   	});
 
+
 		var edBtn = document.getElementById('editgamestatsBtn');
+
 		edBtn.addEventListener('click', function() {
-			window.location.href="./editgamestats.html";
+			localStorage.setItem('gamestattoedit', JSON.stringify(game));
 		})
 
     function logoutClean() {

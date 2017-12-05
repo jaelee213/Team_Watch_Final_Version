@@ -37,12 +37,8 @@
 		<h1 class="vgsgameheader" id="myteam"></h1>
 		<h1 class="vgsgameheader">vs.</h1>
 		<h1 class="vgsgameheader" id="theirteam"></h1>
-		<br>
-		<p class="noticenote">To adjust game score, simply modify the "Goals" section below.</p>
 		<hr class="vgshr">
-		<p><span id="myte"></span> <span class="vgsstats">----:----</span> <span id="oppt"></span></p>		
-		<hr class="vgshr">
-	  <p><span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span></p>		
+		<p><button type="button" class="incrgamestats" onclick="incr('myteamscorevgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamscorevgs')">-</button> <span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamscoresvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamscoresvgs')">-</button></p>
 		<hr class="vgshr">
 		<p><button type="button" class="incrgamestats" onclick="incr('myteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamfoulvgs')">-</button> <span id="myteamfoulvgs"></span> <span class="vgsstats">Foul</span> <span id="oppteamfoulvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamfoulvgs')">-</button></p>
 		<hr class="vgshr">
@@ -61,71 +57,27 @@
   </div>
   <script>
 
-		var myte = document.getElementById('myte'); 
-		var oppt = document.getElementById('oppt');
+    var teamSpanIdArray = ['myteamscorevgs', 'myteamfoulvgs', 'myteamredcardvgs', 'myteamyellowcardvgs', 'myteamshotsongoalvgs', 'myteamgoalsvgs', 'myteamcornerkicksvgs', 'myteamgoalkicksvgs'];
+    var oppSpanIdArray = ['oppteamscoresvgs', 'oppteamfoulvgs', 'oppteamredcardvgs', 'oppteamyellowcardvgs', 'oppteamshotsongoalvgs', 'oppteamgoalsvgs', 'oppteamcornerkicksvgs', 'oppteamgoalkicksvgs'];
+    var gam = JSON.parse(localStorage.getItem('gamestattoedit'));
+		var game = gam.stats;
+    var myTeamStats = [game.mygoals, game.myfouls, game.myredcards, game.myyellowcards, game.myshotsongoal, game.mygoals, game.mycornerkicks, game.mygoalkicks];
+    var oppTeamStats = [game.opponentgoals, game.opponentfouls, game.opponentredcards, game.opponentyellowcards, game.opponentshotsongoal, game.opponentgoals, game.opponentcornerkicks, game.opponentgoalkicks];
 
-		var my = document.getElementById('myteam');
-		var their = document.getElementById('theirteam');
-
-		var ms = document.getElementById('myteamscorevgs');
-		var ts = document.getElementById('oppteamscoresvgs');
-		var mg = document.getElementById('myteamgoalsvgs');
-		var tg = document.getElementById('oppteamgoalsvgs');
-		var mf = document.getElementById('myteamfoulvgs');
-		var tf = document.getElementById('oppteamfoulvgs');
-		var mrc = document.getElementById('myteamredcardvgs');
-		var trc = document.getElementById('oppteamredcardvgs');
-		var myc = document.getElementById('myteamyellowcardvgs');
-		var tyc = document.getElementById('oppteamyellowcardvgs');
-		var msog = document.getElementById('myteamshotsongoalvgs');
-		var tsog = document.getElementById('oppteamshotsongoalvgs');
-		var mck = document.getElementById('myteamcornerkicksvgs');
-		var tck = document.getElementById('oppteamcornerkicksvgs');
-		var mgk = document.getElementById('myteamgoalkicksvgs');
-		var tgk = document.getElementById('oppteamgoalkicksvgs');
+		var mt = document.getElementById('myteam'); 
+		var tt = document.getElementById('theirteam'); 
 
   	window.addEventListener('DOMContentLoaded', function() {
+  	  for (var k = 0; k < teamSpanIdArray.length; k++) {
+  	  	var teamCurrStat = document.getElementById(teamSpanIdArray[k]);
+  		teamCurrStat.innerHTML = myTeamStats[k];
+  		var oppCurrStat = document.getElementById(oppSpanIdArray[k]);
+  		oppCurrStat.innerHTML = oppTeamStats[k];
+  	  }
 
-			var rootref = firebase.database().ref();
-			var viewgame = rootref.child("inspectgame/");
+			mt.innerHTML = localStorage.getItem('myteamname'); 
+			tt.innerHTML = gam.opponentname;
 
-			viewgame.once("value", function(snapshot) {
-        var gametoview = snapshot.val();
-        var gid = gametoview.gameid;
-        var tmm = gametoview.team; 
-        var sring = "games/";
-        tmm = sring.concat(tmm); 
-        tmm = tmm.concat("/");
-
-        var gameslist = rootref.child(tmm);
-        gameslist.orderByChild("gameid").once("value",function(snap){
-          snap.forEach(function(snapshot){
-            var stats = snapshot.val();
-            if(stats.gameid == gid) {
-							myte.innerHTML = gametoview.team,
-							oppt.innerHTML = stats.opponentname,
-							my.innerHTML = gametoview.team,
-							their.innerHTML = stats.opponentname,
-							ms.innerHTML = stats.mygoals;
-							ts.innerHTML = stats.opponentgoals;
-							mg.innerHTML = stats.mygoals;
-							tg.innerHTML = stats.opponentgoals;
-							mf.innerHTML = stats.myfouls;
-							tf.innerHTML = stats.opponentfouls;
-							mrc.innerHTML = stats.myredcards;
-							trc.innerHTML = stats.opponentredcards;
-							myc.innerHTML = stats.myyellowcards;
-							tyc.innerHTML = stats.opponentyellowcards;
-							msog.innerHTML = stats.myshotsongoal;
-							tsog.innerHTML = stats.opponentshotsongoal;
-							mck.innerHTML = stats.mycornerkicks;
-							tck.innerHTML = stats.opponentcornerkicks;
-							mgk.innerHTML = stats.mygoalkicks;
-							tgk.innerHTML = stats.opponentgoalkicks;
-            }
-          });
-        });
-      });
   	});
 
   	function incr(spanId) {
@@ -143,45 +95,47 @@
   	  currStat.innerHTML = newNum;
   	}
 
+		egssaveBtn.addEventListener('click', function() {
+			location.href='./viewgamestats.html';
+		})
+
   	egssaveBtn.addEventListener('click', function () {
-			var rootref = firebase.database().ref();
-			var viewgame = rootref.child("inspectgame/");
 
-			viewgame.once("value", function(snapshot){
-				var gametoedit = snapshot.val();
-        var gid = gametoedit.gameid;
-        var tmm = gametoedit.team; 
-        var sring = "games/";
-        tmm = sring.concat(tmm); 
-        tmm = tmm.concat("/");
+			var glist = JSON.parse(localStorage.getItem('games')); 
+			var ix; 
 
-				var gameslist = rootref.child(tmm);
-				gameslist.orderByChild("gameid").once("value", function(snap){
-					snap.forEach(function(snapshot){
-            var game = snapshot.val();
-						var updategame = snapshot.ref;
-            if(game.gameid == gid) {
-							updategame.update({
-								mygoals: mg.innerHTML,
-								opponentgoals: tg.innerHTML,
-							 	myfouls: mf.innerHTML,
-								opponentfouls: tf.innerHTML,
-								myredcards: mrc.innerHTML,
-								opponentredcards: trc.innerHTML,
-								myyellowcards: myc.innerHTML,
-								opponentyellowcards: tyc.innerHTML,
-								myshotsongoal: msog.innerHTML,
-								opponentshotsongoal: tsog.innerHTML, 
-								mycornerkicks: mck.innerHTML, 
-								opponentcornerkicks: tck.innerHTML,
-								mygoalkicks: mgk.innerHTML, 
-								opponentgoalkicks: tgk.innerHTML
-							});
-            }
-          });
-					window.location.href="./viewgamestats.html";
-				})
-			});
+			for(var g = 0; g < glist.length; g++) {
+        var gdate = new Date(glist[g].date); 
+        var gadate = new Date(gam.date); 
+
+        if( (glist[g].opponentname == gam.opponentname) 
+        && (gdate.setHours(0, 0, 0, 0) == gadate.setHours(0, 0, 0, 0))){
+          
+					var gm = {}; 
+
+					ix = g; 
+
+					gm.mygoals = myteamscorevgs.innerHTML; 
+					gm.opponentgoals = oppteamscoresvgs.innerHTML;
+					gm.myfouls = myteamfoulvgs.innerHTML; 
+					gm.opponentfouls = oppteamfoulvgs.innerHTML; 
+					gm.myredcards = myteamredcardvgs.innerHTML; 
+					gm.opponentredcards = oppteamredcardvgs.innerHTML;
+					gm.myyellowcards = myteamyellowcardvgs.innerHTML; 
+					gm.opponentyellowcards = oppteamyellowcardvgs.innerHTML; 
+					gm.myshotsongoal = myteamshotsongoalvgs.innerHTML; 
+					gm.opponentshotsongoal = oppteamshotsongoalvgs.innerHTML; 
+					gm.mycornerkicks = myteamcornerkicksvgs.innerHTML; 
+					gm.opponentcornerkicks = oppteamcornerkicksvgs.innerHTML; 
+					gm.mygoalkicks = myteamgoalkicksvgs.innerHTML; 
+					gm.opponentgoalkicks = oppteamgoalkicksvgs.innerHTML; 
+
+					glist[g].stats = gm;					
+        }
+      }
+
+			localStorage.setItem('games', JSON.stringify(glist)); 
+			localStorage.setItem('gametoview', JSON.stringify(glist[ix]));
   	});
 
     function logoutClean() {

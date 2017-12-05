@@ -128,6 +128,11 @@
         return false;
       }
 
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.');
+        return false;
+      }
+
       if(isNaN(tHour) || isNaN(tMinute)) {
         alert('Time has to be in numerical format. Please refer to specified format above input field.');
         return false;
@@ -138,11 +143,6 @@
         return false;
       }
 
-      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
-        alert('Cannot make games scheduled for dates before today. Please set another date.');
-        return false;
-      }
-      
       var tofd = document.querySelector('input[name=tofday]:checked');
       if(!tofd) {
         alert('Please specify time of day.');

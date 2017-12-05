@@ -49,25 +49,25 @@
         <input type="text" name="lname" id="lastname" placeholder="Last Name">
         <input type="email" name="email" id="email" placeholder="Email">
         <input type="text" name="bday" id="birthdate" placeholder="Date of Birth (mm/dd/yy)" maxlength="8">
-        <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number" maxlength="2">
+        <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number">
         <hr>
         <h2>Position</h2>
         <p>Select one:</p>
         <select name="pos" id="position">
           <option value="default">Choose a position</option>
-          <option value="Forward"> Forward </option>
-          <option value="Midfielder"> Midfielder </option>
-          <option value="Defender"> Defender</option>
-          <option value="Goalkeeper">Goalkeeper</option>
+          <option value="forward"> Forward </option>
+          <option value="midfielder"> Midfielder </option>
+          <option value="defender"> Defender</option>
+          <option value="goalkeeper">Goalkeeper</option>
         </select>
         <hr>
         <h2>Role</h2>
         <p>Select one:</p>
         <select name="role" id="role">
           <option value="default">Choose a role</option>
-          <option value="Captain"> Captain </option>
-          <option value="Starter"> Starter </option>
-          <option value="Substitute"> Substitute </option>
+          <option value="captain"> Captain </option>
+          <option value="starter"> Starter </option>
+          <option value="substitute"> Substitute </option>
         </select>
         <input type="button" value="Save" id="egssaveBtn">
         <hr>
@@ -144,6 +144,7 @@
         return;
       }
 
+
       var fullname;
       var position = position.value;
       var role = role.value;
@@ -171,36 +172,28 @@
             alert('The player already exists. Please create another player or press "Go Back" to navigate to previous page.');
             return;
           }
-          playerslist.orderByChild("jerseynumber").equalTo(jerseynumber).once("value", snapshot => {
-            const po = snapshot.val();
-            if(po){
-              alert('The jersey number is already taken. Please use another jersey number.'); 
-              return;
-            }
-            else {
-              var newplayer = playerslist.push();
-              newplayer.set({
-                myteamname: x.team,
-                playerid: playerid,
-                jerseynumber: jerseynumber, 
-                birthdate: birthdate, 
-                firstname: firstname,
-                lastname: lastname, 
-                email: email,
-                position: position, 
-                role: role, 
-                name: fullname, 
-                goals: "0", 
-                assists: "0",
-                fouls: "0", 
-                redcards: "0",
-                yellowcards: "0", 
-                gamesplayed: "0"
-              });
-              alert('Player Created!'); 
-              window.location.href='./players.html';
-            }
-          });
+          else {
+            var newplayer = playerslist.push();
+            newplayer.set({
+              myteamname: x.team,
+              jerseynumber: jerseynumber, 
+              birthdate: birthdate, 
+              firstname: firstname,
+              lastname: lastname, 
+              email: email,
+              position: position, 
+              role: role, 
+              name: fullname, 
+              goals: "0", 
+              assists: "0",
+              fouls: "0", 
+              redcards: "0",
+              yellowcards: "0", 
+              gamesplayed: "0"
+            });
+            alert('Player Created!'); 
+            window.location.href='./players.html';
+          }
         });
       });
     })

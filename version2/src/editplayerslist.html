@@ -25,7 +25,7 @@
   <title>TeamWatch</title>
 </head>
 
-<body onload="afterLoad()">
+<body>
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -70,66 +70,122 @@
     var saveEditBtn = document.getElementById('editrosterbtn');
     var goBackBtn = document.getElementById('backBtn');
 
-    var rootref = firebase.database().ref();
-
+    var ustm;
     window.addEventListener('DOMContentLoaded', function () {
       
       var tbl = document.getElementById('outputTable');
-      var playerslist = rootref.child("players/");
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
 
-      for (var i = 0; i < rArray.length; i++) {
-        tbl.innerHTML += "<tr><td>"
-        + rArray[i].jerseynumber
-        + "</td><td>" + rArray[i].position
-        + "</td><td><a href='#' class='es'>" + rArray[i].name
-        + "</a></td><td class='gd' contenteditable='true'>" + rArray[i].goals
-        + "</td><td class='ad' contenteditable='true'>" + rArray[i].assists
-        + "</td><td class='fd' contenteditable='true'>" + rArray[i].fouls
-        + "</td><td class='rd' contenteditable='true'>" + rArray[i].redcards
-        + "</td><td class='yd' contenteditable='true'>" + rArray[i].yellowcards
-        + "</td><td class='gpd' contenteditable='true'>" + rArray[i].gamesplayed + "</td></tr>";
-      }
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        
+        var myteamname = snpsht.team; 
+        ustm = myteamname;
+        var str = "players/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+
+        playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
+          snapshot.forEach(function(snap){
+            var p = snap.val();
+
+            var rawBirthdate;
+            var temp = p.birthdate.indexOf("/"); 
+            var tempt = p.birthdate.lastIndexOf("/");
+            var strr = p.birthdate.slice(0, temp); 
+            var strrr = p.birthdate.slice(temp + 1, tempt); 
+            var strrrr = p.birthdate.slice(tempt + 1, p.birthdate.length);
+            rawBirthdate = strr + strrr + strrrr;
+
+            var playerid = p.firstname.concat(p.lastname); 
+            playerid = playerid.concat(rawBirthdate); 
+            playerid = playerid.concat(p.jerseynumber);
+            
+            tbl.innerHTML += "<tr><td>"
+            + p.jerseynumber
+            + "</td><td>" + p.position
+            + "</td><td><a href='#' class='es' id='" + playerid + "' onclick='clickedPlayer(this.id)'>" + p.name
+            + "</a></td><td class='gd' contenteditable='true' id='goal" + playerid + "'>" + p.goals
+            + "</td><td class='ad' contenteditable='true' id='assi" + playerid + "'>" + p.assists
+            + "</td><td class='fd' contenteditable='true' id='foul" + playerid + "'>" + p.fouls
+            + "</td><td class='rd' contenteditable='true' id='redc" + playerid + "'>" + p.redcards
+            + "</td><td class='yd' contenteditable='true' id='yell" + playerid + "'>" + p.yellowcards
+            + "</td><td class='gpd' contenteditable='true' id='gapl" + playerid + "'>" + p.gamesplayed + "</td></tr>";
+          });
+        });
+      });      
     })
 
-    function clicked() {
-      var cn = document.querySelectorAll("a.es");
-      for(var x = 0; x < cn.length; x++) {
-        (function(index) {
-          cn[index].addEventListener('click', function(){
-            localStorage.setItem('playertoedit', JSON.stringify(rArray[index]));
-          });
-        })(x);
-        cn[x].addEventListener('click', function(){
-          location.href='./viewplayer.html';
-        })
-      }
+    function clickedPlayer(id) {
+      var rootref = firebase.database().ref(); 
+      var moveplr = rootref.child("inspectplayer/");
+      moveplr.set({
+        team: ustm,
+        playerid: id
+      })
+      window.location.href="./viewplayer.html";
     }
 
     saveEditBtn.addEventListener('click', function() {
 
-      var g = document.querySelectorAll("td.gd");
-      var a = document.querySelectorAll("td.ad");
-      var f = document.querySelectorAll("td.fd");
-      var r = document.querySelectorAll("td.rd");
-      var y = document.querySelectorAll("td.yd");
-      var gp = document.querySelectorAll("td.gpd");
-      var newArray = [];
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("inspectplayer/");
 
-      for(var z = 0; z < rArray.length; z++) {
-        (function(index) {
-          var cuPl = rArray[index];
-          cuPl.goals = g[index].innerHTML;
-          cuPl.assists = a[index].innerHTML;
-          cuPl.fouls = f[index].innerHTML;
-          cuPl.redcards = r[index].innerHTML;
-          cuPl.yellowcards = y[index].innerHTML;
-          cuPl.gamesplayed = gp[index].innerHTML;
-          newArray.push(cuPl);
-        })(z);
-      }
-      localStorage.setItem('roster', JSON.stringify(newArray));
-    })
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
 
+        var myteamname = snpsht.team; 
+        ustm = myteamname;
+        var str = "players/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+
+        var checker = 0;
+        playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
+          snapshot.forEach(function(snap){
+            var cuPl = snap.val();
+            var compareid = cuPl.playerid;
+
+            var ugoals = "goal" + compareid;
+            var uassists = "assi" + compareid; 
+            var ufouls = "foul" + compareid; 
+            var uredcards = "redc" + compareid; 
+            var uyellowcards = "yell" + compareid; 
+            var ugamesplayed = "gapl" + compareid;
+
+            ugoals = document.getElementById(ugoals).innerHTML;
+            uassists = document.getElementById(uassists).innerHTML; 
+            ufouls = document.getElementById(ufouls).innerHTML; 
+            uredcards = document.getElementById(uredcards).innerHTML; 
+            uyellowcards = document.getElementById(uyellowcards).innerHTML;
+            ugamesplayed = document.getElementById(ugamesplayed).innerHTML;
+
+            if(isNaN(ugoals) || isNaN(uassists) || isNaN(ufouls) || isNaN(uredcards) || isNaN(uyellowcards) || isNaN(ugamesplayed)) {
+              alert('Invalid stat input. Please ONLY numerical values and do not leave any cells blank.'); 
+              checker = 1; 
+              return;
+            }
+            else {
+              cuPl = snap.ref; 
+              cuPl.update({
+              goals: Number(ugoals).toString(),
+              assists: Number(uassists).toString(),
+              fouls: Number(ufouls).toString(),
+              redcards: Number(uredcards).toString(),
+              yellowcards: Number(uyellowcards).toString(),
+              gamesplayed: Number(ugamesplayed).toString()
+            }); 
+            }
+          });
+          if(checker == 0) {
+            window.location.href="./players.html";
+          }
+        });
+      });
+    });
 
     goBackBtn.addEventListener('click', function() {
       window.location.href='./players.html';
@@ -148,11 +204,3 @@
   </script>
 </body>
 </html>
-
-<!--
-
-added the position field in table header
-removed onclick function for save button
-added a go back button
-
- -->

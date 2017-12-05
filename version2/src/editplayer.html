@@ -64,6 +64,10 @@
           <td contenteditable="true" id="dln"></td>
         </tr>
         <tr>
+          <td>Email:</td>
+          <td contenteditable="true" id="dem"></td>
+        </tr>
+        <tr>
           <td>Position:</td>
           <td contenteditable="true" id="dp"></td>
         </tr>
@@ -72,7 +76,7 @@
           <td contenteditable="true" id="dj"></td>
         </tr>
         <tr>
-          <td>Date of Birth: </td>
+          <td>Date of Birth: (Must be in mm/dd/yy format.)</td>
           <td contenteditable="true" id="dd"></td>
         </tr>
         <tr>
@@ -113,8 +117,7 @@
   </div>
 
   <script>
-    var ros = JSON.parse(localStorage.getItem('roster'));
-    var pla = JSON.parse(localStorage.getItem('playertoedit'));
+   
     var sv = document.getElementById('saveBtn');
     var dl = document.getElementById('backBtn');
 
@@ -130,61 +133,197 @@
     var fl = document.getElementById('df');
     var rcd = document.getElementById('dr');
     var ycd = document.getElementById('dy');
+    var email = document.getElementById('dem'); 
 
     window.addEventListener('DOMContentLoaded', function () {
-      fnm.innerHTML = pla.firstname;
-      lnm.innerHTML = pla.lastname;
-      nme.innerHTML = pla.name;
-      pos.innerHTML = pla.position;
-      jer.innerHTML = pla.jerseynumber;
-      dob.innerHTML = pla.birthdate;
-      goa.innerHTML = pla.goals;
-      ast.innerHTML = pla.assists;
-      gpd.innerHTML = pla.gamesplayed;
-      fl.innerHTML = pla.fouls;
-      rcd.innerHTML = pla.redcards;
-      ycd.innerHTML = pla.yellowcards;
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/"); 
+
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/"; 
+        stg = stg.concat(player.team); 
+        stg = stg.concat("/");
+
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              fnm.innerHTML = pla.firstname;
+              lnm.innerHTML = pla.lastname;
+              email.innerHTML = pla.email;
+              nme.innerHTML = pla.name;
+              pos.innerHTML = pla.position;
+              jer.innerHTML = pla.jerseynumber;
+              dob.innerHTML = pla.birthdate;
+              goa.innerHTML = pla.goals;
+              ast.innerHTML = pla.assists;
+              gpd.innerHTML = pla.gamesplayed;
+              fl.innerHTML = pla.fouls;
+              rcd.innerHTML = pla.redcards;
+              ycd.innerHTML = pla.yellowcards;
+            }
+          });
+        });
+      });
     })
 
     sv.addEventListener('click', function() {
-      location.href='./viewplayer.html';
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/"); 
+
+      var firstname = fnm.innerHTML;
+      var lastname = lnm.innerHTML; 
+      var emaill = email.innerHTML; 
+      var birthdate = dob.innerHTML; 
+      var jerseynumber = jer.innerHTML; 
+      var position = pos.innerHTML;
+
+      if(!firstname || !lastname || !jerseynumber || !birthdate || !emaill || !position) {
+        alert('Incomplete form. Please fill out the entire form.');
+        return;
+      }
+
+      if(emaill.indexOf("@") == 0 || emaill.indexOf("@") + 1 == emaill.lastIndexOf(".")) {
+        alert('Invalid email. Please use a valid email.'); 
+        return;
+      }
+
+      if(emaill.lastIndexOf(".") == (-1) || emaill.indexOf("@") == (-1)){
+        alert('Invalid email format. Please write down a valid email (i.e. johndoe@yahoo.com).'); 
+        return;
+      }
+
+      var firstdash = birthdate.indexOf("/");
+      var seconddash = birthdate.lastIndexOf("/");
+      if(!firstdash || !seconddash || firstdash == seconddash ) {
+        alert('Invalid birthdate format. Please fill out birthdate in mm/dd/yy format.')
+        return;
+      }
+
+      if(birthdate.length > 8) {
+        alert('Invalid birthdate format. Please adhere to the mm/dd/yy format.'); 
+        return;
+      }
+
+      if(jerseynumber.length > 2) {
+        alert('Jersey number can be at most two characters (i.e. 00, 11 22).');
+        return;
+      }
+
+      var bMonth = birthdate.slice(0, firstdash); 
+      var bDay = birthdate.slice(firstdash + 1, seconddash); 
+      var bYear = birthdate.slice(seconddash + 1, birthdate.length);
+      if(!bMonth || !bDay || !bYear || bYear.length != 2 || 
+          bMonth.length != 2 || bDay.length != 2 || 
+          bMonth > 12 || bDay > 31) {
+        alert('Invalid birthdate format, must be in mm/dd/yy format. Please fix to continue.');
+        return;
+      }
+
+      if(isNaN(bMonth) || isNaN(bDay) || isNaN(bYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.'); 
+        return;
+      }
+
+      if(!isNaN(position) || !(position.toUpperCase().replace(/\s/g, "") == "GOALKEEPER" 
+      || position.toUpperCase().replace(/\s/g, "") == "MIDFIELDER" 
+      || position.toUpperCase().replace(/\s/g, "") == "FORWARD" 
+      || position.toUpperCase().replace(/\s/g, "") == "DEFENDER")) {
+        alert('Please choose a valid position (Goalkeeper, Midfielder, Forward, Defender). Be careful with extra spaces!');
+        return;
+      }
+
+      position = position.toUpperCase().replace(/\s/g, ""); 
+ 
+      if(isNaN(goa.innerHTML) || isNaN(ast.innerHTML) || isNaN(gpd.innerHTML) || isNaN(fl.innerHTML) 
+      || isNaN(rcd.innerHTML) || isNaN(ycd.innerHTML)) {
+        alert('Counting stats must be in numerical format.'); 
+        return;
+      }
+
+      var ug = Number(goa.innerHTML).toString();
+      var ua = Number(ast.innerHTML).toString(); 
+      var ugp = Number(gpd.innerHTML).toString();
+      var uf = Number(fl.innerHTML).toString(); 
+      var ur = Number(rcd.innerHTML).toString();
+      var uy = Number(ycd.innerHTML).toString();
+      
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/"; 
+        stg = stg.concat(player.team); 
+        stg = stg.concat("/");
+
+        var fullname;
+        fullname = firstname.concat(" ");
+        fullname = fullname.concat(lastname); 
+
+        var rawBirthdate = bMonth + bDay + bYear;
+
+        var playerid = firstname.concat(lastname); 
+        playerid = playerid.concat(rawBirthdate); 
+        playerid = playerid.concat(jerseynumber);
+
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              var currentPlyr = snap.ref;
+              currentPlyr.update({
+                myteamname: player.team,
+                firstname: fnm.innerHTML,
+                playerid: playerid,
+                lastname: lnm.innerHTML,
+                email: emaill,
+                name: fullname,
+                position: position,
+                jerseynumber: jer.innerHTML,
+                birthdate: dob.innerHTML,
+                goals: ug,
+                assists: ua,
+                gamesplayed: ugp,
+                fouls: uf,
+                redcards: ur,
+                yellowcards: uy
+              });
+            }
+          });     
+          var rootref = firebase.database().ref(); 
+          var moveplr = rootref.child("inspectplayer/");
+          moveplr.set({
+            team: player.team,
+            playerid: playerid
+          })
+          window.location.href='./viewplayer.html';
+        });
+      });  
     })
 
     dl.addEventListener('click', function() {
-      location.href='./players.html';
-    })
-
-    sv.addEventListener('click', function() {
-      var indx = 0;
-      for(var s = 0; s < ros.length; s++) {
-        if(ros[s].jerseynumber == pla.jerseynumber && ros[s].name == pla.name) {
-          var currentPlyr = ros[s];
-          indx = s;
-          currentPlyr.firstname = fnm.innerHTML;
-          currentPlyr.lastname = lnm.innerHTML;
-          currentPlyr.name = nme.innerHTML;
-          currentPlyr.position = pos.innerHTML;
-          currentPlyr.jerseynumber = jer.innerHTML;
-          currentPlyr.birthdate = dob.innerHTML;
-          currentPlyr.goals = goa.innerHTML;
-          currentPlyr.assists = ast.innerHTML;
-          currentPlyr.gamesplayed = gpd.innerHTML;
-          currentPlyr.fouls = fl.innerHTML;
-          currentPlyr.redcards = rcd.innerHTML;
-          currentPlyr.yellowcards = ycd.innerHTML;
-        }
-      }
-      localStorage.setItem('roster', JSON.stringify(ros));
-      localStorage.setItem('playertoedit', JSON.stringify(ros[indx]));
-    })
-
-    dl.addEventListener('click', function() {
-      for(var d = 0; d < ros.length; d++) {
-        if(ros[d].jerseynumber == pla.jerseynumber && ros[d].name == pla.name) {
-          ros.splice(d, 1);
-        }
-      }
-      localStorage.setItem('roster', JSON.stringify(ros));
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("inspectplayer/");
+      currus.once("value", function(snapshot){
+        var uNow = snapshot.val();
+        var noot = uNow.team;
+        var strin = "players/";
+        noot = strin.concat(noot);
+        noot = noot.concat("/");
+        var playerslist = rootref.child(noot);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var nowPlayer = snap.val();
+            var deletePlayer = snap.ref;
+            if(nowPlayer.playerid == uNow.playerid) {
+              deletePlayer.remove();
+              alert("Player Deleted.");
+              window.location.href="./players.html";
+            }
+          });
+        });
+      });
     })
 
     function logoutClean() {

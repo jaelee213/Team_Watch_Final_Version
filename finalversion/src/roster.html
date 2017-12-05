@@ -83,7 +83,7 @@
         myteamname = myteamname.concat("/");
         var playerslist = rootref.child(myteamname);
 
-        playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
+        playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
           snapshot.forEach(function(snap){
             var p = snap.val();
             tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td>"
