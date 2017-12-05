@@ -68,6 +68,12 @@
   <script>
 
 	  window.addEventListener('DOMContentLoaded', function(){
+      //SCORE STUFF
+      
+
+
+
+      //PRACTICE STUFF
       //Today's Date
       var today = new Date();
       var dd = today.getDate().toString();
@@ -81,9 +87,12 @@
       if(mm<10) {
         mm = '0' + mm;
       }
-      today = mm.toString() + '/' + dd.toString() + '/' + yy;
+      var todayid = today.getFullYear().toString().substr(2,2) + mm.toString() + dd + today.getHours().toString() + today.getMinutes().toString();
+      today = mm.toString() + '/' + dd + '/' + yy;
+
 
       var dis = document.getElementById("outPut");
+      dis.innerHTML = "";
       var dbref = firebase.database().ref().child("currentuser/");
       dbref.once("value", function(snap){
         var snapval = snap.val();
@@ -101,19 +110,77 @@
             snapshot.forEach(function(snapshot1) {
               var todayGame = snapshot1.val();
               if(today == todayGame.date) {
-                dis.innerHTML = "<div class='box0'><h2>Today's Game: " + today
+                dis.innerHTML += "<div class='box0'><h2>Today's Game: " + today
                               + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
                               + "<h4><mark>" + todayGame.mygoals + " : " + todayGame.opponentgoals + "</mark></h4>"
                               + "<p>" + todayGame.date + " " + todayGame.time
                               + "</p><p>" + todayGame.location
                               + "</p><p>" + todayGame.status
-                              + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid + "'onclick='clicked(this.id)'>";
+                              + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid
+                              + "'onclick='clicked(this.id)'></div>";
               }
             })
+            if (dis == "") {
+              dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
+            }
+          });
+        }
+        else {
+          var str = "practice/";
+          currTeam = str.concat(currTeam);
+          currTeam = currTeam.concat("/");
+          var practList = firebase.database().ref().child(currTeam);
+
+          var editb;
+
+          practList.orderByChild("timeid").once("value", function(snapshot){
+            snapshot.forEach(function(snapshot1){
+              var todayPract = snapshot1.val();
+              var tod;
+
+              if(todayPract.tod == "night"){
+                tod = " P.M.";
+              }
+              else {
+                tod = " A.M.";
+              }
+
+              if(currUser == 'player') {
+                editb = "";
+              }
+              else {
+                editb = "<input type='button' value='Edit Practice' id='edit" + todayPract.timeid + "' class='editGameBtn'"
+                      + " onclick='clicked(this.id)'>";
+              }
+
+              if(today ==  todayPract.date) {
+                dis.innerHTML += "<div class='box0'><h2>Today's Practice: " + today
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+              else if (todayid < todayPract.timeid) {
+                dis.innerHTML += "<div class='box0'><h2>Upcoming Practice: " + todayPract.date
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+            });
           });
         }
       });
     });
+
+    function clicked(id) {
+      var rootref = firebase.database().ref();
+      var timeid = id.substr(4, id.length);
+
+      var movegame = rootref.child("practedit");
+      movegame.set({
+        timeid: timeid
+      })
+
+      window.location.href="./editpractice.html";
+
+    }
 
     function logoutClean() {
 			var rrf = firebase.database().ref();

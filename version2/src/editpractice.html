@@ -58,31 +58,51 @@
   </div>
 
   <script>
-    var practiceEdit = firebase.database().ref().child("practedit");
-
     var saveBtn = document.getElementById('exsave');
     var delBtn = document.getElementById('delB');
     var oldTimeid;
+    var currTeam;
 
-    //TODO: Load content after setup in gameschedule
+    var practiceEdit = firebase.database().ref().child("practedit");
+    var userRef = firebase.database().ref().child("currentuser/");
+
+
+
     window.addEventListener('DOMContentLoaded', function() {
-      practiceEdit.once("value", function(snap) {
-        var pract = snap.val();
+      userRef.once("value", function(snap){
+        var snap1 = snap.val();
+        currTeam = snap1.team;
+        var team = currTeam;
+        var str = "practice/";
+        team = str.concat(team);
+        team = team.concat("/");
 
-        // Fill out Input
-        document.getElementById("gamedate").value = pract.date;
-        document.getElementById("gametime").value = pract.time;
-        if(pract.tod == 'night') {
-          document.getElementById('pmradio').checked = true;
-        }
-        else {
-          document.getElementById('amradio').checked = true;
-        }
-        document.getElementById("gamelocation").value = pract.location;
+        practiceEdit.once("value", function(snap2) {
+          var pract = snap2.val();
+          oldTimeid = pract.timeid;
+          var practice = firebase.database().ref().child(team);
 
-        oldTimeid = pract.timeid;
+            practice.orderByChild("timeid").once("value", function(snap3){
+              snap3.forEach(function(snap4){
+                var snapshot = snap4.val();
+
+                if(oldTimeid == snapshot.timeid) {
+                  document.getElementById("gamedate").value = snapshot.date;
+                  document.getElementById("gametime").value = snapshot.time;
+                  if(snapshot.tod == 'night') {
+                    document.getElementById('pmradio').checked = true;
+                  }
+                  else {
+                    document.getElementById('amradio').checked = true;
+                  }
+                  document.getElementById("gamelocation").value = snapshot.location;
+                }
+              });
+            });
+          });
+        });
       });
-    });
+
 
 
     saveBtn.addEventListener('click', function() {
@@ -156,8 +176,7 @@
       }
 
       //TODO Update Practice
-      var currus = firebase.database().ref().child("currentuser/");
-      currus.once("value", function(snap) {
+      userRef.once("value", function(snap) {
         var snapshot = snap.val();
         var team = snapshot.team;
         var str = "practice/";
@@ -195,33 +214,29 @@
                 tod: tod
               });
             }
-            alert('Practice Updated!');
-            window.location.href = "./gameschedule.html";
           });
+          alert('Practice Updated!');
+          window.location.href = "./home.html";
         });
       });
     });
 
     //TODO Delete Practice from gameschedule
     delBtn.addEventListener('click', function() {
-      var userRef = firebase.database().ref().child("currentuser/");
-      userRef.once("value", function(snap) {
-        var obj = snap.val();
-        var team = obj.team;
-        var str = "practice/";
-        team = str.concat(team);
-        team = team.concat("/");
+      var team = currTeam;
+      var str = "practice/";
+      team = str.concat(team);
+      team = team.concat("/");
 
-        var pracList = firebase.database().ref().child(team);
-        pracList.orderByChild("timeid").once("value", function(snap1) {
-          snap1.forEach(function(snap2){
-            var currPrac = snap2.val();
-            if(currPrac.timeid == oldTimeid){
-              snap2.ref.remove();
-              alert('Practice Removed');
-              window.location.href = "./gameschedule.html";
-            }
-          });
+      var pracList = firebase.database().ref().child(team);
+      pracList.orderByChild("timeid").once("value", function(snap1) {
+        snap1.forEach(function(snap2){
+          var currPrac = snap2.val();
+          if(currPrac.timeid == oldTimeid){
+            snap2.ref.remove();
+            alert('Practice Removed');
+            window.location.href = "./home.html";
+          }
         });
       });
     });
