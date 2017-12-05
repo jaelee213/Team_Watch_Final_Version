@@ -25,7 +25,7 @@
   <title>Game Schedule</title>
 </head>
 
-<body onload="loading()">
+<body onload="refresh()">
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -33,31 +33,30 @@
     <a href="./players.html">Roster</a>
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
-  <div id="loader"></div>  
-  <h3 id="loadtext">Loading... Please Wait...</h3>
 
-  <div style="display:none;" id="main">
-    <input type="button" onclick="location.href='./addgame.html';" value="Add Game" id="addGameBtn">
-    <input type="button" onclick="location.href='./addpractice.html';" value="Add Practice" id="addPracBtn">
-
-
-    <output id="outputgames">
-    </output>
-  </div>
+  <input type="button" onclick="location.href='./addgame.html';" value="Add Game" id="addGameBtn">
+  <input type="button" onclick="location.href='./addpractice.html';" value="Add Practice" id="addPracBtn">
+  <output id="outputgames">
+  </output>
 
   <script type="text/javascript">
-
     document.getElementById('addPracBtn').style.display = 'none';
+    var userteam; 
 
     window.addEventListener('DOMContentLoaded', function(){
-
       var rootref = firebase.database().ref();
       var currus = rootref.child("currentuser/"); 
       var disGam = document.getElementById('outputgames');
+      var currga = rootref.child("inspectgame/");
 
+      currga.once("value", function(snapshot){
+        snapshot.ref.remove();
+      });
+      
       currus.once("value", function(snapshot){
         var snpsht = snapshot.val();
         var myteamname = snpsht.team; 
+        userteam = myteamname;
         var str = "games/"; 
         myteamname = str.concat(myteamname); 
         myteamname = myteamname.concat("/");
@@ -124,7 +123,6 @@
               + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
               + styleStr + " onclick='clicked(this.id)'></div>";
             }
-
           });
           if (disGam.value == "") {
             disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
@@ -134,15 +132,13 @@
     });
 
     function clicked(id) {
-
       var rootref = firebase.database().ref();
       var gameid = id.substr(4, id.length); 
-      alert('gameid: ' + gameid)
       var movegame = rootref.child("inspectgame/");
       movegame.set({
+        team: userteam,
         gameid: gameid
       })
-
       var stri = id.substr(0, 4); 
       if(stri == "edit") {
         window.location.href="./editgame.html";
@@ -150,15 +146,6 @@
       if(stri == "view") {
         window.location.href="./viewgamestats.html";
       }
-    }
-
-    var load; 
-    function loading(){
-      load = setTimeout(() => {
-        document.getElementById('loader').style.display = "none"
-        document.getElementById('loadtext').style.display = "none";
-        document.getElementById('main').style.display = "block";
-      }, 1000);
     }
 
     function logoutClean() {

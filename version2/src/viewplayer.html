@@ -121,8 +121,7 @@
     window.addEventListener('DOMContentLoaded', function () {
 
       var rootref = firebase.database().ref();
-      var currus = rootref.child("currentuser/")
-      var viewplayer = rootref.child("playertoview/"); 
+      var viewplayer = rootref.child("inspectplayer/"); 
 
       viewplayer.once("value", function(snapshot){
         var pla = snapshot.val();

@@ -25,7 +25,7 @@
 <title>TeamWatch</title>
 </head>
 
-<body onload="loading()">
+<body>
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -33,9 +33,7 @@
     <a href="./players.html">Roster</a>
     <a href="./login.html" id="logout" onclick="logoutClean()"> Logout</a>
   </nav>
-  <div id="loader"></div>
-  <h3 id="loadtext">Loading... Please Wait...</h3>  
-  <div class="container1" id="main" style="display: none">
+  <div class="container1">
     <div class="subcontainer">
       <input type="button" onclick="location.href='./editplayerslist.html';" value="Edit" id="editrosterbtn">
       <br>
@@ -65,7 +63,7 @@
     </div>
   </div>
 
-  <script>
+  <script>    
 
     window.addEventListener('DOMContentLoaded', function () {
       var tbl = document.getElementById('outputdata');
@@ -96,15 +94,6 @@
         });
       });
     })
-
-    var load; 
-    function loading(){
-      load = setTimeout(() => {
-        document.getElementById('loader').style.display = "none"
-        document.getElementById('loadtext').style.display = "none";
-        document.getElementById('main').style.display = "block";
-      }, 1000);
-    }
 
     function logoutClean() {
       var rrf = firebase.database().ref();

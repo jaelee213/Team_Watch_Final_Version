@@ -55,23 +55,16 @@
     </form>
   </div>
   <script>
-
-    //var game = JSON.parse(localStorage.getItem('gametoedit'));
-    //var glist = JSON.parse(localStorage.getItem('games'));
-
     var rootref = firebase.database().ref();
-    var editgame = rootref.child("gametoedit/");
-
+    var editgame = rootref.child("inspectgame/");
     var savebutton = document.getElementById('exsave');
     var deletebutton = document.getElementById('delB');
     var out = document.getElementById('outputOption');
     var put = document.getElementById('outOpt');
-
     var ot = document.getElementById('OppTeam');
     var d = document.getElementById('gameDate');
     var t = document.getElementById('gametime');
     var l = document.getElementById('location');
-
     var editgameid;
     var mfouls;
     var ofouls;
@@ -90,48 +83,61 @@
 
     window.addEventListener('DOMContentLoaded', function() {
       editgame.once("value", function(snapshot) {
-        var game = snapshot.val();
-        var gtime;
+        var gametoedit = snapshot.val();
+        var gid = gametoedit.gameid;
+        var tmm = gametoedit.team; 
+        var sring = "games/";
+        tmm = sring.concat(tmm); 
+        tmm = tmm.concat("/");
 
-        if(game.tod == "day") {
-          gtime = game.time.replace(" am", "");
-          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
-          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
-        }
-        else if(game.tod == "night") {
-          gtime = game.time.replace(" pm", "");
-          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
-          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
-        }
+        var galist = rootref.child(tmm);
+        galist.orderByChild("gameid").once("value",function(snap){
+          snap.forEach(function(snapshot){
+            var game = snapshot.val();
+            if(game.gameid == gid) {
+              var gtime;
+              if(game.tod == "day") {
+                gtime = game.time.replace(" am", "");
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
+              }
+              else if(game.tod == "night") {
+                gtime = game.time.replace(" pm", "");
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
+              }
 
-        if(game.status == "Home") {
-          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>"
-          + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>";
-        }
-        else if(game.status == "Away") {
-          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>"
-          + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>";
-        }
+              if(game.status == "Home") {
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>";
+              }
+              else if(game.status == "Away") {
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>";
+              }
 
-        ot.value = game.opponentname;
-        d.value = game.date;
-        t.value = gtime;
-        l.value = game.location;
-        editgameid = game.gameid;
-        mfouls = game.myfouls;
-        ofouls = game.opponentfouls;
-        mredcards = game.myredcards;
-        oredcards = game.opponentredcards;
-        myellowcards = game.myyellowcards;
-        oyellowcards = game.opponentyellowcards;
-        mshotsongoal = game.myshotsongoal;
-        oshotsongoal = game.opponentshotsongoal;
-        mgoals = game.mygoals;
-        ogoals = game.opponentgoals;
-        mcornerkicks = game.mycornerkicks;
-        ocornerkicks = game.opponentcornerkicks;
-        mgoalkicks = game.mygoalkicks;
-        ogoalkicks = game.opponentgoalkicks;
+              ot.value = game.opponentname;
+              d.value = game.date;
+              t.value = gtime;
+              l.value = game.location;
+              editgameid = game.gameid;
+              mfouls = game.myfouls;
+              ofouls = game.opponentfouls;
+              mredcards = game.myredcards;
+              oredcards = game.opponentredcards;
+              myellowcards = game.myyellowcards;
+              oyellowcards = game.opponentyellowcards;
+              mshotsongoal = game.myshotsongoal;
+              oshotsongoal = game.opponentshotsongoal;
+              mgoals = game.mygoals;
+              ogoals = game.opponentgoals;
+              mcornerkicks = game.mycornerkicks;
+              ocornerkicks = game.opponentcornerkicks;
+              mgoalkicks = game.mygoalkicks;
+              ogoalkicks = game.opponentgoalkicks;
+            }
+          });
+        });
       });
     });
 
@@ -230,7 +236,7 @@
         return false;
       }
 
-      var currus = rootref.child("currentuser/");
+      var currus = rootref.child("inspectgame/");
       currus.once("value", function(snapshot){
 
         var userNow = snapshot.val();
@@ -262,14 +268,12 @@
         var location = document.getElementById('location').value;
         var status = document.querySelector('input[name=status]:checked').value;
         var gameid = opponentname.concat(timeid);
-
+      
         gameslist.orderByChild("timeid").once("value", function(snapshot){
           snapshot.forEach(function(snap){
             var currGame = snap.val();
             var updateGame = snap.ref;
             if(currGame.gameid == editgameid) {
-
-              alert("Updating Game...");
               updateGame.update({
                 gameid: gameid,
                 timeid: timeid,
@@ -311,7 +315,6 @@
         noot = strin.concat(noot);
         noot = noot.concat("/");
         var gameslist = rootref.child(noot);
-
         gameslist.orderByChild("timeid").once("value", function(snapshot){
           snapshot.forEach(function(snap){
             var nowGame = snap.val();

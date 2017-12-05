@@ -67,13 +67,16 @@
   </div>
 
   <script>
-    var rArray = JSON.parse(localStorage.getItem('roster'));
     var saveEditBtn = document.getElementById('editrosterbtn');
     var goBackBtn = document.getElementById('backBtn');
+
+    var rootref = firebase.database().ref();
 
     window.addEventListener('DOMContentLoaded', function () {
       
       var tbl = document.getElementById('outputTable');
+      var playerslist = rootref.child("players/");
+
       for (var i = 0; i < rArray.length; i++) {
         tbl.innerHTML += "<tr><td>"
         + rArray[i].jerseynumber
@@ -88,7 +91,7 @@
       }
     })
 
-    function afterLoad() {
+    function clicked() {
       var cn = document.querySelectorAll("a.es");
       for(var x = 0; x < cn.length; x++) {
         (function(index) {
@@ -127,12 +130,9 @@
       localStorage.setItem('roster', JSON.stringify(newArray));
     })
 
-    saveEditBtn.addEventListener('click', function() {
-      location.href='./players.html';
-    })
 
     goBackBtn.addEventListener('click', function() {
-      location.href='./players.html';
+      window.location.href='./players.html';
     })
 
     function logoutClean() {

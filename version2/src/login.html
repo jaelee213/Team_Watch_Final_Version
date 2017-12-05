@@ -63,6 +63,7 @@
       else {
         var searchlist = userslist.orderByChild("username").equalTo(user.value); 
         searchlist.once("value", function(snapshot){
+
           snapshot.forEach(function(snap) {
             var cur = snap.val(); 
             if(cur.username == user.value) {

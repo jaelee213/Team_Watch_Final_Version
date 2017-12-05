@@ -168,6 +168,8 @@
         playerslist.orderByChild("playerid").equalTo(playerid).once("value", snapshot => {
           const playerobj = snapshot.val();
           
+          alert(playerobj.firstname);
+
           if(playerobj) {
             alert('The player already exists. Please create another player or press "Go Back" to navigate to previous page.');
             return;
