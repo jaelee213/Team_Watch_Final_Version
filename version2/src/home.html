@@ -67,87 +67,60 @@
 
   <script>
 
-		var gArray = JSON.parse(localStorage.getItem('games'));
+	  window.addEventListener('DOMContentLoaded', function(){
+      //Today's Date
+      var today = new Date();
+      var dd = today.getDate().toString();
+      var mm = today.getMonth()+1;
+      var yy = today.getFullYear().toString();
+      yy = yy.slice(2,4);
+      if(dd<10) {
+        dd = '0' + dd;
+      }
 
-    window.addEventListener('DOMContentLoaded', function(){
+      if(mm<10) {
+        mm = '0' + mm;
+      }
+      today = mm.toString() + '/' + dd.toString() + '/' + yy;
 
-			var myname = localStorage.getItem('myteamname');
-      var disGam = document.getElementById('outPut');
+      var dis = document.getElementById("outPut");
+      var dbref = firebase.database().ref().child("currentuser/");
+      dbref.once("value", function(snap){
+        var snapval = snap.val();
+        var currUser = snapval.type;
+        var currTeam = snapval.team;
 
-			var tn = document.getElementById('mytname');
-			tn.innerHTML = myname;
+        //Players: Show today's game
+        if(currUser == "fan") {
+          var str = "games/";
+          currTeam = str.concat(currTeam);
+          currTeam = currTeam.concat("/");
+          var gamelist = firebase.database().ref().child(currTeam);
 
-			var wins = 0;
-			var losses = 0;
-			var ties = 0;
-			var gs = 0;
-			var gg = 0;
-
-			var wi = document.getElementById('wins');
-			var lo = document.getElementById('losses');
-			var ti = document.getElementById('ties');
-			var tgs = document.getElementById('totalgoalsscored');
-			var tgg = document.getElementById('totalgoalsgivenup')
-
-			if(gArray) {
-				for (var i = 0; i < gArray.length; i++) {
-
-					var todayDate = new Date();
-					var compareDate = new Date(gArray[i].date);
-
-					if(todayDate.setHours(0, 0, 0, 0) > compareDate.setHours(0, 0, 0, 0)) {
-						var curstats = gArray[i].stats;
-
-						if(curstats.mygoals == curstats.opponentgoals) {
-							ties = ties + 1;
-						}
-						else if (curstats.mygoals > curstats.opponentgoals) {
-							wins = wins + 1;
-						}
-						else {
-							losses = losses + 1;
-						}
-
-						gs = gs + Number(curstats.mygoals);
-						gg = gg + Number(curstats.opponentgoals);
-
-					}
-				}
-			}
-
-			wi.innerHTML = wins;
-			lo.innerHTML = losses;
-			ti.innerHTML = ties;
-			tgs.innerHTML = gs;
-			tgg.innerHTML = gg;
-
-
-			if(gArray) {
-				for (var z = 0; z < gArray.length; z++) {
-
-					var todayDat = new Date();
-					var compareDat = new Date(gArray[z].date);
-
-					if( todayDat.setHours(0, 0, 0, 0) == compareDat.setHours(0, 0, 0, 0) ) {
-
-						disGam.innerHTML += "<div class='gamecontainer'><h1>Today's Game: " + gArray[z].date
-						+ "</h1><p>" + myname + " vs " + gArray[z].opponentname + "</p>"
-						+ "<p><mark>" + gArray[z].stats.mygoals + " : " + gArray[z].stats.opponentgoals + "</mark></p>"
-						+ "<p>" + gArray[z].date + " " + gArray[z].time
-						+ "</p><p>" + gArray[z].location
-						+ "</p><p>" + gArray[z].status
-						+ "</p></div>";
-					}
-				}
-			}
-		})
+          gamelist.orderByChild("timeid").once("value", function(snapshot){
+            snapshot.forEach(function(snapshot1) {
+              var todayGame = snapshot1.val();
+              if(today == todayGame.date) {
+                dis.innerHTML = "<div class='box0'><h2>Today's Game: " + today
+                              + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
+                              + "<h4><mark>" + todayGame.mygoals + " : " + todayGame.opponentgoals + "</mark></h4>"
+                              + "<p>" + todayGame.date + " " + todayGame.time
+                              + "</p><p>" + todayGame.location
+                              + "</p><p>" + todayGame.status
+                              + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid + "'onclick='clicked(this.id)'>";
+              }
+            })
+          });
+        }
+      });
+    });
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
-			var cu = rrf.child("currentuser/"); 
+			var cu = rrf.child("currentuser/");
 			cu.set({
-				username: "", 
-				team: "", 
+				username: "",
+				team: "",
 				type: ""
 			});
     }

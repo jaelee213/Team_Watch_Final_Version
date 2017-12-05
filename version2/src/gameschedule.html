@@ -40,25 +40,25 @@
   </output>
 
   <script type="text/javascript">
-    document.getElementById('addPracBtn').style.display = 'none';
-    var userteam; 
+
+    var userteam;
 
     window.addEventListener('DOMContentLoaded', function(){
       var rootref = firebase.database().ref();
-      var currus = rootref.child("currentuser/"); 
+      var currus = rootref.child("currentuser/");
       var disGam = document.getElementById('outputgames');
       var currga = rootref.child("inspectgame/");
 
       currga.once("value", function(snapshot){
         snapshot.ref.remove();
       });
-      
+
       currus.once("value", function(snapshot){
         var snpsht = snapshot.val();
-        var myteamname = snpsht.team; 
+        var myteamname = snpsht.team;
         userteam = myteamname;
-        var str = "games/"; 
-        myteamname = str.concat(myteamname); 
+        var str = "games/";
+        myteamname = str.concat(myteamname);
         myteamname = myteamname.concat("/");
         var gameslist = rootref.child(myteamname);
         var usertype = snpsht.type;
@@ -72,7 +72,7 @@
         else {
           styleStr = "";
         }
-        
+
         gameslist.orderByChild("timeid").once("value", function(snapshot){
           disGam.innerHTML = "";
           snapshot.forEach(function(snap){
@@ -80,16 +80,16 @@
             var cg = snap.val();
 
             var today = new Date();
-            var curMonth = today.getMonth() + 1; 
-            curMonth = curMonth.toString(); 
-            var curDay = today.getDate().toString(); 
+            var curMonth = today.getMonth() + 1;
+            curMonth = curMonth.toString();
+            var curDay = today.getDate().toString();
             if( curDay.length == 1) {
               curDay = "0" + curDay;
             }
             var curYear = today.getFullYear().toString().substr(2,2);
-            var curHour = today.getHours().toString(); 
+            var curHour = today.getHours().toString();
             var curMinute = today.getMinutes().toString();
-            var todayDate = curYear + curMonth + curDay + curHour + curMinute; 
+            var todayDate = curYear + curMonth + curDay + curHour + curMinute;
             var compareDate = cg.timeid;
 
             if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
@@ -127,19 +127,19 @@
           if (disGam.value == "") {
             disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
           }
-        }); 
-      }); 
+        });
+      });
     });
 
     function clicked(id) {
       var rootref = firebase.database().ref();
-      var gameid = id.substr(4, id.length); 
+      var gameid = id.substr(4, id.length);
       var movegame = rootref.child("inspectgame/");
       movegame.set({
         team: userteam,
         gameid: gameid
       })
-      var stri = id.substr(0, 4); 
+      var stri = id.substr(0, 4);
       if(stri == "edit") {
         window.location.href="./editgame.html";
       }
@@ -150,10 +150,10 @@
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
-			var cu = rrf.child("currentuser/"); 
+			var cu = rrf.child("currentuser/");
 			cu.set({
-				username: "", 
-				team: "", 
+				username: "",
+				team: "",
 				type: ""
 			});
     }
