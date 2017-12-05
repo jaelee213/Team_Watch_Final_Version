@@ -95,22 +95,22 @@
 
         if(game.tod == "day") {
           gtime = game.time.replace(" am", "");
-          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
-          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
+          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio' checked>A.M.</p>"
+          + "<p><input type='radio' name='tofday' value='night' id='pmradio'>P.M.</p>";
         }
         else if(game.tod == "night") {
           gtime = game.time.replace(" pm", "");
-          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
-          + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
+          put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio'>A.M.</p>"
+          + "<p><input type='radio' name='tofday' value='night' id='pmradio' checked>P.M.</p>";
         }
 
         if(game.status == "Home") {
-          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>"
-          + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>";
+          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus' checked>Home</p>"
+          + "<p><input type='radio' name='status' value='Away' id='awaystatus'>Away</p>";
         }
         else if(game.status == "Away") {
-          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>"
-          + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>";
+          out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus'>Home</p>"
+          + "<p><input type='radio' name='status' value='Away' id='awaystatus' checked>Away</p>";
         }
 
         ot.value = game.opponentname;
@@ -194,15 +194,15 @@
         return false;
       }
       var today = new Date();
-      var curMonth = today.getMonth() + 1; 
-      curMonth = curMonth.toString(); 
-      var curDay = today.getDate().toString(); 
+      var curMonth = today.getMonth() + 1;
+      curMonth = curMonth.toString();
+      var curDay = today.getDate().toString();
       if( curDay.length == 1) {
         curDay = "0" + curDay;
       }
       var curYear = today.getFullYear().toString().substr(2,2);
       if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
-        alert('Cannot make games scheduled for dates before today. Please set another date.'); 
+        alert('Cannot make games scheduled for dates before today. Please set another date.');
         return false;
       }
 

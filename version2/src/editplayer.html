@@ -25,7 +25,7 @@
   <title>TeamWatch</title>
 </head>
 
-<body onload="ld()">
+<body>
   <nav class="navbar">
     <a href="./home.html" id="logo">TeamWatch</a>
     <a href="./home.html">Home</a>
@@ -155,11 +155,11 @@
     })
 
     sv.addEventListener('click', function() {
-      var indx = 0; 
+      var indx = 0;
       for(var s = 0; s < ros.length; s++) {
         if(ros[s].jerseynumber == pla.jerseynumber && ros[s].name == pla.name) {
           var currentPlyr = ros[s];
-          indx = s; 
+          indx = s;
           currentPlyr.firstname = fnm.innerHTML;
           currentPlyr.lastname = lnm.innerHTML;
           currentPlyr.name = nme.innerHTML;
@@ -189,10 +189,10 @@
 
     function logoutClean() {
 			var rrf = firebase.database().ref();
-			var cu = rrf.child("currentuser/"); 
+			var cu = rrf.child("currentuser/");
 			cu.set({
-				username: "", 
-				team: "", 
+				username: "",
+				team: "",
 				type: ""
 			});
     }
