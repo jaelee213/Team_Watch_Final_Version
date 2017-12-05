@@ -85,9 +85,9 @@
       editgame.once("value", function(snapshot) {
         var gametoedit = snapshot.val();
         var gid = gametoedit.gameid;
-        var tmm = gametoedit.team; 
+        var tmm = gametoedit.team;
         var sring = "games/";
-        tmm = sring.concat(tmm); 
+        tmm = sring.concat(tmm);
         tmm = tmm.concat("/");
 
         var galist = rootref.child(tmm);
@@ -98,22 +98,22 @@
               var gtime;
               if(game.tod == "day") {
                 gtime = game.time.replace(" am", "");
-                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio' checked>A.M.</p>"
-                + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio'>P.M.</p>";
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio' checked>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='pmradio'>P.M.</p>";
               }
               else if(game.tod == "night") {
                 gtime = game.time.replace(" pm", "");
-                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='timeofdayradio'>A.M.</p>"
-                + "<p><input type='radio' name='tofday' value='night' id='timeofdayradio' checked>P.M.</p>";
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio'>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='pmradio' checked>P.M.</p>";
               }
 
               if(game.status == "Home") {
-                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status' checked>Home</p>"
-                + "<p><input type='radio' name='status' value='Away' id='status'>Away</p>";
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus' checked>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='awaystatus'>Away</p>";
               }
               else if(game.status == "Away") {
-                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='status'>Home</p>"
-                + "<p><input type='radio' name='status' value='Away' id='status' checked>Away</p>";
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus'>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='awaystatus' checked>Away</p>";
               }
 
               ot.value = game.opponentname;
@@ -268,7 +268,7 @@
         var location = document.getElementById('location').value;
         var status = document.querySelector('input[name=status]:checked').value;
         var gameid = opponentname.concat(timeid);
-      
+
         gameslist.orderByChild("timeid").once("value", function(snapshot){
           snapshot.forEach(function(snap){
             var currGame = snap.val();
