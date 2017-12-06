@@ -24,6 +24,7 @@
 </head>
 
 <body onload="def()">
+
   <nav class="navbar">
     <a id="logo">TeamWatch</a>
     <div id="mainnavbar">
@@ -34,10 +35,11 @@
     </div>
   </nav>
 
-  <!-- ***************************************** login.html *************************************************** -->
+  <!-- ***************************************** login.html done *************************************************** -->
+  
   <div id="loginhtml">
     <div class="logincontainer">
-        <h1 class="welcomeheader">Welcome.</h1>
+      <h1 class="welcomeheader">Welcome.</h1>
       <p class="loginsmallertxt"><i>Please login to continue.</i></p>
       <hr class="smallhr">
       <form class="loginform">
@@ -51,9 +53,9 @@
       <p class="loginsmallertxt">Don't have an account?</p>
       <p><a onclick="clickSignUp()" id="loginclick">Click here</a> to sign up and get started.</p>
     </div>
-  </div><!-- end of login.html -->
+  </div>
 
-<!-- ***************************************** signup.html *************************************************** -->
+<!-- ***************************************** signup.html done *************************************************** -->
 
   <div id="signuphtml">
     <div class="signupcontainer">
@@ -78,77 +80,79 @@
       <input type="radio" value="coach" id="coachtypeopt" name="utype" onclick="coachFunc()">Coach</option>
       <input type="radio" value="player" id="playertypeopt" name="utype" onclick="playerFunc()">Player</option>
       <input type="radio" value="fan" id="fantypeopt" name="utype" onclick="fanFunc()">Fan</option>
-
+  
       <div id="coachoptions">
         <br>
         <p class="noticenote">Please specify the name of the team you want to create.</p>
         <input type="text" placeholder="Enter New Team Name" id="newteamfield" name="newteamfield">
       </div>
-
-
+  
       <div id="playeroptions">
-        <hr>
-        <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
-        <p class="noticenote">If for any reason, sign up does not work, please make sure with coach that the correct birthdate was input under your name in the team roster.</p>
-        <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield">
-        <hr>
+        <hr class="signupsmallhr">
         <p class="noticenote">Make sure that the coach of your selected team has you as a player on their roster.</p>
         <p class="noticenote">Otherwise, you cannot sign up as a player of the team you specified.</p>
-        <br>
         <p>Select Your Team:</p>
         <select id="playerfield">
         </select>
+        <hr class="signupsmallhr">
+        <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
+        <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield" maxlength="8">
+        <hr class="signupsmallhr">
+        <p class="noticenote">Please specify your jersey number UNIQUE to ONLY you on your selected team.</p>      
+        <input type="text" name="jerseynumber" placeholder="Your Jersey Number" id="sujerseynumber" maxlength="2">
+        <hr class="signupsmallhr">
+        <p class="noticenote">* IMPORTANT: If for any reason sign up does not work, please make sure with your coach that the correct birthdate and/or jersey number was input under your name in the team roster.*</p>      
       </div>
-
+  
       <div id="fanoptions">
-        <hr>
+        <hr class="signupsmallhr">
         <p>Select Your Team to Follow:</p>
         <select id="fanfield">
         </select>
       </div>
-
+  
       <hr class="signupsmallhr">
       <input type="button" value="Sign Up" id="signupBtn">
-      <input type="button" onclick="clickLogin()" value="Go back" id="backBtn">    
+      <br>
+      <input type="button" value="Go Back" id="signupBackBtn">    
     </div>
   </div>
 
-<!-- ***************************************** home.html *************************************************** -->
+<!-- ***************************************** home.html done *************************************************** -->
 
   <div id="homehtml">
     <div class="teamcontainer">
       <h1 class="myteamnamehome" id="mytname"></h1>
-    <hr>
-    <p id="teamtotalheader">Team Total Stats</p>
-    <table id="teamtotaltable">
-      <tr>
-        <th>Wins</th>
-        <th>Losses</th>
-        <th>Ties</th>
-      </tr>
-      <tr>
-        <td id="wins"></td>
-        <td id="losses"></td>
-        <td id="ties"></td>
-      </tr>
-    </table>
-    <table id="teamgoaltable">
-      <tr>
-        <th>Total Goals Scored</th>
-        <th>Total Goals Given Up</th>
-      </tr>
-      <tr>
-        <td id=totalgoalsscored></td>
-        <td id=totalgoalsgivenup></td>
-      </tr>
-    </table>
+      <hr>
+      <p id="teamtotalheader">Team Total Stats</p>
+      <table id="teamtotaltable">
+        <tr>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Ties</th>
+        </tr>
+        <tr>
+          <td id="wins"></td>
+          <td id="losses"></td>
+          <td id="ties"></td>
+        </tr>
+      </table>
+      <table id="teamgoaltable">
+        <tr>
+          <th>Total Goals Scored</th>
+          <th>Total Goals Given Up</th>
+        </tr>
+        <tr>
+          <td id=totalgoalsscored></td>
+          <td id=totalgoalsgivenup></td>
+        </tr>
+      </table>
     </div>
-
     <output id="outPut">
     </output>
-  </div><!-- end of home.html-->
+  </div>
 
-<!-- ***************************************** addgame.html *************************************************** -->
+<!-- ***************************************** addgame.html done *************************************************** -->
 
   <div id="addgamehtml">
     <div class="box">
@@ -183,7 +187,7 @@
     </div>
   </div>
 
-<!-- ***************************************** addplayer.html *************************************************** -->
+<!-- ***************************************** addplayer.html done *************************************************** -->
 
   <div id="addplayerhtml">
     <div class="box3">
@@ -191,36 +195,34 @@
         <h1>Add Player</h1>
         <h5>Please fill out the following to add a new player to the team.</h5>
         <hr>
-
         <img src="#" alt="Default Pic" id="profile">
         <h6>** To edit player picture, press the "choose file" button below **</h6>
         <input type="file" name="propic" id="fileBtn" onchange="document.getElementById('profile').src = window.URL.createObjectURL(this.files[0])" accept="image/*">
         <hr>
-
         <form class="form1">
           <input type="text" name="fname" id="firstname" placeholder="First Name">
           <input type="text" name="lname" id="lastname" placeholder="Last Name">
           <input type="email" name="email" id="email" placeholder="Email">
           <input type="text" name="bday" id="birthdate" placeholder="Date of Birth (mm/dd/yy)" maxlength="8">
-          <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number">
+          <input type="number" name="jerseyNum" id="jerseynumber" placeholder="Jersey Number" maxlength="2">
           <hr>
           <h2>Position</h2>
           <p>Select one:</p>
           <select name="pos" id="position">
             <option value="default">Choose a position</option>
-            <option value="forward"> Forward </option>
-            <option value="midfielder"> Midfielder </option>
-            <option value="defender"> Defender</option>
-            <option value="goalkeeper">Goalkeeper</option>
+            <option value="Forward"> Forward </option>
+            <option value="Midfielder"> Midfielder </option>
+            <option value="Defender"> Defender</option>
+            <option value="Goalkeeper">Goalkeeper</option>
           </select>
           <hr>
           <h2>Role</h2>
           <p>Select one:</p>
           <select name="role" id="role">
             <option value="default">Choose a role</option>
-            <option value="captain"> Captain </option>
-            <option value="starter"> Starter </option>
-            <option value="substitute"> Substitute </option>
+            <option value="Captain"> Captain </option>
+            <option value="Starter"> Starter </option>
+            <option value="Substitute"> Substitute </option>
           </select>
           <input type="button" value="Save" id="egssaveBtn">
           <hr>
@@ -230,7 +232,7 @@
     </div>
   </div>
 
-<!-- ***************************************** addpractice.html *************************************************** -->
+<!-- ***************************************** addpractice.html done *************************************************** -->
 
   <div id="addpracticehtml">
     <div class="box">
@@ -258,7 +260,7 @@
     </div>
   </div>
 
-<!-- ***************************************** editgame.html *************************************************** -->
+<!-- ***************************************** editgame.html done *************************************************** -->
   <div id="editgamehtml">
     <div class="box">
       <h2>Edit Game</h2>
@@ -283,15 +285,19 @@
     </div>
   </div>
 
-<!-- ***************************************** editgamestats.html *************************************************** -->
+<!-- ***************************************** editgamestats.html done *************************************************** -->
 
   <div id="editgamestatshtml">
     <div class="viewgamestatscontainer">
       <h1 class="vgsgameheader" id="myteam"></h1>
       <h1 class="vgsgameheader">vs.</h1>
       <h1 class="vgsgameheader" id="theirteam"></h1>
+      <br>
+      <p class="noticenote">To adjust game score, simply modify the "Goals" section below.</p>
       <hr class="vgshr">
-      <p><button type="button" class="incrgamestats" onclick="incr('myteamscorevgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamscorevgs')">-</button> <span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamscoresvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamscoresvgs')">-</button></p>
+      <p><span id="myte"></span> <span class="vgsstats">----:----</span> <span id="oppt"></span></p>		
+      <hr class="vgshr">
+      <p><span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span></p>		
       <hr class="vgshr">
       <p><button type="button" class="incrgamestats" onclick="incr('myteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamfoulvgs')">-</button> <span id="myteamfoulvgs"></span> <span class="vgsstats">Foul</span> <span id="oppteamfoulvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamfoulvgs')">-</button></p>
       <hr class="vgshr">
@@ -310,7 +316,7 @@
     </div>
   </div>
 
-<!-- ***************************************** editplayer.html *************************************************** -->
+<!-- ***************************************** editplayer.html done *************************************************** -->
 
   <div id="editplayerhtml">
     <div class="box1">
@@ -318,10 +324,7 @@
         <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
         <h1 class="borderBoxh1" id="dpn"></h1>
         <hr>
-
-
         <!--  ** CHOOSING PROF PIC: WE MIGHT TAKE THIS OUT COMPLETELY. **
-
         <img src="../img/ronaldo.jpg" alt="Cristiano Ronaldo">
         <div>
           <input type="button" value="Delete" id="delBtn">
@@ -329,10 +332,7 @@
         <h6 class="borderboxh61">** To edit player picture, press the "choose file" button below **</h6>
         <input type="file" name="pic">
         <hr>
-
         -->
-
-
         <h6 class="borderboxh61">** To edit, press on the field you want to change and press save when finished. **</h6>
         <table class="editplayertable">
           <tr>
@@ -344,6 +344,10 @@
             <td contenteditable="true" id="dln"></td>
           </tr>
           <tr>
+            <td>Email:</td>
+            <td contenteditable="true" id="dem"></td>
+          </tr>
+          <tr>
             <td>Position:</td>
             <td contenteditable="true" id="dp"></td>
           </tr>
@@ -352,7 +356,7 @@
             <td contenteditable="true" id="dj"></td>
           </tr>
           <tr>
-            <td>Date of Birth: </td>
+            <td>Date of Birth: (Must be in mm/dd/yy format.)</td>
             <td contenteditable="true" id="dd"></td>
           </tr>
           <tr>
@@ -393,7 +397,7 @@
     </div>
   </div>
 
-<!-- ***************************************** editplayerslist.html *************************************************** -->
+<!-- ***************************************** editroster.html done *************************************************** -->
 
   <div id="editrosterhtml">
     <div class="container1">
@@ -430,7 +434,7 @@
     </div>
   </div>
 
-<!-- ***************************************** editpractice.html *************************************************** -->
+<!-- ***************************************** editpractice.html done *************************************************** -->
 
   <div id="editpracticehtml">
     <div class="box">
@@ -459,7 +463,7 @@
     </div>
   </div>
 
-<!-- ***************************************** gameschedule.html *************************************************** -->
+<!-- ***************************************** schedule.html done *************************************************** -->
 
   <div id="schedulehtml">
     <input type="button" onclick="clickAddGame()" value="Add Game" id="addGameBtn">
@@ -468,12 +472,12 @@
     </output>
   </div>
 
-<!-- ***************************************** players.html *************************************************** -->
+<!-- ***************************************** roster.html done *************************************************** -->
 
   <div id="rosterhtml">
     <div class="container1">
       <div class="subcontainer">
-        <input type="button" onclick="clickRoster()" value="Edit" id="editrosterbtn">
+        <input type="button" onclick="clickEditRoster()" value="Edit" id="editrosterbtn">
         <br>
         <h1 id="rosterheading">Roster</h1>
         <br>
@@ -502,14 +506,16 @@
     </div>
   </div>
 
-<!-- ***************************************** viewgamestats.html *************************************************** -->
+<!-- ***************************************** viewgamestats.html done *************************************************** -->
   <div id="viewgamestatshtml">
     <div class="viewgamestatscontainer">
-      <input type="button" onclick="clickEditGameStats()" value="Edit" id="editgamestatsBtn"><br>
+      <input class="vgseditbtn" type="button" onclick="clickEditGameStats()" value="Edit" id="editgamestatsBtn"><br>
       <h1 class="vgsgameheader" id="myteam"></h1>
       <h1 class="vgsgameheader">vs.</h1>
       <h1 class="vgsgameheader" id="oppteam"></h1>
       <hr class="vgshr">
+      <p><span id="mytea"></span> <span class="vgsstats">----:----</span> <span id="oppte"></span></p>		
+      <hr class="vgshr">		
       <p><span id="myscore"></span> <span class="vgsstats">Score</span> <span id="theirscore"></span></p>
       <hr class="vgshr">
       <p><span id="myfouls"></span> <span class="vgsstats">Foul</span> <span id="theirfouls"></span></p>
@@ -528,71 +534,67 @@
     </div>
   </div>
 
-<!-- ***************************************** viewplayer.html *************************************************** -->
+<!-- ***************************************** viewplayer.html done *************************************************** -->
   <div id="viewplayerhtml">
     <div class="box2">
       <div class="borderBox2">
-        <h1 id="dpn"></h1>
+        <h1 id="ddpn"></h1>
         <hr>
-
         <!-- ** THE PROF PIC WE MIGHT TAKE OUT **
-
         <img src="../img/ronaldo.jpg" alt="Cristiano Ronaldo">
         <hr>
-
         -->
-
         <table class="viewplayertbl">
           <tr>
             <td>First Name:</td>
-            <td id="dfn"></td>
+            <td id="ddfn"></td>
           </tr>
           <tr>
             <td>Last Name:</td>
-            <td id="dln"></td>
+            <td id="ddln"></td>
           </tr>
           <tr>
             <td>Email:</td>
-            <td id="dem"></td>
+            <td id="ddem"></td>
           </tr>
           <tr>
             <td>Position:</td>
-            <td id="dp"></td>
+            <td id="ddp"></td>
           </tr>
           <tr>
             <td>Jersey #:</td>
-            <td id="dj"></td>
+            <td id="ddj"></td>
           </tr>
           <tr>
             <td>Date of Birth: </td>
-            <td id="dd"></td>
+            <td id="ddd"></td>
           </tr>
           <tr>
             <td>Goals Scored: </td>
-            <td id="dg"></td>
+            <td id="ddg"></td>
           </tr>
           <tr>
             <td>Assists: </td>
-            <td id="da"></td>
+            <td id="dda"></td>
           </tr>
           <tr>
             <td>Games Played: </td>
-            <td id="dgp"></td>
+            <td id="ddgp"></td>
           </tr>
           <tr>
             <td>Total Fouls: </td>
-            <td id="df"></td>
+            <td id="ddf"></td>
           </tr>
           <tr>
             <td>Red Cards: </td>
-            <td id="dr"></td>
+            <td id="ddr"></td>
           </tr>
           <tr>
             <td>Yellow Cards: </td>
-            <td id="dy"></td>
+            <td id="ddy"></td>
           </tr>
         </table>
-        <input type="button" onclick="clickEditPlayer()" value="Edit Player" id="editBtn">
+        <input type="button" value="Edit Player" id="editBtn">
         <hr>
         <input type="button" value="Go back" id="backBtn">
       </div>
@@ -608,10 +610,7 @@
 
 
 
-
-
-
-
+<!-- ********************************** SCRIPT SECTION ********************************************** -->
 <!-- ********************************** SCRIPT SECTION ********************************************** -->
 
 
@@ -634,7 +633,8 @@
     var viewplayerdiv = document.getElementById('viewplayerhtml');
     var navdiv = document.getElementById('mainnavbar');
     
-  /********************************** SCRIPT FOR ADDGAME **********************************************/
+  /********************************** SCRIPT FOR ADDGAME done **********************************************/
+
     function clickAddGame(){
       show(addgamediv); 
       var rootref = firebase.database().ref();
@@ -644,48 +644,40 @@
       });
     }
 
-    var sButton = document.getElementById('egssaveBtn');
+		var sButton = document.getElementById('egssaveBtn');
     sButton.addEventListener('click', function() {
-
       var xdate = document.getElementById('gamedate').value;
       var xtime = document.getElementById('gametime').value;
-
       if(!xdate) {
         alert('Please specify the date.');
         return false;
       }
-
       if(!xtime) {
         alert('Please specify the time.');
         return false;
       }
-
       var timeChecker = xtime.indexOf(":");
       var timeChecker2 = xtime.lastIndexOf(":");
       if(!timeChecker || timeChecker != timeChecker2) {
         alert('Invalid time format. Please make sure to put time in HH:MM format.');
         return false;
       }
-
       var tHour = xtime.slice(0, timeChecker);
       var tMinute = xtime.slice(timeChecker + 1, xtime.length);
       if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
         alert('Invalid time format. Please make sure the hours and minutes have been input correctly.');
         return false;
       }
-
       if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
         alert('Invalid time input. Please make sure hours and minutes are all appropriate values.');
         return false;
       }
-
       var dateChecker1 = xdate.indexOf("/");
       var dateChecker2 = xdate.lastIndexOf("/");
       if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
         alert('Invalid date format. Please check and write date according to format specified above input field.');
         return false;
       }
-
       var dMonth = xdate.slice(0, dateChecker1);
       var dDate = xdate.slice(dateChecker1 + 1, dateChecker2);
       var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
@@ -703,62 +695,51 @@
         alert('Invalid date format or not valid date. Please fix to continue');
         return false;
       }
-
-      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
-        alert('Cannot make games scheduled for dates before today. Please set another date.');
-        return false;
-      }
-
       if(isNaN(tHour) || isNaN(tMinute)) {
         alert('Time has to be in numerical format. Please refer to specified format above input field.');
         return false;
       }
-
       if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
         alert('Date has to be in numerical format. Please refer to specified format above input field.');
         return false;
       }
-
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.');
+        return false;
+      }
       var tofd = document.querySelector('input[name=tofday]:checked');
       if(!tofd) {
         alert('Please specify time of day.');
         return false;
       }
-
       var stts = document.querySelector('input[name=status]:checked');
       if(!stts) {
         alert('Please specify game status.');
         return false;
       }
-
       var lctn = document.getElementById('gamelocation').value;
       if(!lctn) {
         alert('Please specify location of game.');
         return false;
       }
-
       var optm = document.getElementById('opponentteamname').value;
       if(!optm) {
         alert('Please specify opponent team name.');
         return false;
       }
-
       var rootref = firebase.database().ref();
       var currus = rootref.child("currentuser/");
       currus.once("value", function(snapshot){
-
         var snpsht = snapshot.val();
         var myteamname = snpsht.team;
         var str = "games/";
         myteamname = str.concat(myteamname);
         myteamname = myteamname.concat("/");
         var gameslist = rootref.child(myteamname);
-
         var tod = document.querySelector('input[name=tofday]:checked').value;
         var gTime = document.getElementById('gametime').value;
         var opponentname = document.getElementById('opponentteamname').value;
         var date = document.getElementById('gamedate').value;
-
         if(tod == "day") {
           gTime = gTime.concat(" am");
         }
@@ -766,19 +747,14 @@
           gTime = gTime.concat(" pm");
           tHour = Number(tHour) + 12;
         }
-
         var timeid = dYear.concat(dMonth);
         timeid = timeid.concat(dDate);
         timeid = timeid.concat(tHour);
         timeid = timeid.concat(tMinute);
-
         var time = gTime;
         var location = document.getElementById('gamelocation').value;
         var status = document.querySelector('input[name=status]:checked').value;
-
         var gameid = opponentname.concat(timeid);
-
-        // Checking to see if game already exists by comparing times and dates
         gameslist.orderByChild("gameid").equalTo(gameid).once('value', snapshot => {
           const gameidobj = snapshot.val();
           if(gameidobj) {
@@ -820,7 +796,7 @@
                   opponentgoalkicks: "0"
                 });
                 alert('Game created!');
-                go(addgamediv, schedulediv);
+                clickSchedule();
               }
             });
           }
@@ -828,19 +804,130 @@
       });
     });
 
-  /********************************** SCRIPT FOR ADDPLAYER **********************************************/
+  /********************************** SCRIPT FOR ADDPLAYER done **********************************************/
 
     function clickAddPlayer(){
       show(addplayerdiv); 
       where = addplayerdiv;
+      document.getElementById('profile').src = "../img/defaultpic.jpg";
       var rootref = firebase.database().ref();
       var here = rootref.child('currentuser/');
       here.update({
         page: "addplayerhtml"
       });
     }
+    var savebtn = document.getElementById('egssaveBtn');
+    var goBack = document.getElementById('backBtn');
 
-  /********************************** SCRIPT FOR ADDPRACTICE **********************************************/
+    savebtn.addEventListener('click', function() {
+      var rootref = firebase.database().ref();
+      var firstname = document.getElementById('firstname').value;
+      var lastname = document.getElementById('lastname').value; 
+      var email = document.getElementById('email').value; 
+      var birthdate = document.getElementById('birthdate').value; 
+      var jerseynumber = document.getElementById('jerseynumber').value; 
+      var position = document.getElementById('position'); 
+      var role = document.getElementById('role');
+      if(!firstname || !lastname || !jerseynumber || !birthdate || !email) {
+        alert('Incomplete form. Please fill out the entire form.');
+        return;
+      }
+      if(email.indexOf("@") == 0 || email.indexOf("@") + 1 == email.lastIndexOf(".")) {
+        alert('Invalid email. Please use a valid email.'); 
+        return;
+      }
+      if(email.lastIndexOf(".") == (-1) || email.indexOf("@") == (-1)){
+        alert('Invalid email format. Please write down a valid email (i.e. johndoe@yahoo.com).'); 
+        return;
+      }
+      var firstdash = birthdate.indexOf("/");
+      var seconddash = birthdate.lastIndexOf("/");
+      if(!firstdash || !seconddash || firstdash == seconddash ) {
+        alert('Invalid birthdate format. Please fill out birthdate in mm/dd/yy format.')
+        return;
+      }
+      var bMonth = birthdate.slice(0, firstdash); 
+      var bDay = birthdate.slice(firstdash + 1, seconddash); 
+      var bYear = birthdate.slice(seconddash + 1, birthdate.length);
+      if(!bMonth || !bDay || !bYear || bYear.length != 2 || 
+          bMonth.length != 2 || bDay.length != 2 || 
+          bMonth > 12 || bDay > 31) {
+        alert('Invalid birthdate format, must be in mm/dd/yy format. Please fix to continue.');
+        return;
+      }
+      if(isNaN(bMonth) || isNaN(bDay) || isNaN(bYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.'); 
+        return;
+      }
+      if(position.options[position.selectedIndex].value == "default") {
+        alert('Please choose a position.');
+        return;
+      }
+      if(role.options[role.selectedIndex].value == "default") {
+        alert('Please choose a role.');
+        return;
+      }
+      var fullname;
+      var position = position.value;
+      var role = role.value;
+      fullname = firstname.concat(" ");
+      fullname = fullname.concat(lastname); 
+      var rawBirthdate = bMonth + bDay + bYear;
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+        var x = snapshot.val();
+        var userteam = x.team;
+        var str = "players/";
+        userteam = str.concat(userteam);
+        var playerid = firstname.concat(lastname); 
+        playerid = playerid.concat(rawBirthdate); 
+        playerid = playerid.concat(jerseynumber);
+        var playerslist = rootref.child(userteam);
+        playerslist.orderByChild("playerid").equalTo(playerid).once("value", snapshot => {
+          const playerobj = snapshot.val(); 
+          if(playerobj) {
+            alert('The player already exists. Please create another player or press "Go Back" to navigate to previous page.');
+            return;
+          }
+          playerslist.orderByChild("jerseynumber").equalTo(jerseynumber).once("value", snapshot => {
+            const po = snapshot.val();
+            if(po){
+              alert('The jersey number is already taken. Please use another jersey number.'); 
+              return;
+            }
+            else {
+              var newplayer = playerslist.push();
+              newplayer.set({
+                myteamname: x.team,
+                playerid: playerid,
+                jerseynumber: jerseynumber, 
+                birthdate: birthdate, 
+                firstname: firstname,
+                lastname: lastname, 
+                email: email,
+                position: position, 
+                role: role, 
+                name: fullname, 
+                goals: "0", 
+                assists: "0",
+                fouls: "0", 
+                redcards: "0",
+                yellowcards: "0", 
+                gamesplayed: "0"
+              });
+              alert('Player Created!'); 
+              clickRoster();
+            }
+          });
+        });
+      });
+    });
+
+    goBack.addEventListener('click', function() {
+      clickRoster();
+    });
+
+  /********************************** SCRIPT FOR ADDPRACTICE done **********************************************/
 
     function clickAddPractice(){
       show(addpracticediv); 
@@ -850,8 +937,140 @@
         page: "addpracticehtml"
       });
     }
+    var saveBtn = document.getElementById('egssaveBtn');
+    saveBtn.addEventListener('click', function() {
+      var dateInput = document.getElementById('gamedate').value;
+      var timeInput = document.getElementById('gametime').value;
+      var locationInput = document.getElementById('gamelocation').value;
+      if(!dateInput) {
+        alert('Please enter the practice date.');
+        return false;
+      }
+      if(!timeInput) {
+        alert('Please enter the practice time.');
+        return false;
+      }
+      if(!locationInput) {
+        alert('Please specify location of game.');
+        return false;
+      }
+      var timeChecker = timeInput.indexOf(":");
+      var timeChecker2 = timeInput.lastIndexOf(":");
+      if(!timeChecker || timeChecker != timeChecker2) {
+        alert('Invalid time format. Please make sure to put time in HH:MM format.');
+        return false;
+      }
+      var tHour = timeInput.slice(0, timeChecker);
+      var tMinute = timeInput.slice(timeChecker + 1, timeInput.length);
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
+        alert('Invalid time format. Please make sure the hours and minutes have been input correctly.');
+        return false;
+      }
+      if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
+        alert('Invalid time input. Please make sure hours and minutes are all appropriate values.');
+        return false;
+      }
+      var dateChecker1 = dateInput.indexOf("/");
+      var dateChecker2 = dateInput.lastIndexOf("/");
+      if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
+        alert('Invalid date format. Please check and write date according to format specified above input field.');
+        return false;
+      }
+      var dMonth = dateInput.slice(0, dateChecker1);
+      var dDate = dateInput.slice(dateChecker1 + 1, dateChecker2);
+      var dYear = dateInput.slice(dateChecker2 + 1, dateInput.length);
+      if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 ||
+          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 ||
+          dMonth > 12 || dDate > 31 || dYear < 17) {
+        alert('Invalid date format. Please fix to continue');
+        return false;
+      }
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      var tofd = document.querySelector('input[name=tofday]:checked');
+      if(!tofd) {
+        alert('Please specify time of day.');
+        return false;
+      }
+      var dbref = firebase.database().ref().child("currentuser/");
+      dbref.once("value", function(snap) {
+        var sshot = snap.val();
+        var myteamname = sshot.team;
+        var obj = "practice/";
+        myteamname = obj.concat(myteamname);
+        myteamname = myteamname.concat("/");
+        var practList = firebase.database().ref().child(myteamname);
+        var tod = document.querySelector('input[name=tofday]:checked').value;
+        var gTime = document.getElementById('gametime').value;
+        var date = document.getElementById('gamedate').value;
+        var location = document.getElementById('gamelocation').value;
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm");
+          tHour = Number(tHour) + 12;
+        }
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate);
+        timeid = timeid.concat(tHour);
+        timeid = timeid.concat(tMinute);
+        var time = gTime;
+        practList.orderByChild("timeid").equalTo(timeid).once('value', snap => {
+          const timeidobj = snap.val();
+          if(timeidobj) {
+            alert('Practice already exists at that specified time and date. Enter a different time and/or date.');
+            return;
+          }
+          else {
+            var newPract = practList.push();
+            newPract.set({
+              timeid: timeid,
+              date: date,
+              time: timeInput,
+              tod: tod,
+              location: location
+            })
+            alert('Practice Created!');
+            clickSchedule();
+          }
+        });
+      });
+    });
 
-  /********************************** SCRIPT FOR EDITGAME **********************************************/
+  /********************************** SCRIPT FOR EDITGAME  done **********************************************/
+    
+    var rootref = firebase.database().ref();
+    var editgame = rootref.child("inspectgame/");
+    var savebutton = document.getElementById('exsave');
+    var deletebutton = document.getElementById('delB');
+    var out = document.getElementById('outputOption');
+    var put = document.getElementById('outOpt');
+    var ot = document.getElementById('OppTeam');
+    var d = document.getElementById('gameDate');
+    var t = document.getElementById('gametime');
+    var l = document.getElementById('location');
+    var editgameid;
+    var mfouls;
+    var ofouls;
+    var mredcards;
+    var oredcards;
+    var myellowcards;
+    var oyellowcards;
+    var mshotsongoal;
+    var oshotsongoal;
+    var mgoals;
+    var ogoals;
+    var mcornerkicks;
+    var ocornerkicks;
+    var mgoalkicks;
+    var ogoalkicks;
 
     function clickEditGame(){
       show(editgamediv); 
@@ -860,9 +1079,255 @@
       here.update({
         page: "editgamehtml"
       });
-    }
 
-  /********************************** SCRIPT FOR EDITGAMESTATS **********************************************/
+      editgame.once("value", function(snapshot) {
+        var gametoedit = snapshot.val();
+        var gid = gametoedit.gameid;
+        var tmm = gametoedit.team;
+        var sring = "games/";
+        tmm = sring.concat(tmm);
+        tmm = tmm.concat("/");
+        var galist = rootref.child(tmm);
+        galist.orderByChild("gameid").once("value",function(snap){
+          snap.forEach(function(snapshot){
+            var game = snapshot.val();
+            if(game.gameid == gid) {
+              var gtime;
+              if(game.tod == "day") {
+                gtime = game.time.replace(" am", "");
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio' checked>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='pmradio'>P.M.</p>";
+              }
+              else if(game.tod == "night") {
+                gtime = game.time.replace(" pm", "");
+                put.innerHTML += "<p><input type='radio' name='tofday' value='day' id='amradio'>A.M.</p>"
+                + "<p><input type='radio' name='tofday' value='night' id='pmradio' checked>P.M.</p>";
+              }
+              if(game.status == "Home") {
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus' checked>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='awaystatus'>Away</p>";
+              }
+              else if(game.status == "Away") {
+                out.innerHTML += "<p><input type='radio' name='status' value='Home' id='homestatus'>Home</p>"
+                + "<p><input type='radio' name='status' value='Away' id='awaystatus' checked>Away</p>";
+              }
+              ot.value = game.opponentname;
+              d.value = game.date;
+              t.value = gtime;
+              l.value = game.location;
+              editgameid = game.gameid;
+              mfouls = game.myfouls;
+              ofouls = game.opponentfouls;
+              mredcards = game.myredcards;
+              oredcards = game.opponentredcards;
+              myellowcards = game.myyellowcards;
+              oyellowcards = game.opponentyellowcards;
+              mshotsongoal = game.myshotsongoal;
+              oshotsongoal = game.opponentshotsongoal;
+              mgoals = game.mygoals;
+              ogoals = game.opponentgoals;
+              mcornerkicks = game.mycornerkicks;
+              ocornerkicks = game.opponentcornerkicks;
+              mgoalkicks = game.mygoalkicks;
+              ogoalkicks = game.opponentgoalkicks;
+            }
+          });
+        });
+      });
+    };
+
+    savebutton.addEventListener('click', function() {
+      var xdate = document.getElementById('gameDate').value;
+      var xtime = document.getElementById('gametime').value;
+      if(!xdate) {
+        alert('Please specify the date.');
+        return false;
+      }
+      if(!xtime) {
+        alert('Please specify the time.');
+        return false;
+      }
+      var timeChecker = xtime.indexOf(":");
+      var timeChecker2 = xtime.lastIndexOf(":");
+      if(!timeChecker || timeChecker != timeChecker2) {
+        alert('Invalid time format. Please make sure to put time in HH:MM format.');
+        return false;
+      }
+      var tHour = xtime.slice(0, timeChecker);
+      var tMinute = xtime.slice(timeChecker + 1, xtime.length);
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
+        alert('Invalid time format. Please make sure the hours and minutes have been input in HH:MM format.');
+        return false;
+      }
+      if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
+        alert('Invalid time input. Please make sure hours and minutes are all appropriate values.');
+        return false;
+      }
+      var dateChecker1 = xdate.indexOf("/");
+      var dateChecker2 = xdate.lastIndexOf("/");
+      if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
+        alert('Invalid date format. Please check and write date according to format specified above input field.');
+        return false;
+      }
+      var dMonth = xdate.slice(0, dateChecker1);
+      var dDate = xdate.slice(dateChecker1 + 1, dateChecker2);
+      var dYear = xdate.slice(dateChecker2 + 1, xdate.length);
+      if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 ||
+          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 ||
+          dMonth > 12 || dDate > 31 || dYear < 17) {
+        alert('Invalid date format. Please fix to continue');
+        return false;
+      }
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      var today = new Date();
+      var curMonth = today.getMonth() + 1;
+      curMonth = curMonth.toString();
+      var curDay = today.getDate().toString();
+      if( curDay.length == 1) {
+        curDay = "0" + curDay;
+      }
+      var curYear = today.getFullYear().toString().substr(2,2);
+      if(curMonth > dMonth || curDay > dDate || curYear > dYear) {
+        alert('Cannot make games scheduled for dates before today. Please set another date.');
+        return false;
+      }
+      var tofd = document.querySelector('input[name=tofday]:checked');
+      if(!tofd) {
+        alert('Please specify time of day.');
+        return false;
+      }
+      var stts = document.querySelector('input[name=status]:checked');
+      if(!stts) {
+        alert('Please specify game status.');
+        return false;
+      }
+      var lctn = document.getElementById('location').value;
+      if(!lctn) {
+        alert('Please specify location of game.');
+        return false;
+      }
+      var optm = document.getElementById('OppTeam').value;
+      if(!optm) {
+        alert('Please specify opponent team name.');
+        return false;
+      }
+      var currus = rootref.child("inspectgame/");
+      currus.once("value", function(snapshot){
+        var userNow = snapshot.val();
+        var not = userNow.team;
+        var str = "games/";
+        not = str.concat(not);
+        not = not.concat("/");
+        var gameslist = rootref.child(not);
+        var tod = document.querySelector('input[name=tofday]:checked').value;
+        gTime = document.getElementById('gametime').value;
+        var opponentname = document.getElementById('OppTeam').value;
+        var date = document.getElementById('gameDate').value;
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm");
+          tHour = Number(tHour) + 12;
+        }
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate);
+        timeid = timeid.concat(tHour);
+        timeid = timeid.concat(tMinute);
+        var time = gTime;
+        var location = document.getElementById('location').value;
+        var status = document.querySelector('input[name=status]:checked').value;
+        var gameid = opponentname.concat(timeid);
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var currGame = snap.val();
+            var updateGame = snap.ref;
+            if(currGame.gameid == editgameid) {
+              updateGame.update({
+                gameid: gameid,
+                timeid: timeid,
+                opponentname: opponentname,
+                date: date,
+                time: time,
+                tod: tod,
+                location: location,
+                status: status,
+                myfouls: mfouls,
+                opponentfouls: ofouls,
+                myredcards: mredcards,
+                opponentredcards: oredcards,
+                myyellowcards: myellowcards,
+                opponentyellowcards: oyellowcards,
+                myshotsongoal: mshotsongoal,
+                opponentshotsongoal: oshotsongoal,
+                mygoals: mgoals,
+                opponentgoals: ogoals,
+                mycornerkicks: mcornerkicks,
+                opponentcornerkicks: ocornerkicks,
+                mygoalkicks: mgoalkicks,
+                opponentgoalkicks: ogoalkicks
+              });
+              alert("Game Updated!");
+              clickSchedule();
+            }
+          });
+        });
+      });
+    });
+
+    deletebutton.addEventListener('click', function(){
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("inspectgame/");
+      currus.once("value", function(snapshot){
+        var uNow = snapshot.val();
+        var noot = uNow.team;
+        var strin = "games/";
+        noot = strin.concat(noot);
+        noot = noot.concat("/");
+        var gameslist = rootref.child(noot);
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var nowGame = snap.val();
+            var deleteGame = snap.ref;
+            if(nowGame.gameid == uNow.gameid) {
+              deleteGame.remove();
+              alert("Game Deleted.");
+              clickSchedule();
+            }
+          });
+        });
+      });
+    });
+
+  /********************************** SCRIPT FOR EDITGAMESTATS done **********************************************/
+
+    var myte = document.getElementById('myte'); 
+		var oppt = document.getElementById('oppt');
+		var my = document.getElementById('myteam');
+		var their = document.getElementById('theirteam');
+		var ms = document.getElementById('myteamscorevgs');
+		var ts = document.getElementById('oppteamscoresvgs');
+		var mg = document.getElementById('myteamgoalsvgs');
+		var tg = document.getElementById('oppteamgoalsvgs');
+		var mf = document.getElementById('myteamfoulvgs');
+		var tf = document.getElementById('oppteamfoulvgs');
+		var mrc = document.getElementById('myteamredcardvgs');
+		var trc = document.getElementById('oppteamredcardvgs');
+		var myc = document.getElementById('myteamyellowcardvgs');
+		var tyc = document.getElementById('oppteamyellowcardvgs');
+		var msog = document.getElementById('myteamshotsongoalvgs');
+		var tsog = document.getElementById('oppteamshotsongoalvgs');
+		var mck = document.getElementById('myteamcornerkicksvgs');
+		var tck = document.getElementById('oppteamcornerkicksvgs');
+		var mgk = document.getElementById('myteamgoalkicksvgs');
+		var tgk = document.getElementById('oppteamgoalkicksvgs');
 
     function clickEditGameStats(){
       show(editgamestatsdiv); 
@@ -871,9 +1336,120 @@
       here.update({
         page: "editgamestatshtml"
       });
+
+			var rootref = firebase.database().ref();
+			var viewgame = rootref.child("inspectgame/");
+			viewgame.once("value", function(snapshot) {
+        var gametoview = snapshot.val();
+        var gid = gametoview.gameid;
+        var tmm = gametoview.team; 
+        var sring = "games/";
+        tmm = sring.concat(tmm); 
+        tmm = tmm.concat("/");
+        var gameslist = rootref.child(tmm);
+        gameslist.orderByChild("gameid").once("value",function(snap){
+          snap.forEach(function(snapshot){
+            var stats = snapshot.val();
+            if(stats.gameid == gid) {
+							myte.innerHTML = gametoview.team,
+							oppt.innerHTML = stats.opponentname,
+							my.innerHTML = gametoview.team,
+							their.innerHTML = stats.opponentname,
+							ms.innerHTML = stats.mygoals;
+							ts.innerHTML = stats.opponentgoals;
+							mg.innerHTML = stats.mygoals;
+							tg.innerHTML = stats.opponentgoals;
+							mf.innerHTML = stats.myfouls;
+							tf.innerHTML = stats.opponentfouls;
+							mrc.innerHTML = stats.myredcards;
+							trc.innerHTML = stats.opponentredcards;
+							myc.innerHTML = stats.myyellowcards;
+							tyc.innerHTML = stats.opponentyellowcards;
+							msog.innerHTML = stats.myshotsongoal;
+							tsog.innerHTML = stats.opponentshotsongoal;
+							mck.innerHTML = stats.mycornerkicks;
+							tck.innerHTML = stats.opponentcornerkicks;
+							mgk.innerHTML = stats.mygoalkicks;
+							tgk.innerHTML = stats.opponentgoalkicks;
+            }
+          });
+        });
+      });
     }
 
-  /********************************** SCRIPT FOR EDITPLAYER **********************************************/
+    function incr(spanId) {
+  	  var currStat = document.getElementById(spanId);
+  	  var newNum = Number(currStat.innerHTML) + 1;
+  	  currStat.innerHTML = newNum;
+  	}
+
+  	function decr(spanId) {
+  	  var currStat = document.getElementById(spanId);
+  	  var newNum = Number(currStat.innerHTML) - 1;
+      if (newNum < 0) {
+        newNum = 0;
+      }
+  	  currStat.innerHTML = newNum;
+  	}
+
+  	egssaveBtn.addEventListener('click', function () {
+			var rootref = firebase.database().ref();
+			var viewgame = rootref.child("inspectgame/");
+
+			viewgame.once("value", function(snapshot){
+				var gametoedit = snapshot.val();
+        var gid = gametoedit.gameid;
+        var tmm = gametoedit.team; 
+        var sring = "games/";
+        tmm = sring.concat(tmm); 
+        tmm = tmm.concat("/");
+
+				var gameslist = rootref.child(tmm);
+				gameslist.orderByChild("gameid").once("value", function(snap){
+					snap.forEach(function(snapshot){
+            var game = snapshot.val();
+						var updategame = snapshot.ref;
+            if(game.gameid == gid) {
+							updategame.update({
+								mygoals: mg.innerHTML,
+								opponentgoals: tg.innerHTML,
+							 	myfouls: mf.innerHTML,
+								opponentfouls: tf.innerHTML,
+								myredcards: mrc.innerHTML,
+								opponentredcards: trc.innerHTML,
+								myyellowcards: myc.innerHTML,
+								opponentyellowcards: tyc.innerHTML,
+								myshotsongoal: msog.innerHTML,
+								opponentshotsongoal: tsog.innerHTML, 
+								mycornerkicks: mck.innerHTML, 
+								opponentcornerkicks: tck.innerHTML,
+								mygoalkicks: mgk.innerHTML, 
+								opponentgoalkicks: tgk.innerHTML
+							});
+            }
+          });
+					clickViewGameStats();
+				})
+			});
+  	});
+
+  /********************************** SCRIPT FOR EDITPLAYER done **********************************************/
+
+    var sv = document.getElementById('saveBtn');
+    var dl = document.getElementById('backBtn');
+    var fnm = document.getElementById('dfn');
+    var lnm = document.getElementById('dln');
+    var nme = document.getElementById('dpn');
+    var pos = document.getElementById('dp');
+    var jer = document.getElementById('dj');
+    var dob = document.getElementById('dd');
+    var goa = document.getElementById('dg');
+    var ast = document.getElementById('da');
+    var gpd = document.getElementById('dgp');
+    var fl = document.getElementById('df');
+    var rcd = document.getElementById('dr');
+    var ycd = document.getElementById('dy');
+    var email = document.getElementById('dem'); 
 
     function clickEditPlayer(){
       show(editplayerdiv); 
@@ -882,9 +1458,185 @@
       here.update({
         page: "editplayerhtml"
       });
+
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/"); 
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/"; 
+        stg = stg.concat(player.team); 
+        stg = stg.concat("/");
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              fnm.innerHTML = pla.firstname;
+              lnm.innerHTML = pla.lastname;
+              email.innerHTML = pla.email;
+              nme.innerHTML = pla.name;
+              pos.innerHTML = pla.position;
+              jer.innerHTML = pla.jerseynumber;
+              dob.innerHTML = pla.birthdate;
+              goa.innerHTML = pla.goals;
+              ast.innerHTML = pla.assists;
+              gpd.innerHTML = pla.gamesplayed;
+              fl.innerHTML = pla.fouls;
+              rcd.innerHTML = pla.redcards;
+              ycd.innerHTML = pla.yellowcards;
+            }
+          });
+        });
+      });
     }
 
-  /********************************** SCRIPT FOR EDITPRACTICE **********************************************/
+    sv.addEventListener('click', function() {
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/"); 
+      var firstname = fnm.innerHTML;
+      var lastname = lnm.innerHTML; 
+      var emaill = email.innerHTML; 
+      var birthdate = dob.innerHTML; 
+      var jerseynumber = jer.innerHTML; 
+      var position = pos.innerHTML;
+      if(!firstname || !lastname || !jerseynumber || !birthdate || !emaill || !position) {
+        alert('Incomplete form. Please fill out the entire form.');
+        return;
+      }
+      if(emaill.indexOf("@") == 0 || emaill.indexOf("@") + 1 == emaill.lastIndexOf(".")) {
+        alert('Invalid email. Please use a valid email.'); 
+        return;
+      }
+      if(emaill.lastIndexOf(".") == (-1) || emaill.indexOf("@") == (-1)){
+        alert('Invalid email format. Please write down a valid email (i.e. johndoe@yahoo.com).'); 
+        return;
+      }
+      var firstdash = birthdate.indexOf("/");
+      var seconddash = birthdate.lastIndexOf("/");
+      if(!firstdash || !seconddash || firstdash == seconddash ) {
+        alert('Invalid birthdate format. Please fill out birthdate in mm/dd/yy format.')
+        return;
+      }
+      if(birthdate.length > 8) {
+        alert('Invalid birthdate format. Please adhere to the mm/dd/yy format.'); 
+        return;
+      }
+      if(jerseynumber.length > 2) {
+        alert('Jersey number can be at most two characters (i.e. 00, 11 22).');
+        return;
+      }
+      var bMonth = birthdate.slice(0, firstdash); 
+      var bDay = birthdate.slice(firstdash + 1, seconddash); 
+      var bYear = birthdate.slice(seconddash + 1, birthdate.length);
+      if(!bMonth || !bDay || !bYear || bYear.length != 2 || 
+          bMonth.length != 2 || bDay.length != 2 || 
+          bMonth > 12 || bDay > 31) {
+        alert('Invalid birthdate format, must be in mm/dd/yy format. Please fix to continue.');
+        return;
+      }
+      if(isNaN(bMonth) || isNaN(bDay) || isNaN(bYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.'); 
+        return;
+      }
+      if(!isNaN(position) || !(position.toUpperCase().replace(/\s/g, "") == "GOALKEEPER" 
+      || position.toUpperCase().replace(/\s/g, "") == "MIDFIELDER" 
+      || position.toUpperCase().replace(/\s/g, "") == "FORWARD" 
+      || position.toUpperCase().replace(/\s/g, "") == "DEFENDER")) {
+        alert('Please choose a valid position (Goalkeeper, Midfielder, Forward, Defender). Be careful with extra spaces!');
+        return;
+      }
+      position = position.toUpperCase().replace(/\s/g, ""); 
+      if(isNaN(goa.innerHTML) || isNaN(ast.innerHTML) || isNaN(gpd.innerHTML) || isNaN(fl.innerHTML) 
+      || isNaN(rcd.innerHTML) || isNaN(ycd.innerHTML)) {
+        alert('Counting stats must be in numerical format.'); 
+        return;
+      }
+      var ug = Number(goa.innerHTML).toString();
+      var ua = Number(ast.innerHTML).toString(); 
+      var ugp = Number(gpd.innerHTML).toString();
+      var uf = Number(fl.innerHTML).toString(); 
+      var ur = Number(rcd.innerHTML).toString();
+      var uy = Number(ycd.innerHTML).toString();
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/"; 
+        stg = stg.concat(player.team); 
+        stg = stg.concat("/");
+        var fullname;
+        fullname = firstname.concat(" ");
+        fullname = fullname.concat(lastname); 
+        var rawBirthdate = bMonth + bDay + bYear;
+        var playerid = firstname.concat(lastname); 
+        playerid = playerid.concat(rawBirthdate); 
+        playerid = playerid.concat(jerseynumber);
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              var currentPlyr = snap.ref;
+              currentPlyr.update({
+                myteamname: player.team,
+                firstname: fnm.innerHTML,
+                playerid: playerid,
+                lastname: lnm.innerHTML,
+                email: emaill,
+                name: fullname,
+                position: position,
+                jerseynumber: jer.innerHTML,
+                birthdate: dob.innerHTML,
+                goals: ug,
+                assists: ua,
+                gamesplayed: ugp,
+                fouls: uf,
+                redcards: ur,
+                yellowcards: uy
+              });
+            }
+          });     
+          var rootref = firebase.database().ref(); 
+          var moveplr = rootref.child("inspectplayer/");
+          moveplr.set({
+            team: player.team,
+            playerid: playerid
+          })
+          clickViewPlayer();
+        });
+      });  
+    });
+
+    dl.addEventListener('click', function() {
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("inspectplayer/");
+      currus.once("value", function(snapshot){
+        var uNow = snapshot.val();
+        var noot = uNow.team;
+        var strin = "players/";
+        noot = strin.concat(noot);
+        noot = noot.concat("/");
+        var playerslist = rootref.child(noot);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var nowPlayer = snap.val();
+            var deletePlayer = snap.ref;
+            if(nowPlayer.playerid == uNow.playerid) {
+              deletePlayer.remove();
+              alert("Player Deleted.");
+              clickRoster();
+            }
+          });
+        });
+      });
+    });
+
+  /********************************** SCRIPT FOR EDITPRACTICE done **********************************************/
+
+    var saveBtn = document.getElementById('exsave');
+    var delBtn = document.getElementById('delB');
+    var oldTimeid;
+    var currTeam;
+    var practiceEdit = firebase.database().ref().child("practedit");
+    var userRef = firebase.database().ref().child("currentuser/");
 
     function clickEditPractice(){
       show(editpracticediv); 
@@ -893,9 +1645,159 @@
       here.update({
         page: "editpracticehtml"
       });
+
+      userRef.once("value", function(snap){
+        var snap1 = snap.val();
+        currTeam = snap1.team;
+        var team = currTeam;
+        var str = "practice/";
+        team = str.concat(team);
+        team = team.concat("/");
+        practiceEdit.once("value", function(snap2) {
+          var pract = snap2.val();
+          oldTimeid = pract.timeid;
+          var practice = firebase.database().ref().child(team);
+          practice.orderByChild("timeid").once("value", function(snap3){
+            snap3.forEach(function(snap4){
+              var snapshot = snap4.val();
+              if(oldTimeid == snapshot.timeid) {
+                document.getElementById("gamedate").value = snapshot.date;
+                document.getElementById("gametime").value = snapshot.time;
+                if(snapshot.tod == 'night') {
+                  document.getElementById('pmradio').checked = true;
+                }
+                else {
+                  document.getElementById('amradio').checked = true;
+                }
+                document.getElementById("gamelocation").value = snapshot.location;
+              }
+            });
+          });
+        });
+      });
     }
 
-  /********************************** SCRIPT FOR EDITROSTER **********************************************/
+    saveBtn.addEventListener('click', function() {
+      var dateInput = document.getElementById("gamedate").value;
+      var timeInput = document.getElementById("gametime").value;
+      var locationInput = document.getElementById("gamelocation").value;
+      if(!dateInput) {
+        alert('Please specify date');
+        return false;
+      }
+      if(!timeInput) {
+        alert('Please specify time');
+        return false;
+      }
+      if(!locationInput) {
+        alert('Please specify location');
+        return false;
+      }
+      var timeChecker = timeInput.indexOf(":");
+      var timeChecker2 = timeInput.lastIndexOf(":");
+      if(!timeChecker || timeChecker != timeChecker2) {
+        alert('Invalid time format. Please make sure to put time in HH:MM format.');
+        return false;
+      }
+      var tHour = timeInput.slice(0, timeChecker);
+      var tMinute = timeInput.slice(timeChecker + 1, timeInput.length);
+      if(!tHour || !tMinute || tHour.length > 2 || tHour.length < 2 || tMinute.length > 2 || tMinute.length < 2) {
+        alert('Invalid time format. Please make sure the hours and minutes have been input in HH:MM format.');
+        return false;
+      }
+      if( tHour > 12 || tMinute > 60 || tHour < 1 || tMinute < 0 ) {
+        alert('Invalid time input. Please make sure hours and minutes are all appropriate values.');
+        return false;
+      }
+      var dateChecker1 = dateInput.indexOf("/");
+      var dateChecker2 = dateInput.lastIndexOf("/");
+      if( !dateChecker1 || !dateChecker2 || dateChecker1 == dateChecker2 ) {
+        alert('Invalid date format. Please check and write date according to format specified above input field.');
+        return false;
+      }
+      var dMonth = dateInput.slice(0, dateChecker1);
+      var dDate = dateInput.slice(dateChecker1 + 1, dateChecker2);
+      var dYear = dateInput.slice(dateChecker2 + 1, dateInput.length);
+      if(!dMonth || !dDate || !dYear || dYear.length < 2 || dYear.length > 2 ||
+          dMonth.length > 2 || dMonth.length < 1 || dDate.length > 2 || dDate.length < 2 ||
+          dMonth > 12 || dDate > 31 || dYear < 17) {
+        alert('Invalid date format. Please fix to continue');
+        return false;
+      }
+      if(isNaN(tHour) || isNaN(tMinute)) {
+        alert('Time has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      if(isNaN(dMonth) || isNaN(dDate) || isNaN(dYear)) {
+        alert('Date has to be in numerical format. Please refer to specified format above input field.');
+        return false;
+      }
+      var tofd = document.querySelector('input[name=tofday]:checked');
+      if(!tofd) {
+        alert('Please specify time of day.');
+        return false;
+      }
+      userRef.once("value", function(snap) {
+        var snapshot = snap.val();
+        var team = snapshot.team;
+        var str = "practice/";
+        team = str.concat(team);
+        team = team.concat("/");
+        var tod = document.querySelector('input[name=tofday]:checked').value;
+        var gTime = document.getElementById('gametime').value;
+        var date = document.getElementById('gamedate').value;
+        if(tod == "day") {
+          gTime = gTime.concat(" am");
+        }
+        if(tod == "night") {
+          gTime = gTime.concat(" pm");
+          tHour = Number(tHour) + 12;
+        }
+        var timeid = dYear.concat(dMonth);
+        timeid = timeid.concat(dDate);
+        timeid = timeid.concat(tHour);
+        timeid = timeid.concat(tMinute);
+        var practList = firebase.database().ref().child(team);
+        practList.orderByChild("timeid").once("value", function(snapshot1){
+          snapshot1.forEach(function(snap1){
+            var currPrac = snap1.val();
+            if(currPrac.timeid == oldTimeid){
+              snap1.ref.update({
+                date: dateInput,
+                location: locationInput,
+                time: timeInput,
+                timeid: timeid,
+                tod: tod
+              });
+            }
+          });
+          alert('Practice Updated!');
+          clickHome();
+        });
+      });
+    });
+
+    delBtn.addEventListener('click', function() {
+      var team = currTeam;
+      var str = "practice/";
+      team = str.concat(team);
+      team = team.concat("/");
+      var pracList = firebase.database().ref().child(team);
+      pracList.orderByChild("timeid").once("value", function(snap1) {
+        snap1.forEach(function(snap2){
+          var currPrac = snap2.val();
+          if(currPrac.timeid == oldTimeid){
+            snap2.ref.remove();
+            alert('Practice Removed');
+            clickHome();
+          }
+        });
+      });
+    });
+
+  /********************************** SCRIPT FOR EDITROSTER done **********************************************/
+
+    var ustm;
 
     function clickEditRoster(){
       show(editrosterdiv); 
@@ -903,21 +1805,260 @@
       var here = rootref.child('currentuser/');
       here.update({
         page: "editrosterhtml"
-      });    
+      });   
+
+      var tbl = document.getElementById('outputTable');
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team; 
+        ustm = myteamname;
+        var str = "players/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+        playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
+          snapshot.forEach(function(snap){
+            var p = snap.val();
+            var rawBirthdate;
+            var temp = p.birthdate.indexOf("/"); 
+            var tempt = p.birthdate.lastIndexOf("/");
+            var strr = p.birthdate.slice(0, temp); 
+            var strrr = p.birthdate.slice(temp + 1, tempt); 
+            var strrrr = p.birthdate.slice(tempt + 1, p.birthdate.length);
+            rawBirthdate = strr + strrr + strrrr;
+            var playerid = p.firstname.concat(p.lastname); 
+            playerid = playerid.concat(rawBirthdate); 
+            playerid = playerid.concat(p.jerseynumber);
+            tbl.innerHTML += "<tr><td>"
+            + p.jerseynumber
+            + "</td><td>" + p.position
+            + "</td><td><a href='#' class='es' id='" + playerid + "' onclick='clickedPlayer(this.id)'>" + p.name
+            + "</a></td><td class='gd' contenteditable='true' id='goal" + playerid + "'>" + p.goals
+            + "</td><td class='ad' contenteditable='true' id='assi" + playerid + "'>" + p.assists
+            + "</td><td class='fd' contenteditable='true' id='foul" + playerid + "'>" + p.fouls
+            + "</td><td class='rd' contenteditable='true' id='redc" + playerid + "'>" + p.redcards
+            + "</td><td class='yd' contenteditable='true' id='yell" + playerid + "'>" + p.yellowcards
+            + "</td><td class='gpd' contenteditable='true' id='gapl" + playerid + "'>" + p.gamesplayed + "</td></tr>";
+          });
+        });
+      }); 
     }
 
-  /********************************** SCRIPT FOR HOME **********************************************/
+    function clickedPlayer(id) {
+      var rootref = firebase.database().ref(); 
+      var moveplr = rootref.child("inspectplayer/");
+      moveplr.set({
+        team: ustm,
+        playerid: id
+      })
+      clickViewPlayer();
+    }
 
-  function clickHome() {
-    show(homediv);
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "homehtml"
+    var saveEditBtn = document.getElementById('editrosterbtn');
+    var goBackBtn = document.getElementById('backBtn');
+
+    saveEditBtn.addEventListener('click', function() {
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("inspectplayer/");
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team; 
+        ustm = myteamname;
+        var str = "players/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+        var checker = 0;
+        playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
+          snapshot.forEach(function(snap){
+            var cuPl = snap.val();
+            var compareid = cuPl.playerid;
+            var ugoals = "goal" + compareid;
+            var uassists = "assi" + compareid; 
+            var ufouls = "foul" + compareid; 
+            var uredcards = "redc" + compareid; 
+            var uyellowcards = "yell" + compareid; 
+            var ugamesplayed = "gapl" + compareid;
+            ugoals = document.getElementById(ugoals).innerHTML;
+            uassists = document.getElementById(uassists).innerHTML; 
+            ufouls = document.getElementById(ufouls).innerHTML; 
+            uredcards = document.getElementById(uredcards).innerHTML; 
+            uyellowcards = document.getElementById(uyellowcards).innerHTML;
+            ugamesplayed = document.getElementById(ugamesplayed).innerHTML;
+            if(isNaN(ugoals) || isNaN(uassists) || isNaN(ufouls) || isNaN(uredcards) || isNaN(uyellowcards) || isNaN(ugamesplayed)) {
+              alert('Invalid stat input. Please ONLY numerical values and do not leave any cells blank.'); 
+              checker = 1; 
+              return;
+            }
+            else {
+              cuPl = snap.ref; 
+              cuPl.update({
+              goals: Number(ugoals).toString(),
+              assists: Number(uassists).toString(),
+              fouls: Number(ufouls).toString(),
+              redcards: Number(uredcards).toString(),
+              yellowcards: Number(uyellowcards).toString(),
+              gamesplayed: Number(ugamesplayed).toString()
+            }); 
+            }
+          });
+          if(checker == 0) {
+            clickRoster();
+          }
+        });
+      });
     });
-  }
 
-  /********************************** SCRIPT FOR LOGIN **********************************************/
+    goBackBtn.addEventListener('click', function() {
+      clickRoster();
+    });
+
+  /********************************** SCRIPT FOR HOME done **********************************************/
+  
+    var userteam;
+
+    function clickHome() {
+      show(homediv);
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "homehtml"
+      });
+      var wins = 0;
+      var losses = 0;
+      var ties = 0;
+      var tgs = 0;
+      var tgg = 0;
+      var today = new Date();
+      var dd = today.getDate().toString();
+      var mm = today.getMonth()+1;
+      var yy = today.getFullYear().toString();
+      yy = yy.slice(2,4);
+      if(dd<10) {
+        dd = '0' + dd;
+      }
+      if(mm<10) {
+        mm = '0' + mm;
+      }
+      var todayid = today.getFullYear().toString().substr(2,2) + mm.toString() + dd + today.getHours().toString() + today.getMinutes().toString();
+      today = mm.toString() + '/' + dd + '/' + yy;
+      var dis = document.getElementById("outPut");
+      dis.innerHTML = "";
+      var dbref = firebase.database().ref().child("currentuser/");
+      dbref.once("value", function(snap){
+        var snapval = snap.val();
+        var currUser = snapval.type;
+        var currTeam = snapval.team;
+        userteam = currTeam;
+        var str = "games/";
+        var myTeam1 = currTeam;
+        myTeam1 = str.concat(myTeam1);
+        myTeam1 = myTeam1.concat("/");
+        var gamelist = firebase.database().ref().child(myTeam1);
+        gamelist.orderByChild("timeid").once("value", function(snapshot) {
+          snapshot.forEach(function(snapshot1) {
+            var todayGame = snapshot1.val();
+            if(todayid > todayGame.timeid ) {
+              if(todayGame.mygoals > todayGame.opponentgoals) {
+                wins = wins + 1;
+              }
+              else if (todayGame.mygoals < todayGame.opponentgoals) {
+                losses = losses + 1;
+              }
+              else {
+                ties = ties + 1;
+              }
+              tgs = tgs + Number(todayGame.mygoals);
+              tgg = tgg + Number(todayGame.opponentgoals);
+            }
+            if(currUser == "fan") {
+              if(today == todayGame.date) {
+                dis.innerHTML += "<div class='box0'><h2>Today's Game: " + today
+                  + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
+                  + "<h4><mark>" + todayGame.mygoals + " : " + todayGame.opponentgoals + "</mark></h4>"
+                  + "<p>" + todayGame.date + " " + todayGame.time
+                  + "</p><p>" + todayGame.location
+                  + "</p><p>" + todayGame.status
+                  + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid
+                  + "'onclick='clickedd(this.id)'></div>";
+                }
+              }
+            });
+          if (dis == "") {
+            dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
+          }
+          document.getElementById('wins').innerHTML = wins;
+          document.getElementById('losses').innerHTML = losses;
+          document.getElementById('ties').innerHTML = ties;
+          document.getElementById('totalgoalsscored').innerHTML = tgs;
+          document.getElementById('totalgoalsgivenup').innerHTML = tgg;
+        });
+
+        if(currUser != 'fan') {
+          var str = "practice/";
+          var myTeam = currTeam;
+          myTeam = str.concat(myTeam);
+          myTeam = myTeam.concat("/");
+          var practList = firebase.database().ref().child(myTeam);
+          var editb;
+          alert(myTeam);
+          practList.orderByChild("timeid").once("value", function(snapshot) {
+            snapshot.forEach(function(snapshot1) {
+              var todayPract = snapshot1.val();
+              var tod;
+              if(todayPract.tod == "night"){
+                tod = " P.M.";
+              }
+              else {
+                tod = " A.M.";
+              }
+              if(currUser == 'player') {
+                editb = "";
+              }
+              else {
+                editb = "<input type='button' value='Edit Practice' id='edit" + todayPract.timeid + "' class='editGameBtn'"
+                      + " onclick='clickedd(this.id)'>";
+              }
+              if(today ==  todayPract.date) {
+                dis.innerHTML += "<div class='box0'><h2>Today's Practice: " + today
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+              else if (todayid < todayPract.timeid) {
+                dis.innerHTML += "<div class='box0'><h2>Upcoming Practice: " + todayPract.date
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+            });
+          });
+        }
+      });
+    }
+
+    function clickedd(id) {
+      var rootref = firebase.database().ref();
+      var checkid = id.substr(4, id.length);
+      var stri = id.substr(0, 4);
+      if(stri == "edit") {
+        var movegame = rootref.child("practedit");
+        movegame.set({
+          timeid: checkid
+        })
+        clickEditPractice();
+      }
+      if(stri == "view") {
+        var movegame = rootref.child("inspectgame/");
+        movegame.set({
+          team: userteam,
+          gameid: checkid
+        })
+        clickViewGameStats();
+      }
+    }
+
+  /********************************** SCRIPT FOR LOGIN done **********************************************/
 
     function clickLogin(){
       document.getElementById('loginemail').value = "";
@@ -935,6 +2076,7 @@
     var liBtn = document.getElementById('loginsubmit');
 
     liBtn.addEventListener('click', function() {
+
       var rootref = firebase.database().ref(); 
       var userslist = rootref.child("users/");
 
@@ -954,10 +2096,8 @@
                 curuser.set({
                   username: cur.username, 
                   team: cur.team, 
-                  type: cur.type, 
-                  page: document.getElementById('homehtml')
+                  type: cur.type
                 });
-                document.getElementById('mainnavbar').style.display = "inline";
                 clickHome();
               }
               else {
@@ -987,7 +2127,7 @@
       return true;
     }
 
-  /********************************** SCRIPT FOR ROSTER **********************************************/
+  /********************************** SCRIPT FOR ROSTER done **********************************************/
 
     function clickRoster(){
       show(rosterdiv);
@@ -996,9 +2136,36 @@
       here.update({
         page: "rosterhtml"
       });
-    }
 
-  /********************************** SCRIPT FOR SCHEDULE **********************************************/
+      var tbl = document.getElementById('outputdata');
+      var rootref = firebase.database().ref(); 
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        if(snpsht.type != 'coach') {
+          document.getElementById('editrosterbtn').style.display = 'none';
+          document.getElementById('addplayerbtn').style.display = 'none';
+        }
+        var myteamname = snpsht.team; 
+        var str = "players/"; 
+        myteamname = str.concat(myteamname); 
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+        playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var p = snap.val();
+            tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td>"
+            + p.name + "</td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
+            + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
+            "</td><td>" + p.gamesplayed + "</td></tr>";
+          });
+        });
+      });
+    };    
+
+  /********************************** SCRIPT FOR SCHEDULE done **********************************************/
+
+    var userteam;
 
     function clickSchedule(){
       show(schedulediv); 
@@ -1007,9 +2174,103 @@
       here.update({
         page: "schedulehtml"
       });
+
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      var disGam = document.getElementById('outputgames');
+      var currga = rootref.child("inspectgame/");
+      currga.once("value", function(snapshot){
+        snapshot.ref.remove();
+      });
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team;
+        userteam = myteamname;
+        var str = "games/";
+        myteamname = str.concat(myteamname);
+        myteamname = myteamname.concat("/");
+        var gameslist = rootref.child(myteamname);
+        var usertype = snpsht.type;
+        var styleStr;
+        if(usertype != 'coach') {
+          styleStr = "style='display:none'";
+          document.getElementById('addGameBtn').style.display = 'none';
+          document.getElementById('addPracBtn').style.display = 'none';
+        }
+        else {
+          styleStr = "";
+        }
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          disGam.innerHTML = "";
+          snapshot.forEach(function(snap){
+            var cg = snap.val();
+            var today = new Date();
+            var curMonth = today.getMonth() + 1;
+            curMonth = curMonth.toString();
+            var curDay = today.getDate().toString();
+            if( curDay.length == 1) {
+              curDay = "0" + curDay;
+            }
+            var curYear = today.getFullYear().toString().substr(2,2);
+            var curHour = today.getHours().toString();
+            var curMinute = today.getMinutes().toString();
+            var todayDate = curYear + curMonth + curDay + curHour + curMinute;
+            var compareDate = cg.timeid;
+            if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
+              disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + cg.gameid + "'onclick='clicked(this.id)'>"
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
+            }
+            else if(todayDate > compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' id='view" + cg.gameid + "' class='viewStatsBtn' onclick='clicked(this.id)'></div>";
+            }
+            else if(todayDate < compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname
+              + "</h3><p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
+            }
+          });
+          if (disGam.value == "") {
+            disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
+          }
+        });
+      });
     }
 
-  /********************************** SCRIPT FOR SIGNUP **********************************************/
+    function clicked(id) {
+      var rootref = firebase.database().ref();
+      var gameid = id.substr(4, id.length);
+      var movegame = rootref.child("inspectgame/");
+      movegame.set({
+        team: userteam,
+        gameid: gameid
+      })
+      var stri = id.substr(0, 4);
+      if(stri == "edit") {
+        clickEditGame();
+      }
+      if(stri == "view") {
+        clickViewGameStats();
+      }
+    };
+
+  /********************************** SCRIPT FOR SIGNUP done **********************************************/
 
     function clickSignUp(){
       show(signupdiv); 
@@ -1029,6 +2290,11 @@
     var playerfield = document.getElementById('playerfield');
     var fanfield = document.getElementById('fanfield');
     var bdayfield = document.getElementById('bdayfield');
+    var jerseynumber = document.getElementById('sujerseynumber');
+
+    document.getElementById('signupBackBtn').addEventListener('click', function(){
+      clickLogin();
+    });
 
     document.getElementById('signupBtn').addEventListener("click", function() {
 
@@ -1036,8 +2302,13 @@
       var selectedteam;
 
       if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0
-            || pw.value.length == 0 || cpw.value.length == 0) {
+            || pw.value.length == 0 || cpw.value.length == 0 || jerseynumber.value.length == 0) {
         alert('Sign Up form is not complete. Please fill everything out to proceed.');
+        return false;
+      }
+
+      else if(isNaN(jerseynumber.value)) {
+        alert('Jersey number must be a NUMBER.');
         return false;
       }
 
@@ -1095,9 +2366,9 @@
       (isNaN(bdayfield.value.slice(0, bdayfield.value.indexOf("/")))
       || isNaN(bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/")))
       || isNaN(bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length)) ||
-      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length < 2)
-      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length < 2)
-      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length < 2))))){
+      ((bdayfield.value.slice(0, bdayfield.value.indexOf("/")).length != 2)
+      || (bdayfield.value.slice(bdayfield.value.indexOf("/") + 1, bdayfield.value.lastIndexOf("/").length != 2)
+      || (bdayfield.value.slice(bdayfield.value.lastIndexOf("/") + 1, bdayfield.value.length).length != 2))))){
         alert('Incorrect birthdate format. Values must be numbers and/or must be in the format mm/dd/yy!');
         return false;
       }
@@ -1140,28 +2411,42 @@
             }
 
             else if(usertype.value == "player") {
-              var findroster = playerfield.options[playerfield.selectedIndex].value.concat("roster");
-              var rosterlist = rootref.child(findroster + "/");
-              var namestr = fn.value.concat(" ");
-              namestr = namestr.concat(ln.value);
-              rosterlist.orderByChild("name").equalTo(namestr).once("value", snapshot => {
+              var findroster = playerfield.options[playerfield.selectedIndex].value;
+              var samStr = "players/";
+              samStr = samStr.concat(findroster);
+              samStr = samStr.concat("/");
+              var rosterlist = rootref.child(samStr);
+
+              var birthdate = bdayfield.value;
+              var firstdash = birthdate.indexOf("/");
+              var seconddash = birthdate.lastIndexOf("/");
+              var bMonth = birthdate.slice(0, firstdash); 
+              var bDay = birthdate.slice(firstdash + 1, seconddash); 
+              var bYear = birthdate.slice(seconddash + 1, birthdate.length);
+              var rawBirthdate = bMonth + bDay + bYear;
+              var firstname = fn.value;
+              var lastname = ln.value;
+              var jsn = Number(jerseynumber.value).toString();
+
+              var playerid = firstname.concat(lastname); 
+              playerid = playerid.concat(rawBirthdate); 
+              playerid = playerid.concat(jsn);
+
+              rosterlist.orderByChild("playerid").equalTo(playerid).once("value", snapshot => {
                 const plnm = snapshot.val();
-
-                //idea: maybe compare birthdates too.
-
-                if(plnm && plnm.birthdate == bdayfield.value){
+                if(plnm){
                   var newuser = userslist.push();
                   newuser.set({
                     username: userid.value,
                     password: pw.value,
-                    team: coachfield.value,
+                    team: findroster,
                     type: usertype.value
                   });
                   alert('Created account. Please proceed to login.');
                   clickLogin();
                 }
                 else{
-                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate and inclusion in team roster.');
+                  alert('User does not exist in the roster of specified team. Contact the coach to verify birthdate, your jersey number on the roster, and overall inclusion in team roster.');
                   return;
                 }
               });
@@ -1226,7 +2511,7 @@
       });
     }
 
-  /********************************** SCRIPT FOR VIEWGAMESTATS **********************************************/
+  /********************************** SCRIPT FOR VIEWGAMESTATS done **********************************************/
 
     function clickViewGameStats(){
       show(viewgamestatsdiv);
@@ -1235,9 +2520,96 @@
       here.update({
         page: viewgamestatsdiv
       });
+
+      var myte = document.getElementById('mytea'); 
+			var oppt = document.getElementById('oppte');
+			var my = document.getElementById('myteam');
+			var their = document.getElementById('oppteam');
+			var ms = document.getElementById('myscore');
+			var ts = document.getElementById('theirscore');
+			var mg = document.getElementById('mygoals');
+			var tg = document.getElementById('theirgoals');
+			var mf = document.getElementById('myfouls');
+			var tf = document.getElementById('theirfouls');
+			var mrc = document.getElementById('myredcards');
+			var trc = document.getElementById('theirredcards');
+			var myc = document.getElementById('myyellowcards');
+			var tyc = document.getElementById('theiryellowcards');
+			var msog = document.getElementById('myshotsongoal');
+			var tsog = document.getElementById('theirshotsongoal');
+			var mck = document.getElementById('mycornerkicks');
+			var tck = document.getElementById('theircornerkicks');
+			var mgk = document.getElementById('mygoalkicks');
+			var tgk = document.getElementById('theirgoalkicks');
+			var rootref = firebase.database().ref();
+			var viewgame = rootref.child("inspectgame/");
+			viewgame.once("value", function(snapshot) {
+        var gametoview = snapshot.val();
+        var gid = gametoview.gameid;
+        var tmm = gametoview.team; 
+        var sring = "games/";
+        tmm = sring.concat(tmm); 
+        tmm = tmm.concat("/");
+        var gameslist = rootref.child(tmm);
+        gameslist.orderByChild("gameid").once("value",function(snap){
+          snap.forEach(function(snapshot){
+            var stats = snapshot.val();
+            if(stats.gameid == gid) {
+							myte.innerHTML = gametoview.team,
+							oppt.innerHTML = stats.opponentname,
+							my.innerHTML = gametoview.team,
+							their.innerHTML = stats.opponentname,
+							ms.innerHTML = stats.mygoals;
+							ts.innerHTML = stats.opponentgoals;
+							mg.innerHTML = stats.mygoals;
+							tg.innerHTML = stats.opponentgoals;
+							mf.innerHTML = stats.myfouls;
+							tf.innerHTML = stats.opponentfouls;
+							mrc.innerHTML = stats.myredcards;
+							trc.innerHTML = stats.opponentredcards;
+							myc.innerHTML = stats.myyellowcards;
+							tyc.innerHTML = stats.opponentyellowcards;
+							msog.innerHTML = stats.myshotsongoal;
+							tsog.innerHTML = stats.opponentshotsongoal;
+							mck.innerHTML = stats.mycornerkicks;
+							tck.innerHTML = stats.opponentcornerkicks;
+							mgk.innerHTML = stats.mygoalkicks;
+							tgk.innerHTML = stats.opponentgoalkicks;
+            }
+          });
+        });
+      });
+			var curuser = rootref.child("currentuser/");
+			curuser.once("value", function(snapshot){
+				var username = snapshot.val().type;
+				if(username != "coach") {
+					document.getElementById('editgamestatsBtn').style.display = 'none';
+				}
+			});
     }
 
-  /********************************** SCRIPT FOR VIEWPLAYER **********************************************/
+    var edBtn = document.getElementById('editgamestatsBtn');
+		edBtn.addEventListener('click', function() {
+			clickEditGameStats();
+		});
+
+  /********************************** SCRIPT FOR VIEWPLAYER done **********************************************/
+
+    var bBtn = document.getElementById('backBtn');
+    var eBtn = document.getElementById('editBtn');
+    var fnm = document.getElementById('ddfn');
+    var lnm = document.getElementById('ddln');
+    var email = document.getElementById('ddem');
+    var nme = document.getElementById('ddpn');
+    var pos = document.getElementById('ddp');
+    var jer = document.getElementById('ddj');
+    var dob = document.getElementById('ddd');
+    var goa = document.getElementById('ddg');
+    var ast = document.getElementById('dda');
+    var gpd = document.getElementById('ddgp');
+    var fl = document.getElementById('ddf');
+    var rcd = document.getElementById('ddr');
+    var ycd = document.getElementById('ddy');
 
     function clickViewPlayer(){
       show(viewplayerdiv); 
@@ -1246,7 +2618,45 @@
       here.update({
         page: "viewplayerhtml"
       });
+
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/"); 
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/"; 
+        stg = stg.concat(player.team); 
+        stg = stg.concat("/");
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              fnm.innerHTML = pla.firstname;
+              lnm.innerHTML = pla.lastname;
+              email.innerHTML = pla.email;
+              nme.innerHTML = pla.name;
+              pos.innerHTML = pla.position;
+              jer.innerHTML = pla.jerseynumber;
+              dob.innerHTML = pla.birthdate;
+              goa.innerHTML = pla.goals;
+              ast.innerHTML = pla.assists;
+              gpd.innerHTML = pla.gamesplayed;
+              fl.innerHTML = pla.fouls;
+              rcd.innerHTML = pla.redcards;
+              ycd.innerHTML = pla.yellowcards;
+            }
+          });
+        });
+      });
     }
+
+    bBtn.addEventListener('click', function() {
+      clickEditRoster();
+    });
+
+    eBtn.addEventListener('click', function() {
+      clickEditPlayer();
+    });
 
   /********************************** SCRIPT FOR LOGOUT **********************************************/
 
