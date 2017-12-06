@@ -68,12 +68,14 @@
   <script>
 
 	  window.addEventListener('DOMContentLoaded', function(){
-      //SCORE STUFF
-      
+      //Initial Home stats
+      var wins = 0;
+      var losses = 0;
+      var ties = 0;
+      var tgs = 0;
+      var tgg = 0;
 
 
-
-      //PRACTICE STUFF
       //Today's Date
       var today = new Date();
       var dd = today.getDate().toString();
@@ -90,7 +92,6 @@
       var todayid = today.getFullYear().toString().substr(2,2) + mm.toString() + dd + today.getHours().toString() + today.getMinutes().toString();
       today = mm.toString() + '/' + dd + '/' + yy;
 
-
       var dis = document.getElementById("outPut");
       dis.innerHTML = "";
       var dbref = firebase.database().ref().child("currentuser/");
@@ -99,16 +100,37 @@
         var currUser = snapval.type;
         var currTeam = snapval.team;
 
-        //Players: Show today's game
-        if(currUser == "fan") {
-          var str = "games/";
-          currTeam = str.concat(currTeam);
-          currTeam = currTeam.concat("/");
-          var gamelist = firebase.database().ref().child(currTeam);
+        var str = "games/";
+        var myTeam1 = currTeam;
+        myTeam1 = str.concat(myTeam1);
+        myTeam1 = myTeam1.concat("/");
+        var gamelist = firebase.database().ref().child(myTeam1);
+        gamelist.orderByChild("timeid").once("value", function(snapshot) {
+          snapshot.forEach(function(snapshot1) {
+            var todayGame = snapshot1.val();
 
-          gamelist.orderByChild("timeid").once("value", function(snapshot){
-            snapshot.forEach(function(snapshot1) {
-              var todayGame = snapshot1.val();
+            // Home Stats Stuff
+            // Check if its a past game
+            if(todayid > todayGame.timeid ) {
+              //Check if won or lost or tie
+              if(todayGame.mygoals > todayGame.opponentgoals) {
+                wins = wins + 1;
+              }
+              else if (todayGame.mygoals < todayGame.opponentgoals) {
+                losses = losses + 1;
+              }
+              else {
+                ties = ties + 1;
+              }
+
+              //Get Goals given
+              tgs = tgs + Number(todayGame.mygoals);
+              tgg = tgg + Number(todayGame.opponentgoals);
+            }
+
+            //Practice Stuff
+            //Fans: Show today's game
+            if(currUser == "fan") {
               if(today == todayGame.date) {
                 dis.innerHTML += "<div class='box0'><h2>Today's Game: " + today
                               + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
@@ -118,23 +140,34 @@
                               + "</p><p>" + todayGame.status
                               + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid
                               + "'onclick='clicked(this.id)'></div>";
+                }
               }
-            })
-            if (dis == "") {
-              dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
-            }
-          });
-        }
-        else {
+            });
+
+          if (dis == "") {
+            dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
+          }
+
+          //Set Home Stats
+          document.getElementById('wins').innerHTML = wins;
+          document.getElementById('losses').innerHTML = losses;
+          document.getElementById('ties').innerHTML = ties;
+          document.getElementById('totalgoalsscored').innerHTML = tgs;
+          document.getElementById('totalgoalsgivenup').innerHTML = tgg;
+        });
+
+        if(currUser != 'fan') {
           var str = "practice/";
-          currTeam = str.concat(currTeam);
-          currTeam = currTeam.concat("/");
-          var practList = firebase.database().ref().child(currTeam);
+          var myTeam = currTeam;
+          myTeam = str.concat(myTeam);
+          myTeam = myTeam.concat("/");
+          var practList = firebase.database().ref().child(myTeam);
 
           var editb;
+          alert(myTeam);
 
-          practList.orderByChild("timeid").once("value", function(snapshot){
-            snapshot.forEach(function(snapshot1){
+          practList.orderByChild("timeid").once("value", function(snapshot) {
+            snapshot.forEach(function(snapshot1) {
               var todayPract = snapshot1.val();
               var tod;
 
