@@ -67,7 +67,7 @@ body {
    width: 90%;
 }
 
-#editrosterbtn {
+.editrosterbtn {
   width: 90%;
   padding: 0.8rem 0.5rem;
   font-size: 1.1rem;
@@ -100,7 +100,7 @@ body {
   text-decoration: none;
 }
 
-#rosterheading {
+.rosterheading {
   font-size: 2.2rem;
   color: #007BFF;
 }
@@ -171,7 +171,7 @@ body {
   background-color: #007BFF;
 }
 
-#exsave {
+.exsave {
   display: block;
   width: 92%;
   color: white;
@@ -309,7 +309,7 @@ body {
   text-align: center;
 }
 
-#saveBtn {
+.saveBtn {
   width: 90%;
   padding: 0.8rem 0.5rem;
   font-size: 1.1rem;
@@ -470,7 +470,7 @@ body {
   text-align: center;
 }
 
-#backBtn {
+.backBtn {
   width: 90%;
   padding: 0.8rem 0.5rem;
   font-size: 1.1rem;
@@ -620,7 +620,7 @@ body {
   color: white;
 }
 
-#egssaveBtn {
+.egssaveBtn {
   width: 90%;
   background-color: #287aff;
   color: white;
@@ -630,7 +630,7 @@ body {
   font-size: 1.5rem;
 }
 
-#egssaveBtn:hover {
+.egssaveBtn:hover {
   background-color: #0f4aaa;
   color: white;
 }
@@ -807,7 +807,7 @@ body {
   font-weight: normal;
 }
 
-#editBtn {
+.editBtn {
   width: 90%;
   padding: 0.8rem 0.5rem;
   font-size: 1.1rem;
@@ -1017,4 +1017,13 @@ body {
 
 body > div {
   display: none;
+}
+
+.delB { 
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  background-color: red;
+  margin-top: 0.5rem;
 }
