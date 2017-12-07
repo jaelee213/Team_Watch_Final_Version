@@ -1309,7 +1309,7 @@
 
   function clickHome() {
     show(homediv);
-    document.getElementById(' mainnavbar').style.display = "inline";
+    document.getElementById('mainnavbar').style.display = "inline";
     var rootref = firebase.database().ref();
     var here = rootref.child('currentuser/');
     here.update({
