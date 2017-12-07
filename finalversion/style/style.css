@@ -81,6 +81,20 @@ body {
   border-radius: 0.3rem;
 }
 
+#editrosterbtn {
+  width: 90%;
+  padding: 0.8rem 0.5rem;
+  font-size: 1.1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
 #addplayerbtn {
   width: 90%;
   padding: 0.8rem 0.5rem;
@@ -975,19 +989,19 @@ body {
 }
 
 .addgamen#ff0000ce {
-  color: red; 
+  color: red;
   font-size: 0.9rem;
 }
 
 #coachoptions {
-  display: none; 
+  display: none;
 }
 
 #playeroptions {
-  display: none; 
+  display: none;
 }
 
-#fanoptions { 
+#fanoptions {
   display: none;
 }
 
@@ -996,10 +1010,10 @@ body {
   padding: 0.5rem 0.8rem;
   margin-bottom: 2rem;
   border-radius: 0.5rem;
-  border: 0.2rem solid #a3c6ff;  
+  border: 0.2rem solid #a3c6ff;
 }
 
-#playerfield { 
+#playerfield {
   width: 75%;
   padding: 0.5rem 0.8rem;
   margin-bottom: 2rem;
@@ -1007,7 +1021,7 @@ body {
   border: 0.2rem solid #a3c6ff;
 }
 
-#fanfield { 
+#fanfield {
   width: 75%;
   padding: 0.5rem 0.8rem;
   margin-bottom: 2rem;
@@ -1020,15 +1034,15 @@ body {
   padding: 0.5rem 0.8rem;
   margin-bottom: 2rem;
   border-radius: 0.5rem;
-  border: 0.2rem solid #a3c6ff;  
+  border: 0.2rem solid #a3c6ff;
 }
 
-#sujerseynumber { 
+#sujerseynumber {
   width: 75%;
   padding: 0.5rem 0.8rem;
   margin-bottom: 2rem;
   border-radius: 0.5rem;
-  border: 0.2rem solid #a3c6ff; 
+  border: 0.2rem solid #a3c6ff;
 }
 
 #mainnavbar {
@@ -1039,7 +1053,7 @@ body > div {
   display: none;
 }
 
-.delB { 
+.delB {
   display: block;
   width: 92%;
   color: white;
