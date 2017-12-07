@@ -962,7 +962,19 @@ body {
   background-color: #0f4aaa;
 }
 
-.addgamenotice {
+#signupbackBtn {
+  width: 25%;
+  min-width: 6rem;
+  padding: 0.25rem;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: white;
+  background-color: #007BFF;
+  border: 0.1rem solid #007BFF;
+  border-radius: 0.3rem;
+}
+
+.addgamen#ff0000ce {
   color: red; 
   font-size: 0.9rem;
 }
@@ -1026,4 +1038,8 @@ body > div {
   margin-left: 3%;
   background-color: red;
   margin-top: 0.5rem;
+}
+
+#loginhtml { 
+  display: inline;
 }
