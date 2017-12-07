@@ -2262,15 +2262,6 @@
 
 /********************************** SCRIPT FOR SIGNUP **********************************************/
 
-  function clickSignUp(){
-    show(signupdiv); 
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "signuphtml"
-    });
-  }
-
   var userid = document.getElementById('signupemail');
   var fn = document.getElementById('signupfname');
   var ln = document.getElementById('signuplname');
@@ -2282,6 +2273,24 @@
   var bdayfield = document.getElementById('bdayfield');
   var jerseynumber = document.getElementById('sujerseynumber');
 
+  function clickSignUp(){
+    show(signupdiv); 
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "signuphtml"
+    });
+    fn.value = "";
+    ln.value = ""; 
+    pw.value = "";
+    cpw.value = "";
+    coachfield.value = "";
+    userid.value = ""; 
+    playerfield.selectedIndex = 0;
+    jerseynumber.value = ""; 
+    bdayfield.value = "";
+  }
+
   document.getElementById('signupBackBtn').addEventListener('click', function(){
     clickLogin();
   });
@@ -2290,7 +2299,6 @@
 
     var usertype = document.querySelector('input[name=utype]:checked');
     var selectedteam;
-
     if (userid.value.length == 0 || fn.value.length == 0 || ln.value.length == 0
           || pw.value.length == 0 || cpw.value.length == 0) {
       alert('Sign Up form is not complete. Please fill everything out to proceed.');
@@ -2395,12 +2403,6 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
-                var userid = document.getElementById('signupemail');
-                fn.value = "";
-                ln.value = ""; 
-                pw.value = "";
-                cpw.value = "";
-                coachfield.value = "";
                 clickLogin();
               }
             });
@@ -2439,14 +2441,6 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
-                userid.value = ""; 
-                fn.value = ""; 
-                ln.value = ""; 
-                pw.value = ""; 
-                cpw.value = "";
-                playerfield.selectedIndex = 0;
-                jerseynumber.value = ""; 
-                bdayfield.value = "";
                 clickLogin();
               }
               else{
@@ -2466,11 +2460,6 @@
               type: usertype.value
             });
             alert('Created account. Please proceed to login.');
-            userid.value = ""; 
-            fn.value = ""; 
-            ln.value = ""; 
-            pw.value = ""; 
-            cpw.value = "";
             clickLogin();
           }
         }
