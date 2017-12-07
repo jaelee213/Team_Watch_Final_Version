@@ -1542,7 +1542,7 @@
       playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
         snapshot.forEach(function(snap){
           var p = snap.val();
-          tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + playerid + "' onclick='clickedPlayer(this.id)'>"
+          tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + p.playerid + "' onclick='clickedPlayer(this.id)'>"
           + p.name + "</a></td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
           + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
           "</td><td>" + p.gamesplayed + "</td></tr>";
