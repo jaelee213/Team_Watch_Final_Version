@@ -1984,10 +1984,11 @@
       clickEditGame();
     }
     if(stri == "view") {
+      alert('HERE in clicked -> view');
       globalViewGame = gameid;
+      alert(globalViewGame);
       clickViewGameStats();
     }
-
   };
 
 /********************************** SCRIPT FOR SIGNUP **********************************************/
@@ -2275,9 +2276,10 @@
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
 
+      alert('No connection, but here is the value of globalViewGame: ' + globalViewGame);
       for (var i = 0; i < gamesArr.length; i++) {
         var game = gamesArr[i];
-        if (globalViewGame = game.gameid) {
+        if(globalViewGame = game.gameid) {
           myte.innerHTML = globalTeam,
           oppt.innerHTML = game.opponentname,
           my.innerHTML = globalTeam,
