@@ -1303,12 +1303,17 @@
   function clickedPlayer(id) {
     var rootref = firebase.database().ref();
     var moveplr = rootref.child("inspectplayer/");
-    moveplr.set({
-      team: ustm,
-      playerid: id.substr(1, id.length - 1)
-    })
-    globalViewPlayer = id.substr(1,id.length - 1);
-    clickViewPlayer();
+    var rootref = firebase.database().ref();
+    var currus = rootref.child("currentuser/");
+    currus.once("value", function(snapshot){
+      var snpsht = snapshot.val();
+      moveplr.set({
+        team: snpsht.team,
+        playerid: id.substr(1, id.length - 1)
+      })
+      globalViewPlayer = id.substr(1,id.length - 1);
+      clickViewPlayer();
+    });
   }
 
   var saveEditBtn = document.getElementById('ersavebtn');
