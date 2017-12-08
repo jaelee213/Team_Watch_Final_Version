@@ -5,9 +5,11 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#d4d8d5"/>
   <link rel="stylesheet" href="../style/style.css">
-
-  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <link type="text/javascript" src="../js/index.js">
+	<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+  <link rel="manifest" href="../manifest.json">
   <script>
     // Check if service workers are supported by user's browsers
     if ('serviceWorker' in navigator) {
@@ -15,7 +17,7 @@
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
             // Register the service worker passing our service worker code
-            navigator.serviceWorker.register('../js/sw.js').then((registration) => {
+            navigator.serviceWorker.register('../sw.js').then((registration) => {
               // Registration was successful
               console.log('ServiceWorker registration successful!', registration.scope);
             }, (err) => {

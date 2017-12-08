@@ -20,7 +20,14 @@ const cacheFiles = [
   // Misc. Files
   './manifest.json',
 */
-  './index.js',
+  './js/index.js',
+  './style/style.css',
+  './img/defaultpic.jpg',
+  './img/ronaldo.jpg',
+  './img/soccericon-1x.png',
+  './img/soccericon-2x.png',
+  './img/soccericon-4x.png',
+  './img/soccericon-lg.png',
 ];
 
 // Service Worker Install Event
