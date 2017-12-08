@@ -1797,13 +1797,23 @@
         myteamname = str.concat(myteamname);
         myteamname = myteamname.concat("/");
         var playerslist = rootref.child(myteamname);
+        var usType = snpsht.type; 
+
         playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
           snapshot.forEach(function(snap){
             var p = snap.val();
-            tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + p.playerid + "' onclick='clickedPlayer(this.id)'>"
-            + p.name + "</a></td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
-            + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
-            "</td><td>" + p.gamesplayed + "</td></tr>";
+            if(usType != "coach"){
+              tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + p.playerid + "' onclick='clickedPlayer(this.id)'>"
+              + p.name + "</a></td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
+              + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
+              "</td><td>" + p.gamesplayed + "</td></tr>";
+            }
+            else if(usType == "coach"){
+              tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td>"
+              + p.name + "</td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
+              + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
+              "</td><td>" + p.gamesplayed + "</td></tr>";
+            }
           });
         });
       });
@@ -2399,7 +2409,6 @@
           ycd.innerHTML = curpla.yellowcards;
         }
       }
-
     }
 
 
