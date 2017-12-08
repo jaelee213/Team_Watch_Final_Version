@@ -2378,6 +2378,9 @@
     show(viewplayerdiv);
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      if(globalUser == 'coach') {
+        document.getElementById('vpeditbtn').disabled = true;
+      }
       for(var i = 0; i < playersArr.length; i++) {
         var curpla = playersArr[i];
         if(globalViewPlayer == curpla.playerid){
@@ -2408,6 +2411,13 @@
       });
 
       var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        if(snpsht.type == 'coach') {
+          document.getElementById('editrosterbtn').style.display = 'inline';
+        }
+      });
       var viewplayer = rootref.child("inspectplayer/");
       viewplayer.once("value", function(snapshot){
         var player = snapshot.val();
