@@ -485,6 +485,9 @@
       page: "editgamehtml"
     });
 
+    put.innerHTML = ""; 
+    out.innerHTML = "";
+
     editgame.once("value", function(snapshot) {
       var gametoedit = snapshot.val();
       var gid = gametoedit.gameid;
@@ -2007,7 +2010,7 @@
     userid.value = "";
     playerfield.selectedIndex = 0;
     jerseynumber.value = "";
-    bodyfield.value = "";
+    bdayfield.value = "";
   }
 
   document.getElementById('signupBackBtn').addEventListener('click', function(){
@@ -2123,12 +2126,6 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
-                var userid = document.getElementById('signupemail');
-                fn.value = "";
-                ln.value = "";
-                pw.value = "";
-                cpw.value = "";
-                coachfield.value = "";
                 clickLogin();
               }
             });
@@ -2167,14 +2164,6 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
-                userid.value = "";
-                fn.value = "";
-                ln.value = "";
-                pw.value = "";
-                cpw.value = "";
-                playerfield.selectedIndex = 0;
-                jerseynumber.value = "";
-                bdayfield.value = "";
                 clickLogin();
               }
               else{
@@ -2194,11 +2183,6 @@
               type: usertype.value
             });
             alert('Created account. Please proceed to login.');
-            userid.value = "";
-            fn.value = "";
-            ln.value = "";
-            pw.value = "";
-            cpw.value = "";
             clickLogin();
           }
         }
