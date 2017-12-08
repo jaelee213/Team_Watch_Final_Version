@@ -2415,7 +2415,7 @@
       currus.once("value", function(snapshot){
         var snpsht = snapshot.val();
         if(snpsht.type == 'coach') {
-          document.getElementById('editrosterbtn').style.display = 'inline';
+          document.getElementById('vpeditbtn').style.display = 'inline';
         }
       });
       var viewplayer = rootref.child("inspectplayer/");
