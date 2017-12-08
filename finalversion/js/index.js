@@ -2450,7 +2450,16 @@
   }
 
   bBtn.addEventListener('click', function() {
-    clickEditRoster();
+    var currus = rootref.child("currentuser/");
+    currus.once("value", function(snapshot){
+      var snpsht = snapshot.val();
+      if(snpsht.type == 'coach') {
+        clickEditRoster();
+      }
+      else {
+        clickRoster();
+      }
+    });
   });
 
   eBtn.addEventListener('click', function() {
