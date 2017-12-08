@@ -33,6 +33,12 @@
   sButton.addEventListener('click', function() {
     var xdate = document.getElementById('aggamedate').value;
     var xtime = document.getElementById('aggametime').value;
+
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
+
     if(!xdate) {
       alert('Please specify the date.');
       return false;
@@ -182,7 +188,8 @@
               });
               alert('Game created!');
 
-              clickSchedule();
+              populateGames(globalTeam);
+              clickHome();
             }
           });
         }
@@ -214,6 +221,11 @@
     var jerseynumber = document.getElementById('apjerseynumber').value;
     var position = document.getElementById('apposition');
     var role = document.getElementById('aprole');
+    if(!navigator.onLine){
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return;
+    }
+
     if(!firstname || !lastname || !jerseynumber || !birthdate || !email) {
       alert('Incomplete form. Please fill out the entire form.');
       return;
@@ -302,6 +314,7 @@
               gamesplayed: "0"
             });
             alert('Player Created!');
+            populatePlayers(globalTeam);
             clickRoster();
           }
         });
@@ -328,6 +341,11 @@
     var dateInput = document.getElementById('aprgamedate').value;
     var timeInput = document.getElementById('aprgametime').value;
     var locationInput = document.getElementById('aprgamelocation').value;
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
+
     if(!dateInput) {
       alert('Please enter the practice date.');
       return false;
@@ -424,6 +442,7 @@
             location: location
           })
           alert('Practice Created!');
+          populatePractice(globalTeam);
           clickSchedule();
         }
       });
@@ -525,6 +544,11 @@
   savebutton.addEventListener('click', function() {
     var xdate = document.getElementById('eggameDate').value;
     var xtime = document.getElementById('eggametime').value;
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
+
     if(!xdate) {
       alert('Please specify the date.');
       return false;
@@ -661,6 +685,7 @@
               opponentgoalkicks: ogoalkicks
             });
             alert("Game Updated!");
+            populateGames(globalTeam);
             clickSchedule();
           }
         });
@@ -669,6 +694,10 @@
   });
 
   deletebutton.addEventListener('click', function(){
+    if(!navigator.onLine){
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var currus = rootref.child("inspectgame/");
     currus.once("value", function(snapshot){
@@ -685,6 +714,7 @@
           if(nowGame.gameid == uNow.gameid) {
             deleteGame.remove();
             alert("Game Deleted.");
+            populateGames(globalTeam);
             clickSchedule();
           }
         });
@@ -780,6 +810,10 @@
   }
 
   egssaveBtn.addEventListener('click', function () {
+    if(!navigator.onLine){
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var viewgame = rootref.child("inspectgame/");
 
@@ -815,6 +849,7 @@
             });
           }
         });
+        populateGames(globalTeam);
         clickViewGameStats();
       })
     });
@@ -840,6 +875,10 @@
 
   function clickEditPlayer(){
     show(editplayerdiv);
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var here = rootref.child('currentuser/');
     here.update({
@@ -886,6 +925,11 @@
     var birthdate = dob.innerHTML;
     var jerseynumber = jer.innerHTML;
     var position = pos.innerHTML;
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return;
+    }
+
     if(!firstname || !lastname || !jerseynumber || !birthdate || !emaill || !position) {
       alert('Incomplete form. Please fill out the entire form.');
       return;
@@ -987,12 +1031,17 @@
           team: player.team,
           playerid: playerid
         })
+        populatePlayers(globalTeam);
         clickViewPlayer();
       });
     });
   });
 
   dl.addEventListener('click', function() {
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var currus = rootref.child("inspectplayer/");
     currus.once("value", function(snapshot){
@@ -1009,6 +1058,7 @@
           if(nowPlayer.playerid == uNow.playerid) {
             deletePlayer.remove();
             alert("Player Deleted.");
+            populatePlayers(globalTeam);
             clickRoster();
           }
         });
@@ -1027,6 +1077,10 @@
 
   function clickEditPractice(){
     show(editpracticediv);
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var here = rootref.child('currentuser/');
     here.update({
@@ -1068,6 +1122,10 @@
     var dateInput = document.getElementById("eprgamedate").value;
     var timeInput = document.getElementById("eprgametime").value;
     var locationInput = document.getElementById("eprgamelocation").value;
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     if(!dateInput) {
       alert('Please specify date');
       return false;
@@ -1159,12 +1217,17 @@
           }
         });
         alert('Practice Updated!');
+        populatePractice(globalTeam);
         clickHome();
       });
     });
   });
 
   delBtn.addEventListener('click', function() {
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var team = currTeam;
     var str = "practice/";
     team = str.concat(team);
@@ -1176,6 +1239,7 @@
         if(currPrac.timeid == oldTimeid){
           snap2.ref.remove();
           alert('Practice Removed');
+          populatePractice(globalTeam);
           clickHome();
         }
       });
@@ -1240,6 +1304,7 @@
       team: ustm,
       playerid: id.substr(1, id.length - 1)
     })
+    globalViewPlayer = id.substr(1,id.length - 1);
     clickViewPlayer();
   }
 
@@ -1247,6 +1312,10 @@
   var goBackBtn = document.getElementById('erbackbtn');
 
   saveEditBtn.addEventListener('click', function() {
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      return false;
+    }
     var rootref = firebase.database().ref();
     var currus = rootref.child("inspectplayer/");
     currus.once("value", function(snapshot){
@@ -1292,6 +1361,7 @@
           }
         });
         if(checker == 0) {
+          populatePlayers(globalTeam);
           clickRoster();
         }
       });
@@ -1305,21 +1375,13 @@
 /********************************** SCRIPT FOR HOME **********************************************/
 
   var userteam;
+  var currTeam;
+  var currUser;
   var homemytname = document.getElementById('mytname');
 
   function clickHome() {
     show(homediv);
-    document.getElementById('mainnavbar').style.display = "inline";
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "homehtml"
-    });
-    var wins = 0;
-    var losses = 0;
-    var ties = 0;
-    var tgs = 0;
-    var tgg = 0;
+    populateOfflineAll();
     var today = new Date();
     var dd = today.getDate().toString();
     var mm = today.getMonth()+1;
@@ -1335,95 +1397,168 @@
     today = mm.toString() + '/' + dd + '/' + yy;
     var dis = document.getElementById("outPut");
     dis.innerHTML = "";
-    var dbref = firebase.database().ref().child("currentuser/");
-    dbref.once("value", function(snap){
-      var snapval = snap.val();
-      var currUser = snapval.type;
-      var currTeam = snapval.team;
-      homemytname.innerHTML = currTeam;
-      userteam = currTeam;
-      var str = "games/";
-      var myTeam1 = currTeam;
-      myTeam1 = str.concat(myTeam1);
-      myTeam1 = myTeam1.concat("/");
-      var gamelist = firebase.database().ref().child(myTeam1);
-      gamelist.orderByChild("timeid").once("value", function(snapshot) {
-        snapshot.forEach(function(snapshot1) {
-          var todayGame = snapshot1.val();
-          if(todayid > todayGame.timeid ) {
-            if(todayGame.mygoals > todayGame.opponentgoals) {
-              wins = wins + 1;
-            }
-            else if (todayGame.mygoals < todayGame.opponentgoals) {
-              losses = losses + 1;
-            }
-            else {
-              ties = ties + 1;
-            }
-            tgs = tgs + Number(todayGame.mygoals);
-            tgg = tgg + Number(todayGame.opponentgoals);
+
+    if(!navigator.onLine) {
+      //offline home for fans
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      if(currUser == 'fan') {
+        if(gameForHome != "") {
+          dis.innerHTML += "<div class='box0'><h2>Today's Game: " + gameForHome.date
+            + "</h2><h3>" + currTeam + " vs " + gameForHome.opponentname + "</h3>"
+            + "<h4><mark>" + gameForHome.mygoals + " : " + gameForHome.opponentgoals + "</mark></h4>"
+            + "<p>" + gameForHome.date + " " + gameForHome.time
+            + "</p><p>" + gameForHome.location
+            + "</p><p>" + gameForHome.status
+            + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + gameForHome.gameid
+            + "'onclick='clickedd(this.id)'></div>";
+        }
+        if (dis.innerHTML == "") {
+          dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
+        }
+      }
+      else {
+        //offline for fans and coaches
+        for(var i = 0; i < practiceArr.length; i++) {
+          var todayPract = practiceArr[i];
+          var tod;
+          var editb;
+          if(todayPract.tod == "night"){
+            tod = " P.M.";
           }
-          if(currUser == "fan") {
-            if(today == todayGame.date) {
-              dis.innerHTML += "<div class='box0'><h2>Today's Game: " + today
-                + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
-                + "<h4><mark>" + todayGame.mygoals + " : " + todayGame.opponentgoals + "</mark></h4>"
-                + "<p>" + todayGame.date + " " + todayGame.time
-                + "</p><p>" + todayGame.location
-                + "</p><p>" + todayGame.status
-                + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid
-                + "'onclick='clickedd(this.id)'></div>";
+          else {
+            tod = " A.M.";
+          }
+          if(currUser == 'player') {
+            editb = "";
+          }
+          else {
+            editb = "<input type='button' value='Edit Practice' id='edit" + todayPract.timeid + "' class='editGameBtn'"
+                  + " onclick='clickedd(this.id) disabled'>";
+          }
+          if(today ==  todayPract.date) {
+            dis.innerHTML += "<div class='box0'><h2>Today's Practice: " + today
+                          + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                          + "</p><p>" + todayPract.location + editb + "</div>";
+          }
+          else if (todayid < todayPract.timeid) {
+            dis.innerHTML += "<div class='box0'><h2>Upcoming Practice: " + todayPract.date
+                          + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                          + "</p><p>" + todayPract.location + editb + "</div>";
+          }
+        }
+      }
+    }
+
+
+    document.getElementById('mainnavbar').style.display = "inline";
+    var wins = 0;
+    var losses = 0;
+    var ties = 0;
+    var tgs = 0;
+    var tgg = 0;
+
+    if(navigator.onLine) {
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "homehtml"
+      });
+
+      var dbref = firebase.database().ref().child("currentuser/");
+      dbref.once("value", function(snap){
+        var snapval = snap.val();
+        currUser = snapval.type;
+        currTeam = snapval.team;
+        homemytname.innerHTML = currTeam;
+        userteam = currTeam;
+        var str = "games/";
+        var myTeam1 = currTeam;
+        myTeam1 = str.concat(myTeam1);
+        myTeam1 = myTeam1.concat("/");
+
+        var gamelist = firebase.database().ref().child(myTeam1);
+        gamelist.orderByChild("timeid").once("value", function(snapshot) {
+          snapshot.forEach(function(snapshot1) {
+            var todayGame = snapshot1.val();
+            if(todayid > todayGame.timeid ) {
+              if(todayGame.mygoals > todayGame.opponentgoals) {
+                wins = wins + 1;
+              }
+              else if (todayGame.mygoals < todayGame.opponentgoals) {
+                losses = losses + 1;
+              }
+              else {
+                ties = ties + 1;
+              }
+              tgs = tgs + Number(todayGame.mygoals);
+              tgg = tgg + Number(todayGame.opponentgoals);
+            }
+
+            document.getElementById('wins').innerHTML = wins;
+            document.getElementById('losses').innerHTML = losses;
+            document.getElementById('ties').innerHTML = ties;
+            document.getElementById('totalgoalsscored').innerHTML = tgs;
+            document.getElementById('totalgoalsgivenup').innerHTML = tgg;
+
+            if(currUser == "fan") {
+              if(today == todayGame.date) {
+                dis.innerHTML += "<div class='box0'><h2>Today's Game: " + today
+                  + "</h2><h3>" + currTeam + " vs " + todayGame.opponentname + "</h3>"
+                  + "<h4><mark>" + todayGame.mygoals + " : " + todayGame.opponentgoals + "</mark></h4>"
+                  + "<p>" + todayGame.date + " " + todayGame.time
+                  + "</p><p>" + todayGame.location
+                  + "</p><p>" + todayGame.status
+                  + "</p><input type='button' value='View Stats' class='viewStatsBtn'id='view" + todayGame.gameid
+                  + "'onclick='clickedd(this.id)'></div>";
               }
             }
           });
-        if (dis == "") {
-          dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
-        }
-        document.getElementById('wins').innerHTML = wins;
-        document.getElementById('losses').innerHTML = losses;
-        document.getElementById('ties').innerHTML = ties;
-        document.getElementById('totalgoalsscored').innerHTML = tgs;
-        document.getElementById('totalgoalsgivenup').innerHTML = tgg;
-      });
-
-      if(currUser != 'fan') {
-        var str = "practice/";
-        var myTeam = currTeam;
-        myTeam = str.concat(myTeam);
-        myTeam = myTeam.concat("/");
-        var practList = firebase.database().ref().child(myTeam);
-        var editb;
-        practList.orderByChild("timeid").once("value", function(snapshot) {
-          snapshot.forEach(function(snapshot1) {
-            var todayPract = snapshot1.val();
-            var tod;
-            if(todayPract.tod == "night"){
-              tod = " P.M.";
-            }
-            else {
-              tod = " A.M.";
-            }
-            if(currUser == 'player') {
-              editb = "";
-            }
-            else {
-              editb = "<input type='button' value='Edit Practice' id='edit" + todayPract.timeid + "' class='editGameBtn'"
-                    + " onclick='clickedd(this.id)'>";
-            }
-            if(today ==  todayPract.date) {
-              dis.innerHTML += "<div class='box0'><h2>Today's Practice: " + today
-                            + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
-                            + "</p><p>" + todayPract.location + editb + "</div>";
-            }
-            else if (todayid < todayPract.timeid) {
-              dis.innerHTML += "<div class='box0'><h2>Upcoming Practice: " + todayPract.date
-                            + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
-                            + "</p><p>" + todayPract.location + editb + "</div>";
-            }
-          });
+          if (dis.innerHTML == "" && currUser == 'fan') {
+            dis.innerHTML = "<div class='box0'><h2>No Games Today</h2></div>";
+          }
         });
-      }
-    });
+
+        if(currUser != 'fan') {
+          var str = "practice/";
+          var myTeam = currTeam;
+          myTeam = str.concat(myTeam);
+          myTeam = myTeam.concat("/");
+          var practList = firebase.database().ref().child(myTeam);
+          var editb;
+
+          practList.orderByChild("timeid").once("value", function(snapshot) {
+            snapshot.forEach(function(snapshot1) {
+              var todayPract = snapshot1.val();
+              var tod;
+              if(todayPract.tod == "night"){
+                tod = " P.M.";
+              }
+              else {
+                tod = " A.M.";
+              }
+              if(currUser == 'player') {
+                editb = "";
+              }
+              else {
+                editb = "<input type='button' value='Edit Practice' id='edit" + todayPract.timeid + "' class='editGameBtn'"
+                      + " onclick='clickedd(this.id)'>";
+              }
+              if(today ==  todayPract.date) {
+                dis.innerHTML += "<div class='box0'><h2>Today's Practice: " + today
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+              else if (todayid < todayPract.timeid) {
+                dis.innerHTML += "<div class='box0'><h2>Upcoming Practice: " + todayPract.date
+                              + "</h2><p>" + todayPract.date + " " + todayPract.time + tod
+                              + "</p><p>" + todayPract.location + editb + "</div>";
+              }
+            });
+          });
+        }
+      });
+    }
+
   }
 
   function clickedd(id) {
@@ -1516,41 +1651,156 @@
     return true;
   }
 
+  // Global Vars stuff
+  var globalUser;
+  var globalTeam;
+  var practiceArr = [];
+  var gameForHome = "";
+  var gamesArr = [];
+  var playersArr = [];
+  var firstTime = true;
+  var globalViewGame;
+  var globalViewPlayer;
+  var today = new Date();
+
+  function populateOfflineAll() {
+    if(firstTime == true){
+      firstTime = false;
+    }
+    else {
+      return;
+    }
+
+    var dd = today.getDate().toString();
+    var mm = today.getMonth()+1;
+    var yy = today.getFullYear().toString();
+    yy = yy.slice(2,4);
+    if(dd<10) {
+      dd = '0' + dd;
+    }
+    if(mm<10) {
+      mm = '0' + mm;
+    }
+    today = mm.toString() + '/' + dd + '/' + yy;
+
+    var dbref = firebase.database().ref().child('currentuser/');
+    dbref.once("value", function(snapshot){
+      var team = snapshot.val().team;
+      globalTeam = team;
+      globalUser = snapshot.val().type;
+
+      populatePractice(team);
+      populateGames(team);
+      populatePlayers(team);
+
+    });
+  }
+
+    function populatePractice(team) {
+      //Populate Practices
+      practiceArr = [];
+      var str = "practice/";
+      var pracRef = str.concat(team);
+      pracRef = pracRef.concat("/");
+      var pracDBRef = firebase.database().ref().child(pracRef);
+      pracDBRef.orderByChild("timeid").once("value", function(snap1){
+        snap1.forEach(function(snap2) {
+          var prac = snap2.val();
+          practiceArr.push(prac);
+        });
+      });
+    }
+
+    function populateGames(team) {
+      // Populate Today Game and Games
+      gamesArr = [];
+      var str = "games/";
+      var gameRef = str.concat(team);
+      gameRef = gameRef.concat("/");
+      var gameDBRef = firebase.database().ref().child(gameRef);
+      gameDBRef.orderByChild("timeid").once("value", function(snap1){
+        snap1.forEach(function(snap2){
+          var game = snap2.val();
+          gamesArr.push(game);
+
+          if(today == game.date) {
+            gameForHome = game;
+          }
+        });
+      });
+    }
+
+    function populatePlayers(team) {
+      //Populate players
+      populatePlayers = [];
+      var str = "players/";
+      var playRef = str.concat(team);
+      playRef = playRef.concat("/");
+      var playDBRef = firebase.database().ref().child(playRef);
+      playDBRef.orderByChild("playerid").once("value", function(snap1){
+        snap1.forEach(function(snap2){
+          var player = snap2.val();
+          playersArr.push(player);
+        });
+      });
+    }
+
+
 /********************************** SCRIPT FOR ROSTER **********************************************/
 
   function clickRoster(){
     show(rosterdiv);
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "rosterhtml"
-    });
-
     var tbl = document.getElementById('outputdata');
-    var rootref = firebase.database().ref();
-    var currus = rootref.child("currentuser/");
-    currus.once("value", function(snapshot){
-      var snpsht = snapshot.val();
-      if(snpsht.type == 'coach') {
-        document.getElementById('editrosterbtn').style.display = 'inline';
-        document.getElementById('addplayerbtn').style.display = 'inline';
+    tbl.innerHTML = "";
+
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      if(globalUser == 'coach') {
+        document.getElementById('editrosterbtn').disabled = true;
+        document.getElementById('addplayerbtn').disabled = true;
       }
-      var myteamname = snpsht.team;
-      var str = "players/";
-      myteamname = str.concat(myteamname);
-      myteamname = myteamname.concat("/");
-      var playerslist = rootref.child(myteamname);
-      playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
-        snapshot.forEach(function(snap){
-          var p = snap.val();
-          tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + p.playerid + "' onclick='clickedPlayer(this.id)'>"
-          + p.name + "</a></td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
-          + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
-          "</td><td>" + p.gamesplayed + "</td></tr>";
+
+      for(var i = 0; i < playersArr.length; i++) {
+        var pla = playersArr[i];
+        tbl.innerHTML += "<tr><td>" + pla.jerseynumber + "</td><td>" + pla.position + "</td><td><a href='#' class='es' id='v" + pla.playerid + "' onclick='clickedPlayer(this.id)'>"
+        + pla.name + "</a></td><td>" + pla.goals + "</td><td>" + pla.assists + "</td><td>"
+        + pla.fouls + "</td><td>" + pla.redcards + "</td><td>" + pla.yellowcards +
+        "</td><td>" + pla.gamesplayed + "</td></tr>";
+      }
+    }
+
+    if(navigator.onLine) {
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "rosterhtml"
+      });
+
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        if(snpsht.type == 'coach') {
+          document.getElementById('editrosterbtn').style.display = 'inline';
+          document.getElementById('addplayerbtn').style.display = 'inline';
+        }
+        var myteamname = snpsht.team;
+        var str = "players/";
+        myteamname = str.concat(myteamname);
+        myteamname = myteamname.concat("/");
+        var playerslist = rootref.child(myteamname);
+        playerslist.orderByChild("jerseynumber").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var p = snap.val();
+            tbl.innerHTML += "<tr><td>" + p.jerseynumber + "</td><td>" + p.position + "</td><td><a href='#' class='es' id='v" + p.playerid + "' onclick='clickedPlayer(this.id)'>"
+            + p.name + "</a></td><td>" + p.goals + "</td><td>" + p.assists + "</td><td>"
+            + p.fouls + "</td><td>" + p.redcards + "</td><td>" + p.yellowcards +
+            "</td><td>" + p.gamesplayed + "</td></tr>";
+          });
         });
       });
-    });
-  };
+    }
+  }
 
 /********************************** SCRIPT FOR SCHEDULE **********************************************/
 
@@ -1558,88 +1808,149 @@
 
   function clickSchedule(){
     show(schedulediv);
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "schedulehtml"
-    });
 
-    var rootref = firebase.database().ref();
-    var currus = rootref.child("currentuser/");
+    var styleStr;
+    var today = new Date();
+    var curMonth = today.getMonth() + 1;
+    curMonth = curMonth.toString();
+    var curDay = today.getDate().toString();
+    if( curDay.length == 1) {
+      curDay = "0" + curDay;
+    }
+    var curYear = today.getFullYear().toString().substr(2,2);
+    var curHour = today.getHours().toString();
+    var curMinute = today.getMinutes().toString();
+    var todayDate = curYear + curMonth + curDay + curHour + curMinute;
     var disGam = document.getElementById('outputgames');
-    var currga = rootref.child("inspectgame/");
-    currga.once("value", function(snapshot){
-      snapshot.ref.remove();
-    });
-    currus.once("value", function(snapshot){
-      var snpsht = snapshot.val();
-      var myteamname = snpsht.team;
-      userteam = myteamname;
-      var str = "games/";
-      myteamname = str.concat(myteamname);
-      myteamname = myteamname.concat("/");
-      var gameslist = rootref.child(myteamname);
-      var usertype = snpsht.type;
-      var styleStr;
-      if(usertype == 'coach') {
-        styleStr = "style='display:none'";
+    disGam.innerHTML = "";
+
+    if(!navigator.onLine) {
+      if(globalUser == 'coach') {
+        styleStr = "";
         document.getElementById('addGameBtn').style.display = 'inline';
+        document.getElementById('addGameBtn').disabled = true;
         document.getElementById('addPracBtn').style.display = 'inline';
+        document.getElementById('addPracBtn').disabled = true;
+        alert('There is no connection. Please reconnect and try again. All edit/add buttons are now disabled until connection is restored.');
       }
       else {
-        styleStr = "";
+        styleStr = "style='display:none'";
+        alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
       }
-      gameslist.orderByChild("timeid").once("value", function(snapshot){
-        disGam.innerHTML = "";
-        snapshot.forEach(function(snap){
-          var cg = snap.val();
-          var today = new Date();
-          var curMonth = today.getMonth() + 1;
-          curMonth = curMonth.toString();
-          var curDay = today.getDate().toString();
-          if( curDay.length == 1) {
-            curDay = "0" + curDay;
-          }
-          var curYear = today.getFullYear().toString().substr(2,2);
-          var curHour = today.getHours().toString();
-          var curMinute = today.getMinutes().toString();
-          var todayDate = curYear + curMonth + curDay + curHour + curMinute;
-          var compareDate = cg.timeid;
-          if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
-            disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + cg.date
-            + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
-            + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
-            + "<p>" + cg.date + " " + cg.time
-            + "</p><p>" + cg.location
-            + "</p><p>" + cg.status
-            + "</p><input type='button' value='View Stats' class='viewStatsBtn' id='view" + cg.gameid + "'onclick='clicked(this.id)'>"
-            + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
-            + styleStr + " onclick='clicked(this.id)'></div>";
-          }
-          else if(todayDate > compareDate) {
-            disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + cg.date
-            + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
-            + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
-            + "<p>" + cg.date + " " + cg.time
-            + "</p><p>" + cg.location
-            + "</p><p>" + cg.status
-            + "</p><input type='button' value='View Stats' id='view" + cg.gameid + "' class='viewStatsBtn' onclick='clicked(this.id)'></div>";
-          }
-          else if(todayDate < compareDate) {
-            disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + cg.date
-            + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname
-            + "</h3><p>" + cg.date + " " + cg.time
-            + "</p><p>" + cg.location
-            + "</p><p>" + cg.status
-            + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
-            + styleStr + " onclick='clicked(this.id)'></div>";
+
+      for(var i = 0; i < gamesArr.length; i++) {
+        var curgam = gamesArr[i];
+        var compareDate = curgam.timeid;
+
+        if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
+          disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + curgam.date
+          + "</h2><h3>" + globalTeam + " vs " + curgam.opponentname + "</h3>"
+          + "<h4><mark>" + curgam.mygoals + " : " + curgam.opponentgoals + "</mark></h4>"
+          + "<p>" + curgam.date + " " + curgam.time
+          + "</p><p>" + curgam.location
+          + "</p><p>" + curgam.status
+          + "</p><input type='button' value='View Stats' class='viewStatsBtn' id='view" + curgam.gameid + "'onclick='clicked(this.id)'>"
+          + "<input type='button' value='Edit Game' id='edit" + curgam.gameid + "' class='editGameBtn'"
+          + styleStr + " onclick='clicked(this.id)' disabled></div>";
+        }
+        else if(todayDate > compareDate) {
+          disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + curgam.date
+          + "</h2><h3>" + globalTeam + " vs " + curgam.opponentname + "</h3>"
+          + "<h4><mark>" + curgam.mygoals + " : " + curgam.opponentgoals + "</mark></h4>"
+          + "<p>" + curgam.date + " " + curgam.time
+          + "</p><p>" + curgam.location
+          + "</p><p>" + curgam.status
+          + "</p><input type='button' value='View Stats' id='view" + curgam.gameid + "' class='viewStatsBtn' onclick='clicked(this.id)'></div>";
+        }
+        else if(todayDate < compareDate) {
+          disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + curgam.date
+          + "</h2><h3>" + globalTeam + " vs " + curgam.opponentname
+          + "</h3><p>" + curgam.date + " " + curgam.time
+          + "</p><p>" + curgam.location
+          + "</p><p>" + curgam.status
+          + "<input type='button' value='Edit Game' id='edit" + curgam.gameid + "' class='editGameBtn'"
+          + styleStr + " onclick='clicked(this.id)' disabled></div>";
+        }
+      }
+      if (disGam.value == "") {
+        disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
+      }
+    }
+
+    if(navigator.onLine) {
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "schedulehtml"
+      });
+
+      var rootref = firebase.database().ref();
+      var currus = rootref.child("currentuser/");
+      var currga = rootref.child("inspectgame/");
+      currga.once("value", function(snapshot){
+        snapshot.ref.remove();
+      });
+
+      currus.once("value", function(snapshot){
+        var snpsht = snapshot.val();
+        var myteamname = snpsht.team;
+        userteam = myteamname;
+        var str = "games/";
+        myteamname = str.concat(myteamname);
+        myteamname = myteamname.concat("/");
+        var gameslist = rootref.child(myteamname);
+        var usertype = snpsht.type;
+        if(usertype == 'coach') {
+          styleStr = "";
+          document.getElementById('addGameBtn').style.display = 'inline';
+          document.getElementById('addPracBtn').style.display = 'inline';
+        }
+        else {
+          styleStr = "style='display:none'";
+        }
+
+        gameslist.orderByChild("timeid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var cg = snap.val();
+            var compareDate = cg.timeid;
+            if(todayDate.substr(0,6) == compareDate.substr(0,6)) {
+              disGam.innerHTML += "<div class='box0'><h2>Today's Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' class='viewStatsBtn' id='view" + cg.gameid + "'onclick='clicked(this.id)'>"
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
+            }
+            else if(todayDate > compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Previous Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname + "</h3>"
+              + "<h4><mark>" + cg.mygoals + " : " + cg.opponentgoals + "</mark></h4>"
+              + "<p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "</p><input type='button' value='View Stats' id='view" + cg.gameid + "' class='viewStatsBtn' onclick='clicked(this.id)'></div>";
+            }
+            else if(todayDate < compareDate) {
+              disGam.innerHTML += "<div class='box0'><h2>Upcoming Game: " + cg.date
+              + "</h2><h3>" + snpsht.team + " vs " + cg.opponentname
+              + "</h3><p>" + cg.date + " " + cg.time
+              + "</p><p>" + cg.location
+              + "</p><p>" + cg.status
+              + "<input type='button' value='Edit Game' id='edit" + cg.gameid + "' class='editGameBtn'"
+              + styleStr + " onclick='clicked(this.id)'></div>";
+            }
+          });
+          if (disGam.value == "") {
+            disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
           }
         });
-        if (disGam.value == "") {
-          disGam.innerHTML = "<div class='box0'><h2>No Games to Show</h2></div>";
-        }
       });
-    });
+
+    }
+
   }
 
   function clicked(id) {
@@ -1655,8 +1966,10 @@
       clickEditGame();
     }
     if(stri == "view") {
+      globalViewGame = gameid;
       clickViewGameStats();
     }
+
   };
 
 /********************************** SCRIPT FOR SIGNUP **********************************************/
@@ -1674,6 +1987,12 @@
 
   function clickSignUp(){
     show(signupdiv);
+
+    if(!navigator.onLine){
+      alert('There is no connection. Please reconnect and try again.');
+      clickLogin();
+    }
+
     var rootref = firebase.database().ref();
     var here = rootref.child('currentuser/');
     here.update({
@@ -1933,12 +2252,6 @@
 
   function clickViewGameStats(){
     show(viewgamestatsdiv);
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "viewgamestatshtml"
-    });
-
     var myte = document.getElementById('mytea');
     var oppt = document.getElementById('oppte');
     var my = document.getElementById('myteam');
@@ -1959,51 +2272,94 @@
     var tck = document.getElementById('theircornerkicks');
     var mgk = document.getElementById('mygoalkicks');
     var tgk = document.getElementById('theirgoalkicks');
-    var rootref = firebase.database().ref();
-    var viewgame = rootref.child("inspectgame/");
-    viewgame.once("value", function(snapshot) {
-      var gametoview = snapshot.val();
-      var gid = gametoview.gameid;
-      var tmm = gametoview.team;
-      var sring = "games/";
-      tmm = sring.concat(tmm);
-      tmm = tmm.concat("/");
-      var gameslist = rootref.child(tmm);
-      gameslist.orderByChild("gameid").once("value",function(snap){
-        snap.forEach(function(snapshot){
-          var stats = snapshot.val();
-          if(stats.gameid == gid) {
-            myte.innerHTML = gametoview.team,
-            oppt.innerHTML = stats.opponentname,
-            my.innerHTML = gametoview.team,
-            their.innerHTML = stats.opponentname,
-            ms.innerHTML = stats.mygoals;
-            ts.innerHTML = stats.opponentgoals;
-            mg.innerHTML = stats.mygoals;
-            tg.innerHTML = stats.opponentgoals;
-            mf.innerHTML = stats.myfouls;
-            tf.innerHTML = stats.opponentfouls;
-            mrc.innerHTML = stats.myredcards;
-            trc.innerHTML = stats.opponentredcards;
-            myc.innerHTML = stats.myyellowcards;
-            tyc.innerHTML = stats.opponentyellowcards;
-            msog.innerHTML = stats.myshotsongoal;
-            tsog.innerHTML = stats.opponentshotsongoal;
-            mck.innerHTML = stats.mycornerkicks;
-            tck.innerHTML = stats.opponentcornerkicks;
-            mgk.innerHTML = stats.mygoalkicks;
-            tgk.innerHTML = stats.opponentgoalkicks;
-          }
+
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+
+      for (var i = 0; i < gamesArr.length; i++) {
+        var game = gamesArr[i];
+        if (globalViewGame = game.gameid) {
+          myte.innerHTML = globalTeam,
+          oppt.innerHTML = game.opponentname,
+          my.innerHTML = globalTeam,
+          their.innerHTML = game.opponentname,
+          ms.innerHTML = game.mygoals;
+          ts.innerHTML = game.opponentgoals;
+          mg.innerHTML = game.mygoals;
+          tg.innerHTML = game.opponentgoals;
+          mf.innerHTML = game.myfouls;
+          tf.innerHTML = game.opponentfouls;
+          mrc.innerHTML = game.myredcards;
+          trc.innerHTML = game.opponentredcards;
+          myc.innerHTML = game.myyellowcards;
+          tyc.innerHTML = game.opponentyellowcards;
+          msog.innerHTML = game.myshotsongoal;
+          tsog.innerHTML = game.opponentshotsongoal;
+          mck.innerHTML = game.mycornerkicks;
+          tck.innerHTML = game.opponentcornerkicks;
+          mgk.innerHTML = game.mygoalkicks;
+          tgk.innerHTML = game.opponentgoalkicks;
+        }
+      }
+      if(globalUser == "coach") {
+        document.getElementById('editgamestatsBtn').disabled = true;
+      }
+
+    }
+
+    if(navigator.onLine) {
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "viewgamestatshtml"
+      });
+
+      var rootref = firebase.database().ref();
+      var viewgame = rootref.child("inspectgame/");
+      viewgame.once("value", function(snapshot) {
+        var gametoview = snapshot.val();
+        var gid = gametoview.gameid;
+        var tmm = gametoview.team;
+        var sring = "games/";
+        tmm = sring.concat(tmm);
+        tmm = tmm.concat("/");
+        var gameslist = rootref.child(tmm);
+        gameslist.orderByChild("gameid").once("value",function(snap){
+          snap.forEach(function(snapshot){
+            var stats = snapshot.val();
+            if(stats.gameid == gid) {
+              myte.innerHTML = gametoview.team,
+              oppt.innerHTML = stats.opponentname,
+              my.innerHTML = gametoview.team,
+              their.innerHTML = stats.opponentname,
+              ms.innerHTML = stats.mygoals;
+              ts.innerHTML = stats.opponentgoals;
+              mg.innerHTML = stats.mygoals;
+              tg.innerHTML = stats.opponentgoals;
+              mf.innerHTML = stats.myfouls;
+              tf.innerHTML = stats.opponentfouls;
+              mrc.innerHTML = stats.myredcards;
+              trc.innerHTML = stats.opponentredcards;
+              myc.innerHTML = stats.myyellowcards;
+              tyc.innerHTML = stats.opponentyellowcards;
+              msog.innerHTML = stats.myshotsongoal;
+              tsog.innerHTML = stats.opponentshotsongoal;
+              mck.innerHTML = stats.mycornerkicks;
+              tck.innerHTML = stats.opponentcornerkicks;
+              mgk.innerHTML = stats.mygoalkicks;
+              tgk.innerHTML = stats.opponentgoalkicks;
+            }
+          });
         });
       });
-    });
-    var curuser = rootref.child("currentuser/");
-    curuser.once("value", function(snapshot){
-      var username = snapshot.val().type;
-      if(username == "coach") {
-        document.getElementById('editgamestatsBtn').style.display = 'inline';
-      }
-    });
+      var curuser = rootref.child("currentuser/");
+      curuser.once("value", function(snapshot){
+        var username = snapshot.val().type;
+        if(username == "coach") {
+          document.getElementById('editgamestatsBtn').style.display = 'inline';
+        }
+      });
+    }
   }
 
   var edBtn = document.getElementById('editgamestatsBtn');
@@ -2031,41 +2387,67 @@
 
   function clickViewPlayer(){
     show(viewplayerdiv);
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.update({
-      page: "viewplayerhtml"
-    });
+    if(!navigator.onLine) {
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      for(var i = 0; i < playersArr.length; i++) {
+        var curpla = playersArr[i];
+        if(globalViewPlayer == curpla.playerid){
+          fnm.innerHTML = curpla.firstname;
+          lnm.innerHTML = curpla.lastname;
+          email.innerHTML = curpla.email;
+          nme.innerHTML = curpla.name;
+          pos.innerHTML = curpla.position;
+          jer.innerHTML = curpla.jerseynumber;
+          dob.innerHTML = curpla.birthdate;
+          goa.innerHTML = curpla.goals;
+          ast.innerHTML = curpla.assists;
+          gpd.innerHTML = curpla.gamesplayed;
+          fl.innerHTML = curpla.fouls;
+          rcd.innerHTML = curpla.redcards;
+          ycd.innerHTML = curpla.yellowcards;
+        }
+      }
 
-    var rootref = firebase.database().ref();
-    var viewplayer = rootref.child("inspectplayer/");
-    viewplayer.once("value", function(snapshot){
-      var player = snapshot.val();
-      var stg = "players/";
-      stg = stg.concat(player.team);
-      stg = stg.concat("/");
-      var playerslist = rootref.child(stg);
-      playerslist.orderByChild("playerid").once("value", function(snapshot){
-        snapshot.forEach(function(snap){
-          var pla = snap.val();
-          if(pla.playerid == player.playerid) {
-            fnm.innerHTML = pla.firstname;
-            lnm.innerHTML = pla.lastname;
-            email.innerHTML = pla.email;
-            nme.innerHTML = pla.name;
-            pos.innerHTML = pla.position;
-            jer.innerHTML = pla.jerseynumber;
-            dob.innerHTML = pla.birthdate;
-            goa.innerHTML = pla.goals;
-            ast.innerHTML = pla.assists;
-            gpd.innerHTML = pla.gamesplayed;
-            fl.innerHTML = pla.fouls;
-            rcd.innerHTML = pla.redcards;
-            ycd.innerHTML = pla.yellowcards;
-          }
+    }
+
+
+    if(navigator.onLine) {
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.update({
+        page: "viewplayerhtml"
+      });
+
+      var rootref = firebase.database().ref();
+      var viewplayer = rootref.child("inspectplayer/");
+      viewplayer.once("value", function(snapshot){
+        var player = snapshot.val();
+        var stg = "players/";
+        stg = stg.concat(player.team);
+        stg = stg.concat("/");
+        var playerslist = rootref.child(stg);
+        playerslist.orderByChild("playerid").once("value", function(snapshot){
+          snapshot.forEach(function(snap){
+            var pla = snap.val();
+            if(pla.playerid == player.playerid) {
+              fnm.innerHTML = pla.firstname;
+              lnm.innerHTML = pla.lastname;
+              email.innerHTML = pla.email;
+              nme.innerHTML = pla.name;
+              pos.innerHTML = pla.position;
+              jer.innerHTML = pla.jerseynumber;
+              dob.innerHTML = pla.birthdate;
+              goa.innerHTML = pla.goals;
+              ast.innerHTML = pla.assists;
+              gpd.innerHTML = pla.gamesplayed;
+              fl.innerHTML = pla.fouls;
+              rcd.innerHTML = pla.redcards;
+              ycd.innerHTML = pla.yellowcards;
+            }
+          });
         });
       });
-    });
+    }
   }
 
   bBtn.addEventListener('click', function() {
