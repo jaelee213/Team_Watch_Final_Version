@@ -1740,7 +1740,7 @@
 
     function populatePlayers(team) {
       //Populate players
-      populatePlayers = [];
+      playersArr = [];
       var str = "players/";
       var playRef = str.concat(team);
       playRef = playRef.concat("/");
