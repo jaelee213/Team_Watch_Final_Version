@@ -940,7 +940,7 @@ alert("pla.playerid: " + pla.playerid + " and player.playerid: " + player.player
 
 fnm.innerHTML = "it should work";
 alert("Example of pla.firstname: " + pla.firstname);
-
+alert("it changed");
 alert('Made it through setup.');
           }
         });
@@ -2787,4 +2787,8 @@ document.addEventListener("backbutton", function(){
         }
       });
     }
+  }
+
+  window.onbeforeunload = function() {
+    currentpage = "homehtml";
   }
