@@ -922,6 +922,8 @@
 alert("Entered pla.playerid == player.playerid");
 alert("pla.playerid: " + pla.playerid + " and player.playerid: " + player.playerid);
 
+
+
             fnm.innerHTML = pla.firstname;
             lnm.innerHTML = pla.lastname;
             email.innerHTML = pla.email;
@@ -935,6 +937,10 @@ alert("pla.playerid: " + pla.playerid + " and player.playerid: " + player.player
             fl.innerHTML = pla.fouls;
             rcd.innerHTML = pla.redcards;
             ycd.innerHTML = pla.yellowcards;
+
+fnm.innerHTML = "it should work";
+alert("Example of pla.firstname: " + pla.firstname);
+
 alert('Made it through setup.');
           }
         });
