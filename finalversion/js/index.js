@@ -879,19 +879,6 @@
 
   var sv = document.getElementById('epsavebtn');
   var dl = document.getElementById('epdeletebtn');
-  var fnm = document.getElementById('dfn');
-  var lnm = document.getElementById('dln');
-  var nme = document.getElementById('dpn');
-  var pos = document.getElementById('dp');
-  var jer = document.getElementById('dj');
-  var dob = document.getElementById('dd');
-  var goa = document.getElementById('dg');
-  var ast = document.getElementById('da');
-  var gpd = document.getElementById('dgp');
-  var fl = document.getElementById('df');
-  var rcd = document.getElementById('dr');
-  var ycd = document.getElementById('dy');
-  var email = document.getElementById('dem');
 
   function clickEditPlayer(){
     show(editplayerdiv);
@@ -919,24 +906,33 @@
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
 
-alert("Entered pla.playerid == player.playerid");
-alert("pla.playerid: " + pla.playerid + " and player.playerid: " + player.playerid);
+            var fnm = document.getElementById('dfn');
+            var lnm = document.getElementById('dln');
+            var nme = document.getElementById('dpn');
+            var pos = document.getElementById('dp');
+            var jer = document.getElementById('dj');
+            var dob = document.getElementById('dd');
+            var goa = document.getElementById('dg');
+            var ast = document.getElementById('da');
+            var gpd = document.getElementById('dgp');
+            var fl = document.getElementById('df');
+            var rcd = document.getElementById('dr');
+            var ycd = document.getElementById('dy');
+            var email = document.getElementById('dem');
 
-
-
-            fnm.innerHTML = pla.firstname;
-            lnm.innerHTML = pla.lastname;
-            email.innerHTML = pla.email;
-            nme.innerHTML = pla.name;
-            pos.innerHTML = pla.position;
-            jer.innerHTML = pla.jerseynumber;
-            dob.innerHTML = pla.birthdate;
-            goa.innerHTML = pla.goals;
-            ast.innerHTML = pla.assists;
-            gpd.innerHTML = pla.gamesplayed;
-            fl.innerHTML = pla.fouls;
-            rcd.innerHTML = pla.redcards;
-            ycd.innerHTML = pla.yellowcards;
+            fnm.innerHTML = pla.firstname.toString();
+            lnm.innerHTML = pla.lastname.toString();
+            email.innerHTML = pla.email.toString();
+            nme.innerHTML = pla.name.toString();
+            pos.innerHTML = pla.position.toString();
+            jer.innerHTML = pla.jerseynumber.toString();
+            dob.innerHTML = pla.birthdate.toString();
+            goa.innerHTML = pla.goals.toString();
+            ast.innerHTML = pla.assists.toString();
+            gpd.innerHTML = pla.gamesplayed.toString();
+            fl.innerHTML = pla.fouls.toString();
+            rcd.innerHTML = pla.redcards.toString();
+            ycd.innerHTML = pla.yellowcards.toString();
 
 fnm.innerHTML = "it should work";
 alert("Example of pla.firstname: " + pla.firstname);
