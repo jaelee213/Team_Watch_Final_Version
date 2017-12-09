@@ -1020,12 +1020,7 @@
       alert('Counting stats must be in numerical format.');
       return;
     }
-    var ug = Number(goa.innerHTML).toString();
-    var ua = Number(ast.innerHTML).toString();
-    var ugp = Number(gpd.innerHTML).toString();
-    var uf = Number(fl.innerHTML).toString();
-    var ur = Number(rcd.innerHTML).toString();
-    var uy = Number(ycd.innerHTML).toString();
+
     viewplayer.once("value", function(snapshot){
       var player = snapshot.val();
       var stg = "players/";
@@ -1043,7 +1038,6 @@
         snapshot.forEach(function(snap){
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
-
             var sv = document.getElementById('epsavebtn');
             var dl = document.getElementById('epdeletebtn');
             var fnm = document.getElementById('dfn');
@@ -1059,18 +1053,24 @@
             var rcd = document.getElementById('dr');
             var ycd = document.getElementById('dy');
             var email = document.getElementById('dem');
-          
+            var ug = Number(goa.innerHTML).toString();
+            var ua = Number(ast.innerHTML).toString();
+            var ugp = Number(gpd.innerHTML).toString();
+            var uf = Number(fl.innerHTML).toString();
+            var ur = Number(rcd.innerHTML).toString();
+            var uy = Number(ycd.innerHTML).toString();
+
             var currentPlyr = snap.ref;
             currentPlyr.update({
               myteamname: player.team,
-              firstname: fnm.innerHTML,
+              firstname: fnm.innerHTML.toString(),
               playerid: playerid,
-              lastname: lnm.innerHTML,
+              lastname: lnm.innerHTML.toString(),
               email: emaill,
               name: fullname,
               position: position,
-              jerseynumber: jer.innerHTML,
-              birthdate: dob.innerHTML,
+              jerseynumber: jer.innerHTML.toString(),
+              birthdate: dob.innerHTML.toString(),
               goals: ug,
               assists: ua,
               gamesplayed: ugp,
