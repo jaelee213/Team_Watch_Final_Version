@@ -270,6 +270,10 @@
       alert('Please choose a role.');
       return;
     }
+    if(jerseynumber.length > 2) {
+      alert('Jersey number can be at most two characters (i.e. 00, 11 22).');
+      return;
+    }
     var fullname;
     var position = position.value;
     var role = role.value;
@@ -902,18 +906,22 @@
     });
     currentpage = "editplayerhtml";
     
-    var rootref = firebase.database().ref();
     var viewplayer = rootref.child("inspectplayer/");
     viewplayer.once("value", function(snapshot){
       var player = snapshot.val();
-      var stg = "players/";
-      stg = stg.concat(player.team);
-      stg = stg.concat("/");
-      var playerslist = rootref.child(stg);
+      var txt = "players/";
+      var pteam = player.team; 
+      txt = txt.concat(pteam);
+      txt = txt.concat("/");
+      var playerslist = rootref.child(txt);
       playerslist.orderByChild("playerid").once("value", function(snapshot){
         snapshot.forEach(function(snap){
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
+
+alert("Entered pla.playerid == player.playerid");
+alert("pla.playerid: " + pla.playerid + " and player.playerid: " + player.playerid);
+
             fnm.innerHTML = pla.firstname;
             lnm.innerHTML = pla.lastname;
             email.innerHTML = pla.email;
@@ -927,6 +935,7 @@
             fl.innerHTML = pla.fouls;
             rcd.innerHTML = pla.redcards;
             ycd.innerHTML = pla.yellowcards;
+alert('Made it through setup.');
           }
         });
       });
@@ -1282,7 +1291,6 @@
     currentpage = "editrosterhtml";
     
     var tbl = document.getElementById('outputTable');
-    tbl = "";
     var rootref = firebase.database().ref();
     var currus = rootref.child("currentuser/");
     currus.once("value", function(snapshot){
@@ -1294,6 +1302,7 @@
       myteamname = myteamname.concat("/");
       var playerslist = rootref.child(myteamname);
       playerslist.orderByChild("jerseynumber").once("value").then(function(snapshot){
+        tbl.innerHTML = "";        
         snapshot.forEach(function(snap){
           var p = snap.val();
           var rawBirthdate;
