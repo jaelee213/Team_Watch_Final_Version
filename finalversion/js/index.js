@@ -879,6 +879,19 @@
 
   var sv = document.getElementById('epsavebtn');
   var dl = document.getElementById('epdeletebtn');
+  var fnm = document.getElementById('dfn');
+  var lnm = document.getElementById('dln');
+  var nme = document.getElementById('dpn');
+  var pos = document.getElementById('dp');
+  var jer = document.getElementById('dj');
+  var dob = document.getElementById('dd');
+  var goa = document.getElementById('dg');
+  var ast = document.getElementById('da');
+  var gpd = document.getElementById('dgp');
+  var fl = document.getElementById('df');
+  var rcd = document.getElementById('dr');
+  var ycd = document.getElementById('dy');
+  var email = document.getElementById('dem');
 
   function clickEditPlayer(){
     show(editplayerdiv);
@@ -905,6 +918,8 @@
         snapshot.forEach(function(snap){
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
+            var sv = document.getElementById('epsavebtn');
+            var dl = document.getElementById('epdeletebtn');
             var fnm = document.getElementById('dfn');
             var lnm = document.getElementById('dln');
             var nme = document.getElementById('dpn');
@@ -918,7 +933,7 @@
             var rcd = document.getElementById('dr');
             var ycd = document.getElementById('dy');
             var email = document.getElementById('dem');
-
+          
             fnm.innerHTML = pla.firstname.toString();
             lnm.innerHTML = pla.lastname.toString();
             email.innerHTML = pla.email.toString();
@@ -947,19 +962,6 @@
     var birthdate = dob.innerHTML;
     var jerseynumber = jer.innerHTML;
     var position = pos.innerHTML;
-    var fnm = document.getElementById('dfn');
-    var lnm = document.getElementById('dln');
-    var nme = document.getElementById('dpn');
-    var pos = document.getElementById('dp');
-    var jer = document.getElementById('dj');
-    var dob = document.getElementById('dd');
-    var goa = document.getElementById('dg');
-    var ast = document.getElementById('da');
-    var gpd = document.getElementById('dgp');
-    var fl = document.getElementById('df');
-    var rcd = document.getElementById('dr');
-    var ycd = document.getElementById('dy');
-    var email = document.getElementById('dem');
 
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
@@ -1041,6 +1043,23 @@
         snapshot.forEach(function(snap){
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
+
+            var sv = document.getElementById('epsavebtn');
+            var dl = document.getElementById('epdeletebtn');
+            var fnm = document.getElementById('dfn');
+            var lnm = document.getElementById('dln');
+            var nme = document.getElementById('dpn');
+            var pos = document.getElementById('dp');
+            var jer = document.getElementById('dj');
+            var dob = document.getElementById('dd');
+            var goa = document.getElementById('dg');
+            var ast = document.getElementById('da');
+            var gpd = document.getElementById('dgp');
+            var fl = document.getElementById('df');
+            var rcd = document.getElementById('dr');
+            var ycd = document.getElementById('dy');
+            var email = document.getElementById('dem');
+          
             var currentPlyr = snap.ref;
             currentPlyr.update({
               myteamname: player.team,
