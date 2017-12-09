@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#d4d8d5"/>
-  <link rel="stylesheet" href="../style/style.css">
-  <link type="text/javascript" src="../js/index.js">
+  <link rel="stylesheet" href="../style/style_compressed.css">
+  <link type="text/javascript" src="../js/index_compressed.js">
 	<script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
   <link rel="manifest" href="../manifest.json">
   <script>
@@ -55,7 +55,7 @@
     </div>
   </nav>
 <!-- ***************************************** login.html *************************************************** -->
-  
+
   <div id="loginhtml">
     <div class="logincontainer">
       <h1 class="welcomeheader">Welcome.</h1>
@@ -99,13 +99,13 @@
       <input type="radio" value="coach" id="coachtypeopt" name="utype" onclick="coachFunc()">Coach</option>
       <input type="radio" value="player" id="playertypeopt" name="utype" onclick="playerFunc()">Player</option>
       <input type="radio" value="fan" id="fantypeopt" name="utype" onclick="fanFunc()">Fan</option>
-  
+
       <div id="coachoptions">
         <br>
         <p class="noticenote">Please specify the name of the team you want to create.</p>
         <input type="text" placeholder="Enter New Team Name" id="newteamfield" name="newteamfield">
       </div>
-  
+
       <div id="playeroptions">
         <hr class="signupsmallhr">
         <p class="noticenote">Make sure that the coach of your selected team has you as a player on their roster.</p>
@@ -117,23 +117,23 @@
         <p class="noticenote">Please specify your birthdate (in mm/dd/yy format, otherwise sign up function will not work.).</p>
         <input type="text" name="birthdate" placeholder="Birthdate (mm/dd/yy)" id="bdayfield" maxlength="8">
         <hr class="signupsmallhr">
-        <p class="noticenote">Please specify your jersey number UNIQUE to ONLY you on your selected team.</p>      
+        <p class="noticenote">Please specify your jersey number UNIQUE to ONLY you on your selected team.</p>
         <input type="text" name="jerseynumber" placeholder="Your Jersey Number" id="sujerseynumber" maxlength="2">
         <hr class="signupsmallhr">
-        <p class="noticenote">* IMPORTANT: If for any reason sign up does not work, please make sure with your coach that the correct birthdate and/or jersey number was input under your name in the team roster.*</p>      
+        <p class="noticenote">* IMPORTANT: If for any reason sign up does not work, please make sure with your coach that the correct birthdate and/or jersey number was input under your name in the team roster.*</p>
       </div>
-  
+
       <div id="fanoptions">
         <hr class="signupsmallhr">
         <p>Select Your Team to Follow:</p>
         <select id="fanfield">
         </select>
       </div>
-  
+
       <hr class="signupsmallhr">
       <input type="button" value="Sign Up" id="signupBtn">
       <br>
-      <input type="button" value="Go Back" id="signupBackBtn">    
+      <input type="button" value="Go Back" id="signupBackBtn">
     </div>
   </div>
 
@@ -318,9 +318,9 @@
       <br>
       <p class="noticenote">To adjust game score, simply modify the "Goals" section below.</p>
       <hr class="vgshr">
-      <p><span id="myte"></span> <span class="vgsstats">----:----</span> <span id="oppt"></span></p>		
+      <p><span id="myte"></span> <span class="vgsstats">----:----</span> <span id="oppt"></span></p>
       <hr class="vgshr">
-      <p><span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span></p>		
+      <p><span id="myteamscorevgs"></span> <span class="vgsstats">Score</span> <span id="oppteamscoresvgs"></span></p>
       <hr class="vgshr">
       <p><button type="button" class="incrgamestats" onclick="incr('myteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('myteamfoulvgs')">-</button> <span id="myteamfoulvgs"></span> <span class="vgsstats">Foul</span> <span id="oppteamfoulvgs"></span> <button type="button" class="incrgamestats" onclick="incr('oppteamfoulvgs')">+</button><button type="button" class="incrgamestats" onclick="decr('oppteamfoulvgs')">-</button></p>
       <hr class="vgshr">
@@ -425,10 +425,10 @@
   <div id="editrosterhtml">
     <div class="container1">
       <div class="subcontainer">
-        <h4 class="rostereditnotice"><strong>** To <em>DELETE PLAYERS</em> from roster, press on the player you wish to remove and choose the 'Delete' option. **</strong></h4>      
+        <h4 class="rostereditnotice"><strong>** To <em>DELETE PLAYERS</em> from roster, press on the player you wish to remove and choose the 'Delete' option. **</strong></h4>
         <hr>
         <h1 class="rosterheading">Roster</h1>
-        <h4 class="rostereditnotice">** To edit, press on the field you wish to change and press save at the end to keep changes. **</h4>      
+        <h4 class="rostereditnotice">** To edit, press on the field you wish to change and press save at the end to keep changes. **</h4>
         <br>
         <div class="roster">
           <table class="rostertable">
@@ -448,7 +448,7 @@
             <tbody id="outputTable">
             </tbody>
           </table>
-        </div>      
+        </div>
         <h4 class="rostereditnotice">** Make sure to press save to keep all changes! **</h4>
         <input type="button" value="Save" class="editrosterbtn" id="ersavebtn">
         <hr>
@@ -537,8 +537,8 @@
       <h1 class="vgsgameheader">vs.</h1>
       <h1 class="vgsgameheader" id="oppteam"></h1>
       <hr class="vgshr">
-      <p><span id="mytea"></span> <span class="vgsstats">----:----</span> <span id="oppte"></span></p>		
-      <hr class="vgshr">		
+      <p><span id="mytea"></span> <span class="vgsstats">----:----</span> <span id="oppte"></span></p>
+      <hr class="vgshr">
       <p><span id="myscore"></span> <span class="vgsstats">Score</span> <span id="theirscore"></span></p>
       <hr class="vgshr">
       <p><span id="myfouls"></span> <span class="vgsstats">Foul</span> <span id="theirfouls"></span></p>
