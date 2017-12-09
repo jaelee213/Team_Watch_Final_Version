@@ -905,7 +905,6 @@
         snapshot.forEach(function(snap){
           var pla = snap.val();
           if(pla.playerid == player.playerid) {
-
             var fnm = document.getElementById('dfn');
             var lnm = document.getElementById('dln');
             var nme = document.getElementById('dpn');
@@ -933,11 +932,6 @@
             fl.innerHTML = pla.fouls.toString();
             rcd.innerHTML = pla.redcards.toString();
             ycd.innerHTML = pla.yellowcards.toString();
-
-fnm.innerHTML = "it should work";
-alert("Example of pla.firstname: " + pla.firstname);
-alert("it changed");
-alert('Made it through setup.');
           }
         });
       });
@@ -966,7 +960,7 @@ alert('Made it through setup.');
     var rcd = document.getElementById('dr');
     var ycd = document.getElementById('dy');
     var email = document.getElementById('dem');
-    
+
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
       return;
