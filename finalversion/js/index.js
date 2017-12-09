@@ -16,6 +16,9 @@
   var viewgamestatsdiv = document.getElementById('viewgamestatshtml');
   var viewplayerdiv = document.getElementById('viewplayerhtml');
   var navdiv = document.getElementById('mainnavbar');
+
+  var currentpage;
+  var previouspage; 
 /* ********************************** END OF SCRIPT VARIABLES ********************************************** */
 
 /********************************** SCRIPT FOR ADDGAME  **********************************************/
@@ -27,6 +30,7 @@
     here.update({
       page: "addgamehtml"
     });
+    currentpage = "addgamehtml";
   }
 
   var sButton = document.getElementById('agsavebtn');
@@ -187,7 +191,7 @@
                 opponentgoalkicks: "0"
               });
               alert('Game created!');
-
+              previouspage = "addgamehtml";              
               populateGames(globalTeam);
               clickHome();
             }
@@ -208,6 +212,7 @@
     here.update({
       page: "addplayerhtml"
     });
+    currentpage = "addplayerhtml";
   }
   var savebtn = document.getElementById('apsavebtn');
   var goBack = document.getElementById('apbackbtn');
@@ -314,6 +319,7 @@
               gamesplayed: "0"
             });
             alert('Player Created!');
+            previouspage = "addplayerhtml";            
             populatePlayers(globalTeam);
             clickRoster();
           }
@@ -335,6 +341,7 @@
     here.update({
       page: "addpracticehtml"
     });
+    currentpage = "addpracticehtml";
   }
   var saveBtn = document.getElementById('aprsavebtn');
   saveBtn.addEventListener('click', function() {
@@ -443,6 +450,7 @@
           })
           alert('Practice Created!');
           populatePractice(globalTeam);
+          previouspage = "addpracticehtml";
           clickSchedule();
         }
       });
@@ -484,6 +492,7 @@
     here.update({
       page: "editgamehtml"
     });
+    currentpage = "editgamehtml";    
 
     put.innerHTML = ""; 
     out.innerHTML = "";
@@ -689,6 +698,7 @@
             });
             alert("Game Updated!");
             populateGames(globalTeam);
+            previouspage = "editgamehtml";            
             clickSchedule();
           }
         });
@@ -718,6 +728,7 @@
             deleteGame.remove();
             alert("Game Deleted.");
             populateGames(globalTeam);
+            previouspage = "editgamehtml";            
             clickSchedule();
           }
         });
@@ -756,7 +767,8 @@
     here.update({
       page: "editgamestatshtml"
     });
-
+    currentpage = "editgamestatshtml";
+    
     var rootref = firebase.database().ref();
     var viewgame = rootref.child("inspectgame/");
     viewgame.once("value", function(snapshot) {
@@ -853,6 +865,7 @@
           }
         });
         populateGames(globalTeam);
+        previouspage = "editgamestatshtml";        
         clickViewGameStats();
       })
     });
@@ -887,7 +900,8 @@
     here.update({
       page: "editplayerhtml"
     });
-
+    currentpage = "editplayerhtml";
+    
     var rootref = firebase.database().ref();
     var viewplayer = rootref.child("inspectplayer/");
     viewplayer.once("value", function(snapshot){
@@ -1035,6 +1049,7 @@
           playerid: playerid
         })
         populatePlayers(globalTeam);
+        previouspage = "editplayerhtml";        
         clickViewPlayer();
       });
     });
@@ -1062,6 +1077,7 @@
             deletePlayer.remove();
             alert("Player Deleted.");
             populatePlayers(globalTeam);
+            previouspage = "editplayerhtml";            
             clickRoster();
           }
         });
@@ -1089,7 +1105,8 @@
     here.update({
       page: "editpracticehtml"
     });
-
+    currentpage = "editpracticehtml";
+    
     userRef.once("value", function(snap){
       var snap1 = snap.val();
       currTeam = snap1.team;
@@ -1221,6 +1238,7 @@
         });
         alert('Practice Updated!');
         populatePractice(globalTeam);
+        previouspage = "editpracticehtml";        
         clickHome();
       });
     });
@@ -1243,6 +1261,7 @@
           snap2.ref.remove();
           alert('Practice Removed');
           populatePractice(globalTeam);
+          previouspage = "editpracticehtml";          
           clickHome();
         }
       });
@@ -1260,7 +1279,8 @@
     here.update({
       page: "editrosterhtml"
     });
-
+    currentpage = "editrosterhtml";
+    
     var tbl = document.getElementById('outputTable');
     var rootref = firebase.database().ref();
     var currus = rootref.child("currentuser/");
@@ -1301,6 +1321,7 @@
   }
 
   function clickedPlayer(id) {
+    globalViewPlayer = id.substr(1,id.length - 1);    
     var rootref = firebase.database().ref();
     var moveplr = rootref.child("inspectplayer/");
     var rootref = firebase.database().ref();
@@ -1311,9 +1332,9 @@
         team: snpsht.team,
         playerid: id.substr(1, id.length - 1)
       })
-      globalViewPlayer = id.substr(1,id.length - 1);
-      clickViewPlayer();
     });
+    previouspage = "editrosterhtml";    
+    clickViewPlayer();    
   }
 
   var saveEditBtn = document.getElementById('ersavebtn');
@@ -1370,6 +1391,7 @@
         });
         if(checker == 0) {
           populatePlayers(globalTeam);
+          previouspage = "editrosterhtml";          
           clickRoster();
         }
       });
@@ -1377,6 +1399,7 @@
   });
 
   goBackBtn.addEventListener('click', function() {
+    previouspage = "editrosterhtml";              
     clickRoster();
   });
 
@@ -1389,6 +1412,13 @@
 
   function clickHome() {
     show(homediv);
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "homehtml"
+    });
+    currentpage = "homehtml";
+    
     populateOfflineAll();
     var today = new Date();
     var dd = today.getDate().toString();
@@ -1466,11 +1496,6 @@
     var tgg = 0;
 
     if(navigator.onLine) {
-      var rootref = firebase.database().ref();
-      var here = rootref.child('currentuser/');
-      here.update({
-        page: "homehtml"
-      });
 
       var dbref = firebase.database().ref().child("currentuser/");
       dbref.once("value", function(snap){
@@ -1578,6 +1603,7 @@
       movegame.set({
         timeid: checkid
       })
+      previouspage = "homehtml";                
       clickEditPractice();
     }
     if(stri == "view") {
@@ -1586,6 +1612,7 @@
         team: userteam,
         gameid: checkid
       })
+      previouspage = "homehtml";                      
       clickViewGameStats();
     }
   }
@@ -1601,6 +1628,7 @@
     here.update({
       page: "loginhtml"
     });
+    currentpage = "loginhtml";    
   }
 
   var user = document.getElementById('loginemail');
@@ -1630,6 +1658,7 @@
                 team: cur.team,
                 type: cur.type
               });
+              previouspage = "loginhtml";                              
               clickHome();
             }
             else {
@@ -1730,7 +1759,6 @@
         snap1.forEach(function(snap2){
           var game = snap2.val();
           gamesArr.push(game);
-
           if(today == game.date) {
             gameForHome = game;
           }
@@ -1760,6 +1788,12 @@
     show(rosterdiv);
     var tbl = document.getElementById('outputdata');
     tbl.innerHTML = "";
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "rosterhtml"
+    });
+    currentpage = "rosterhtml";
 
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
@@ -1777,12 +1811,7 @@
       }
     }
 
-    if(navigator.onLine) {
-      var rootref = firebase.database().ref();
-      var here = rootref.child('currentuser/');
-      here.update({
-        page: "rosterhtml"
-      });
+    if(navigator.onLine) {      
 
       var rootref = firebase.database().ref();
       var currus = rootref.child("currentuser/");
@@ -1826,6 +1855,12 @@
 
   function clickSchedule(){
     show(schedulediv);
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "schedulehtml"
+    });
+    currentpage = "schedulehtml";
 
     var styleStr;
     var today = new Date();
@@ -1896,11 +1931,6 @@
     }
 
     if(navigator.onLine) {
-      var rootref = firebase.database().ref();
-      var here = rootref.child('currentuser/');
-      here.update({
-        page: "schedulehtml"
-      });
 
       var rootref = firebase.database().ref();
       var currus = rootref.child("currentuser/");
@@ -1978,15 +2008,15 @@
     movegame.set({
       team: userteam,
       gameid: gameid
-    })
+    });
     var stri = id.substr(0, 4);
     if(stri == "edit") {
+      previouspage = "schedulehtml";
       clickEditGame();
     }
     if(stri == "view") {
-      alert('HERE in clicked -> view');
       globalViewGame = gameid;
-      alert(globalViewGame);
+      previouspage = "schedulehtml";
       clickViewGameStats();
     }
   };
@@ -2009,6 +2039,7 @@
 
     if(!navigator.onLine){
       alert('There is no connection. Please reconnect and try again.');
+      previouspage = "loginhtml";
       clickLogin();
     }
 
@@ -2017,6 +2048,7 @@
     here.update({
       page: "signuphtml"
     });
+    currentpage = "signuphtml";
 
     fn.value = "";
     ln.value = "";
@@ -2030,6 +2062,7 @@
   }
 
   document.getElementById('signupBackBtn').addEventListener('click', function(){
+    previouspage = "signuphtml";
     clickLogin();
   });
 
@@ -2142,6 +2175,7 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
+                previouspage = "signuphtml";                
                 clickLogin();
               }
             });
@@ -2180,6 +2214,7 @@
                   type: usertype.value
                 });
                 alert('Created account. Please proceed to login.');
+                previouspage = "signuphtml";                
                 clickLogin();
               }
               else{
@@ -2199,6 +2234,7 @@
               type: usertype.value
             });
             alert('Created account. Please proceed to login.');
+            previouspage = "signuphtml";            
             clickLogin();
           }
         }
@@ -2252,6 +2288,12 @@
 
   function clickViewGameStats(){
     show(viewgamestatsdiv);
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "viewgamestatshtml"
+    });
+    currentpage = "viewgamestatshtml";
     var myte = document.getElementById('mytea');
     var oppt = document.getElementById('oppte');
     var my = document.getElementById('myteam');
@@ -2276,10 +2318,9 @@
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
 
-      alert('No connection, but here is the value of globalViewGame: ' + globalViewGame);
       for (var i = 0; i < gamesArr.length; i++) {
         var game = gamesArr[i];
-        if(globalViewGame = game.gameid) {
+        if(globalViewGame == game.gameid) {
           myte.innerHTML = globalTeam,
           oppt.innerHTML = game.opponentname,
           my.innerHTML = globalTeam,
@@ -2305,16 +2346,9 @@
       if(globalUser == "coach") {
         document.getElementById('editgamestatsBtn').disabled = true;
       }
-
     }
 
     if(navigator.onLine) {
-      var rootref = firebase.database().ref();
-      var here = rootref.child('currentuser/');
-      here.update({
-        page: "viewgamestatshtml"
-      });
-
       var rootref = firebase.database().ref();
       var viewgame = rootref.child("inspectgame/");
       viewgame.once("value", function(snapshot) {
@@ -2365,6 +2399,7 @@
 
   var edBtn = document.getElementById('editgamestatsBtn');
   edBtn.addEventListener('click', function() {
+    previouspage = "viewgamestatshtml";
     clickEditGameStats();
   });
 
@@ -2387,9 +2422,18 @@
   var ycd = document.getElementById('ddy');
 
   function clickViewPlayer(){
+  
     show(viewplayerdiv);
+    var rootref = firebase.database().ref();
+    var here = rootref.child('currentuser/');
+    here.update({
+      page: "viewplayerhtml"
+    });
+    currentpage = "viewplayerhtml";
+
     if(!navigator.onLine) {
       alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      previouspage = "rosterhtml";
       if(globalUser == 'coach') {
         document.getElementById('vpeditbtn').disabled = true;
       }
@@ -2415,11 +2459,6 @@
 
 
     if(navigator.onLine) {
-      var rootref = firebase.database().ref();
-      var here = rootref.child('currentuser/');
-      here.update({
-        page: "viewplayerhtml"
-      });
 
       var rootref = firebase.database().ref();
       var currus = rootref.child("currentuser/");
@@ -2465,20 +2504,24 @@
     currus.once("value", function(snapshot){
       var snpsht = snapshot.val();
       if(snpsht.type == 'coach') {
+        previouspage = "viewplayerhtml";
         clickEditRoster();
       }
       else {
+        previouspage = "viewplayerhtml";        
         clickRoster();
       }
     });
   });
 
   eBtn.addEventListener('click', function() {
+    previouspage = "viewplayerhtml";    
     clickEditPlayer();
   });
 /********************************** SCRIPT FOR LOGOUT **********************************************/
 
   function logoutClean() {
+    currentpage = "loginhtml";
     document.getElementById('mainnavbar').style.display = "none";
     var rrf = firebase.database().ref();
     var cu = rrf.child("currentuser/");
@@ -2548,13 +2591,62 @@
     d.style.display = "inline";
   }
 
+
+/********************************** SCRIPT FOR back button **********************************************/
+
+document.addEventListener("backbutton", function(){
+  var currentvalue = previouspage; 
+  if(currentvalue == "addgamehtml"){
+    clickAddGame();
+  }
+  if(currentvalue == "addplayerhtml"){
+    clickAddPlayer();
+  }
+  if(currentvalue == "addpracticehtml"){
+    clickAddPractice();
+  }
+  if(currentvalue == "editgamehtml"){
+    clickEditGame();
+  }
+  if(currentvalue == "editgamestatshtml"){
+    clickEditGameStats();
+  }
+  if(currentvalue == "editplayerhtml"){
+    clickEditPlayer();
+  }
+  if(currentvalue == "editrosterhtml"){
+    clickEditRoster();
+  }
+  if(currentvalue == "editpracticehtml"){
+    clickEditPractice();
+  }
+  if(currentvalue == "schedulehtml"){
+    clickSchedule();
+  }
+  if(currentvalue == "homehtml"){
+    clickHome();
+  }
+  if(currentvalue == "loginhtml"){
+    clickLogin();
+  }
+  if(currentvalue == "rosterhtml"){
+    clickRoster();
+  }
+  if(currentvalue == "viewgamestatshtml"){
+    clickViewGameStats();
+  }
+  if(currentvalue == "viewplayerhtml"){
+    clickViewPlayer();
+  }
+});
+
 /********************************** SCRIPT FOR DEF **********************************************/
 
   function def() {
-    var rootref = firebase.database().ref();
-    var here = rootref.child('currentuser/');
-    here.once("value", function(snapshot){
-      var currentvalue = snapshot.val().page;
+
+    if(!navigator.onLine){
+      alert('There is no connection. Please reconnect. All editing/adding functionalities are now disabled until connection is restored.');
+      var currentvalue = currentpage;
       if(!currentvalue || currentvalue == "") {
         navdiv.style.display = "none";
         logindiv.style.display = "inline";
@@ -2610,5 +2702,68 @@
           clickViewPlayer();
         }
       }
-    });
+    }
+
+    if(navigator.onLine){
+      var rootref = firebase.database().ref();
+      var here = rootref.child('currentuser/');
+      here.once("value", function(snapshot){
+        var currentvalue = snapshot.val().page;
+        if(!currentvalue || currentvalue == "") {
+          navdiv.style.display = "none";
+          logindiv.style.display = "inline";
+        }
+        else if(currentvalue == "signuphtml"){
+          document.getElementById(currentvalue).style.display = "inline";
+          clickSignUp();
+        }
+        else {
+          document.getElementById(currentvalue).style.display = "inline";
+          navdiv.style.display = "inline";
+
+          if(currentvalue == "addgamehtml"){
+            clickAddGame();
+          }
+          if(currentvalue == "addplayerhtml"){
+            clickAddPlayer();
+          }
+          if(currentvalue == "addpracticehtml"){
+            clickAddPractice();
+          }
+          if(currentvalue == "editgamehtml"){
+            clickEditGame();
+          }
+          if(currentvalue == "editgamestatshtml"){
+            clickEditGameStats();
+          }
+          if(currentvalue == "editplayerhtml"){
+            clickEditPlayer();
+          }
+          if(currentvalue == "editrosterhtml"){
+            clickEditRoster();
+          }
+          if(currentvalue == "editpracticehtml"){
+            clickEditPractice();
+          }
+          if(currentvalue == "schedulehtml"){
+            clickSchedule();
+          }
+          if(currentvalue == "homehtml"){
+            clickHome();
+          }
+          if(currentvalue == "loginhtml"){
+            clickLogin();
+          }
+          if(currentvalue == "rosterhtml"){
+            clickRoster();
+          }
+          if(currentvalue == "viewgamestatshtml"){
+            clickViewGameStats();
+          }
+          if(currentvalue == "viewplayerhtml"){
+            clickViewPlayer();
+          }
+        }
+      });
+    }
   }
