@@ -1662,6 +1662,9 @@
     document.getElementById('loginemail').value = "";
     document.getElementById('loginpassword').value = "";
     show(logindiv);
+    if(!navigator.logindiv){
+      return;
+    }
     var rootref = firebase.database().ref();
     var here = rootref.child('currentuser/');
     here.update({
@@ -2565,16 +2568,21 @@
 /********************************** SCRIPT FOR LOGOUT **********************************************/
 
   function logoutClean() {
-    currentpage = "loginhtml";
     document.getElementById('mainnavbar').style.display = "none";
-    var rrf = firebase.database().ref();
-    var cu = rrf.child("currentuser/");
-    cu.set({
-      username: "",
-      team: "",
-      type: "",
-      page: ""
-    });
+    if(navigator.onLine){
+      var rrf = firebase.database().ref();
+      var cu = rrf.child("currentuser/");
+      cu.set({
+        username: "",
+        team: "",
+        type: "",
+        page: ""
+      });
+    }
+    else{ 
+      currentpage = "loginhtml"; 
+      previouspage = "loginhtml";
+    }
   }
 
 /********************************** SCRIPT FOR GO **********************************************/
