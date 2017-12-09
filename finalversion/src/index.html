@@ -287,9 +287,13 @@
         <p><label for="OppTeam">Opposing Team:</label></p>
         <input type="text" id="egOppTeam" name="OppTeam">
         <p><label for="gameDate">Date:</label></p>
-        <input type="text" id="eggameDate" name="gameDate">
+        <p class="addgamenotice"><em>For the date, please put it in the fomat: mm/dd/yy (i.e. 11/25/17)</em></p>
+        <p class="addgamenotice"><em>Note: Even if date is 1/1/17, please make sure to put 01/01/17 not 1/1/17.</em></p>
+        <input type="text" id="eggameDate" name="gameDate" maxlength="8">
         <p><label for="gametime">Time:</label></p>
-        <input type="time" id="eggametime" name="time">
+        <p class="addgamenotice"><em>For the time, please put it in the format: hh:mm (i.e. 11:21) and then select am/pm below.</em></p>
+        <p class="addgamenotice"><em>Note: Even if time is 01:01, please make sure to put 01:01 not 1:1.</em></p>
+        <input type="time" id="eggametime" name="time" maxlength="5">
         <p><label>Time of Day:</label></p>
         <output id="outOpt">
         </output>

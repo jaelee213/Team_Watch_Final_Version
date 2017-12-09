@@ -1282,6 +1282,7 @@
     currentpage = "editrosterhtml";
     
     var tbl = document.getElementById('outputTable');
+    tbl = "";
     var rootref = firebase.database().ref();
     var currus = rootref.child("currentuser/");
     currus.once("value", function(snapshot){
@@ -1636,6 +1637,11 @@
   var liBtn = document.getElementById('loginsubmit');
 
   liBtn.addEventListener('click', function() {
+
+    if(!navigator.onLine){
+      alert('No connection, cannot login. Please check your network connection to proceed.');
+      return false;
+    }
 
     var rootref = firebase.database().ref();
     var userslist = rootref.child("users/");

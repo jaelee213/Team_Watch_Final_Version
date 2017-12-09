@@ -194,6 +194,15 @@ body {
   background-color: #007BFF;
 }
 
+#egsavebtn {
+  display: block;
+  width: 92%;
+  color: white;
+  margin-left: 3%;
+  margin-top: 0.5rem;
+  background-color: #007BFF;
+}
+
 .box input[type=button] {
   display: block;
   width: 92%;
